@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Peak Life</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="consulting.html">Consulting</a></li>
+        <li><a href="workshop.html">Workshops</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="admin">
+    <h1>Admin Dashboard</h1>
+    <p>Manage blogs, workshops, and user queries.</p>
+    
+    <!-- Admin Login -->
+    <div id="admin-login">
+      <p>Please enter the admin password to continue:</p>
+      <input type="password" id="admin-password" placeholder="Enter Password">
+      <button id="admin-login-btn">Login</button>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div id="admin-panel" style="display:none;">
+      <h2>Manage Queries</h2>
+      <div id="query-list"></div>
+
+      <h2>Manage Blogs</h2>
+      <form id="blog-form">
+        <input type="text" id="blog-title" placeholder="Blog Title" required>
+        <textarea id="blog-content" placeholder="Blog Content" required></textarea>
+        <input type="file" id="blog-image" accept="image/*">
+        <button type="button" onclick="addBlog()">Post Blog</button>
+      </form>
+      <div id="blog-list"></div>
+
+      <h2>Manage Workshops</h2>
+      <form id="workshop-form">
+        <input type="text" id="workshop-title" placeholder="Workshop Title" required>
+        <textarea id="workshop-details" placeholder="Workshop Details" required></textarea>
+        <label for="workshop-date">Date:</label>
+        <input type="date" id="workshop-date" required>
+        <button type="button" onclick="addWorkshop()">Schedule Workshop</button>
+      </form>
+      <div id="workshop-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Peak Life. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  line-height: 1.6;
+  color: #333;
+  background-color: #a1aebb;
+}
+
+header {
+  background-color: #af8dd6;
+  color: #fff;
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  margin-right: 1em;
+}
+
+.header-logo img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5em;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffcc00;
+}
+
+.hero {
+  text-align: center;
+  padding: 4em 2em;
+  background: linear-gradient(to bottom, #e8f5e9, #f8f9fa);
+}
+
+.hero h1 {
+  font-size: 3em;
+  color: #6200ea;
+  margin-bottom: 0.5em;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+  color: #555;
+}
+
+.hero img {
+  max-width: 100%;
+  border-radius: 1em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: 1em;
+  padding: 0.75em 1.5em;
+  background-color: #6200ea;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #3700b3;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 1.5em 0;
+  margin-top: 2em;
+}
+
+footer a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .hero h1 {
+    font-size: 2.5em;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+}
+
+/* Blog Section Styling */
+.blog {
+  padding: 2em;
+  background-color: #f8f9fa;
+}
+
+.blog h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5em;
+  font-size: 2.5em;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+}
+
+.blog-grid div {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-grid div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.blog-grid img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.blog-grid h3 {
+  margin: 0.5em;
+  font-size: 1.5em;
+  color: #6200ea;
+}
+
+.blog-grid p {
+  margin: 0.5em;
+  font-size: 1em;
+  color: #555;
+}
+
+.blog-grid a {
+  display: block;
+  margin: 0.5em;
+  color: #6200ea;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.blog-grid a:hover {
+  text-decoration: underline;
+}
+
+/* Workshops Section Styling */
+.workshops {
+  padding: 2em;
+  background-color: #f8f9fa;
+}
+
+.workshops h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5em;
+  font-size: 2.5em;
+}
+
+.workshops p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 2em;
+  font-size: 1.2em;
+}
+
+.workshop-calendar table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto 2em;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.workshop-calendar th,
+.workshop-calendar td {
+  padding: 1em;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.workshop-calendar th {
+  background: #6200ea;
+  color: #fff;
+}
+
+.workshop-calendar tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.workshop-calendar tr:hover {
+  background-color: #f1f1f1;
+}
+
+.logos {
+  text-align: center;
+}
+
+.logos h2 {
+  color: #333;
+  margin-bottom: 1em;
+  font-size: 2em;
+}
+
+.logo-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5em;
+}
+
+.logo-grid img {
+  max-width: 150px;
+  height: auto;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.logo-grid img:hover {
+  filter: none;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2em;
+  background-color: #f8f9fa;
+}
+
+.hero-content {
+  max-width: 50%;
+}
+
+.hero-content h1 {
+  font-size: 2.5em;
+  color: #6200ea;
+}
+
+.hero-content p {
+  font-size: 1.2em;
+  margin: 1em 0;
+  color: #555;
+}
+
+.hero-content .btn {
+  padding: 0.5em 1em;
+  background-color: #6200ea;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Events Section */
+.events {
+  padding: 2em;
+  background-color: #fff;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+}
+
+.event-card {
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.event-card h3 {
+  color: #6200ea;
+  margin-bottom: 0.5em;
+}
+
+.event-card p {
+  color: #555;
+}
+
+.event-card a {
+  color: #6200ea;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Workshops Section */
+.workshops {
+  padding: 2em;
+  background-color: #f8f9fa;
+}
+
+.workshop-icons {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.workshop-item {
+  text-align: center;
+}
+
+.workshop-item i {
+  font-size: 2em;
+  color: #6200ea;
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+/* Testimonials Section */
+.testimonials {
+  padding: 2em;
+  background-color: #fff;
+  text-align: center;
+}
+
+.testimonials blockquote {
+  font-size: 1.2em;
+  color: #555;
+  margin: 1em auto;
+  max-width: 600px;
+  position: relative;
+}
+
+.testimonials blockquote:before {
+  content: '\201C';
+  font-size: 3em;
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  color: #6200ea;
+}
+
+.testimonials cite {
+  display: block;
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  color: #888;
+}
+
+/* Inquiry Section */
+.inquiry {
+  padding: 2em;
+  background-color: #f8f9fa;
+}
+
+.inquiry form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.inquiry form input,
+.inquiry form textarea,
+.inquiry form button {
+  padding: 0.8em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.inquiry form button {
+  background-color: #6200ea;
+  color: #fff;
+  cursor: pointer;
+}
