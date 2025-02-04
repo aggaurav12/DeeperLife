@@ -32,7 +32,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-    import { ENV } from "./config.js";
+    import { ENV } from "./public/config.js";
 
     const firebaseConfig = {
   apiKey: ENV.FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
