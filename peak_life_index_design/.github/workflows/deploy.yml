@@ -22,6 +22,7 @@ jobs:
 
       - name: 📂 Create `config.js` from GitHub Secrets
         run: |
+          mkdir -p public  # Ensure the public directory exists
           echo "const ENV = {" > public/config.js
           echo "  FIREBASE_API_KEY: '${{ secrets.FIREBASE_API_KEY }}'," >> public/config.js
           echo "  FIREBASE_AUTH_DOMAIN: '${{ secrets.FIREBASE_AUTH_DOMAIN }}'," >> public/config.js
@@ -30,6 +31,12 @@ jobs:
           echo "  FIREBASE_MESSAGING_SENDER_ID: '${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}'," >> public/config.js
           echo "  FIREBASE_APP_ID: '${{ secrets.FIREBASE_APP_ID }}'" >> public/config.js
           echo "}; export default ENV;" >> public/config.js
+
+      - name: 🕵️ Debug - Verify config.js File
+        run: |
+          echo "Checking if config.js exists..."
+          ls -l public/  # List files in public directory
+          cat public/config.js || echo "config.js NOT FOUND!"
 
       - name: 💾 Commit and Push `config.js`
         run: |
