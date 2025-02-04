@@ -1,2 +1,5 @@
-# Ignore Firebase config file
+# Ignore Firebase config file globally
 config.js
+
+# But allow public/config.js
+!public/config.js
