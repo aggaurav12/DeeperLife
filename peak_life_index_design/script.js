@@ -1,10 +1,49 @@
+// Import Firebase SDK
+import { ENV } from "./config.js"; 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: ENV.FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
+  authDomain: ENV.FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: ENV.FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
+  storageBucket: ENV.FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: ENV.FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: ENV.FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+
+// Auto-login using Popup Authentication
+signInWithPopup(auth, provider)
+  .then((result) => {
+    console.log("Connected to Firebase as:", result.user.email);
+    loadBlogs();
+    loadQueries();
+    loadWorkshops();
+  })
+  .catch((error) => {
+    console.error("Firebase Authentication Error:", error.message);
+  });
+
 document.addEventListener("DOMContentLoaded", function () {
   const adminPassword = "admin123";
 
   // Admin Login Functionality
-  document
-    .getElementById("admin-login-btn")
-    ?.addEventListener("click", adminLogin);
+  document.getElementById("admin-login-btn")?.addEventListener("click", adminLogin);
 
   function adminLogin() {
     const enteredPassword = document.getElementById("admin-password").value;
@@ -12,9 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("admin-login").style.display = "none";
       document.getElementById("admin-panel").style.display = "block";
       alert("Welcome, Admin!");
+      loadWorkshops();
       loadQueries();
       loadBlogs();
-      loadWorkshops();
     } else {
       alert("Incorrect password! Please try again.");
     }
@@ -23,161 +62,137 @@ document.addEventListener("DOMContentLoaded", function () {
   // Query Management
   function loadQueries() {
     const queryList = document.getElementById("query-list");
-    const storedQueries = JSON.parse(localStorage.getItem("queries")) || [];
-    queryList.innerHTML = "";
-    storedQueries.forEach((query, index) => {
-      queryList.innerHTML += `<div>
-        <p><strong>Name:</strong> ${query.name}</p>
-        <p><strong>School:</strong> ${query.school}</p>
-        <p><strong>Email:</strong> ${query.email}</p>
-        <p><strong>Message:</strong> ${query.message}</p>
-        <button onclick="deleteQuery(${index})">Delete</button>
-      </div><hr>`;
+    if (!queryList) return;
+    onSnapshot(collection(db, "queries"), (querySnapshot) => {
+      queryList.innerHTML = "";
+      querySnapshot.forEach((docSnap) => {
+        const query = docSnap.data();
+        queryList.innerHTML += `<div>
+          <p><strong>Name:</strong> ${query.name}</p>
+          <p><strong>School:</strong> ${query.school}</p>
+          <p><strong>Email:</strong> ${query.email}</p>
+          <p><strong>Message:</strong> ${query.message}</p>
+          <button onclick="deleteQuery('${docSnap.id}')">Delete</button>
+        </div><hr>`;
+      });
     });
   }
 
-  function addQuery(event) {
+  async function addQuery(event) {
     event.preventDefault();
     const name = document.getElementById("visitor-name").value;
     const school = document.getElementById("visitor-school").value;
     const email = document.getElementById("visitor-email").value;
     const message = document.getElementById("visitor-message").value;
-    const queries = JSON.parse(localStorage.getItem("queries")) || [];
 
-    queries.push({ name, school, email, message });
-    localStorage.setItem("queries", JSON.stringify(queries));
+    await addDoc(collection(db, "queries"), { name, school, email, message });
     alert("Your query has been submitted successfully!");
     document.getElementById("home-inquiry-form")?.reset();
   }
 
-  function deleteQuery(index) {
-    const queries = JSON.parse(localStorage.getItem("queries")) || [];
-    queries.splice(index, 1);
-    localStorage.setItem("queries", JSON.stringify(queries));
-    loadQueries();
-  }
-
-  // Blog Management
-  function loadBlogs() {
-    const blogPostsContainer = document.getElementById("blogPosts");
-    const blogListContainer = document.getElementById("blog-list");
-    const storedBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
-
-    if (blogPostsContainer) {
-      blogPostsContainer.innerHTML = "";
-      storedBlogs.forEach((blog) => {
-        blogPostsContainer.innerHTML += `<div>
-          <img src="${blog.image}" alt="${blog.title}">
-          <h3>${blog.title}</h3>
-          <p>${blog.content}</p>
-        </div>`;
-      });
-    }
-
-    if (blogListContainer) {
-      blogListContainer.innerHTML = "";
-      storedBlogs.forEach((blog, index) => {
-        blogListContainer.innerHTML += `<div>
-          <h3>${blog.title}</h3>
-          <p>${blog.content}</p>
-          <button onclick="deleteBlog(${index})">Delete</button>
-        </div>`;
-      });
-    }
-  }
-
-  function addBlog() {
-    const title = document.getElementById("blog-title").value;
-    const content = document.getElementById("blog-content").value;
-    const imageInput = document.getElementById("blog-image");
-    const blogs = JSON.parse(localStorage.getItem("blogs")) || [];
-
-    if (imageInput.files && imageInput.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        blogs.push({ title, content, image: e.target.result });
-        localStorage.setItem("blogs", JSON.stringify(blogs));
-        loadBlogs();
-      };
-      reader.readAsDataURL(imageInput.files[0]);
-    } else {
-      blogs.push({ title, content, image: "" });
-      localStorage.setItem("blogs", JSON.stringify(blogs));
-      loadBlogs();
-    }
-  }
-
-  function deleteBlog(index) {
-    const blogs = JSON.parse(localStorage.getItem("blogs")) || [];
-    blogs.splice(index, 1);
-    localStorage.setItem("blogs", JSON.stringify(blogs));
-    loadBlogs();
+  async function deleteQuery(id) {
+    await deleteDoc(doc(db, "queries", id));
+    alert("Query deleted successfully!");
   }
 
   // Workshop Management
   function loadWorkshops() {
     const workshopSchedule = document.getElementById("workshopSchedule");
-    const workshopList = document.getElementById("workshop-list");
-    const storedWorkshops = JSON.parse(localStorage.getItem("workshops")) || [];
-
-    if (workshopSchedule) {
+    if (!workshopSchedule) return console.warn("Workshop container not found!");
+  
+    onSnapshot(collection(db, "workshops"), (querySnapshot) => {
       workshopSchedule.innerHTML = "";
-      storedWorkshops.forEach((workshop, index) => {
+      querySnapshot.forEach((docSnap) => {
+        const workshop = docSnap.data();
         workshopSchedule.innerHTML += `<tr>
           <td>${workshop.date}</td>
           <td>${workshop.title}</td>
           <td>${workshop.details}</td>
         </tr>`;
       });
-    }
-
-    if (workshopList) {
-      workshopList.innerHTML = "";
-      storedWorkshops.forEach((workshop, index) => {
-        workshopList.innerHTML += `<div>
-          <h3>${workshop.title}</h3>
-          <p>${workshop.details}</p>
-          <p>${workshop.date}</p>
-          <button onclick="deleteWorkshop(${index})">Delete</button>
-        </div>`;
-      });
-    }
+    });
   }
+  
 
-  function addWorkshop() {
+  async function addWorkshop() {
     const title = document.getElementById("workshop-title").value;
     const details = document.getElementById("workshop-details").value;
     const date = document.getElementById("workshop-date").value;
-    const workshops = JSON.parse(localStorage.getItem("workshops")) || [];
 
-    workshops.push({ title, details, date });
-    localStorage.setItem("workshops", JSON.stringify(workshops));
-    loadWorkshops();
+    await addDoc(collection(db, "workshops"), { title, details, date });
+    alert("Workshop scheduled successfully!");
   }
 
-  function deleteWorkshop(index) {
-    const workshops = JSON.parse(localStorage.getItem("workshops")) || [];
-    workshops.splice(index, 1);
-    localStorage.setItem("workshops", JSON.stringify(workshops));
-    loadWorkshops();
+  async function deleteWorkshop(id) {
+    await deleteDoc(doc(db, "workshops", id));
+    alert("Workshop deleted successfully!");
   }
 
-  // Attach Form Event Listeners
-  const homeInquiryForm = document.getElementById("home-inquiry-form");
-  if (homeInquiryForm) {
-    homeInquiryForm.addEventListener("submit", addQuery);
+  // Blog Management
+  function loadBlogs() {
+    const blogPostsContainer = document.getElementById("blogPosts");
+    const blogListContainer = document.getElementById("blog-list");
+
+    if (!blogPostsContainer && !blogListContainer) {
+      console.warn("Blog containers not found in DOM.");
+      return;
+    }
+
+    onSnapshot(collection(db, "blogs"), (querySnapshot) => {
+      if (blogPostsContainer) blogPostsContainer.innerHTML = "";
+      if (blogListContainer) blogListContainer.innerHTML = "";
+
+      querySnapshot.forEach((docSnap) => {
+        const blog = docSnap.data();
+        const blogElement = `<div>
+          <img src="${blog.image}" alt="${blog.title}">
+          <h3>${blog.title}</h3>
+          <p>${blog.content}</p>
+        </div>`;
+
+        if (blogPostsContainer) blogPostsContainer.innerHTML += blogElement;
+        if (blogListContainer) blogListContainer.innerHTML += `<div>${blogElement}<button onclick="deleteBlog('${docSnap.id}')">Delete</button></div>`;
+      });
+    });
   }
 
-  // Initial Data Loading
+  async function addBlog() {
+    const title = document.getElementById("blog-title").value;
+    const content = document.getElementById("blog-content").value;
+    const imageInput = document.getElementById("blog-image");
+
+    let image = "";
+    if (imageInput.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = async function (e) {
+        image = e.target.result;
+        await addDoc(collection(db, "blogs"), { title, content, image, timestamp: new Date() });
+        loadBlogs();
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      await addDoc(collection(db, "blogs"), { title, content, image, timestamp: new Date() });
+      loadBlogs();
+    }
+  }
+
+  async function deleteBlog(id) {
+    await deleteDoc(doc(db, "blogs", id));
+    alert("Blog deleted successfully!");
+    loadBlogs();
+  }
+
+  // Load all sections on page load
   loadBlogs();
+  loadQueries();
   loadWorkshops();
 
-  // Expose Functions Globally for Admin Access
+  // Expose functions globally
   window.adminLogin = adminLogin;
   window.addQuery = addQuery;
   window.deleteQuery = deleteQuery;
-  window.addBlog = addBlog;
-  window.deleteBlog = deleteBlog;
   window.addWorkshop = addWorkshop;
   window.deleteWorkshop = deleteWorkshop;
+  window.addBlog = addBlog;
+  window.deleteBlog = deleteBlog;
 });
