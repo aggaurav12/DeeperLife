@@ -18,6 +18,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: 💀 Debug - Show Repository Structure Before Creating config.js
+        run: |
+          echo "📂 Listing repository structure BEFORE creating config.js"
+          ls -R
+
       - name: 📂 Create `config.js` from GitHub Secrets
         run: |
           mkdir -p public  # Ensure the public directory exists
@@ -30,13 +35,18 @@ jobs:
           echo "  FIREBASE_APP_ID: '${{ secrets.FIREBASE_APP_ID }}'" >> public/config.js
           echo "}; export default ENV;" >> public/config.js
 
-      - name: 🕵️ Debug - Verify config.js File
+      - name: 🛈 Debug - Verify config.js File
         run: |
           echo "🔍 Checking if config.js exists..."
-          ls -l public/
+          ls -l public/ || echo "⚠️ public/ directory NOT FOUND!"
           cat public/config.js || echo "❌ config.js NOT FOUND!"
 
-      - name: 💾 Commit and Push `config.js`
+      - name: 💀 Debug - Check Git Status Before Commit
+        run: |
+          git status
+          git diff public/config.js || echo "🔄 No changes detected in config.js"
+
+      - name: 📂 Commit and Push `config.js`
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "[email protected]"
@@ -45,6 +55,12 @@ jobs:
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔍 Debug - Verify config.js After Commit
+        run: |
+          git pull origin main
+          ls -l public/ || echo "⚠️ public/ directory NOT FOUND AFTER COMMIT!"
+          cat public/config.js || echo "❌ config.js STILL NOT FOUND AFTER COMMIT!"
 
       - name: 🔥 Install Firebase CLI
         run: npm install -g firebase-tools
