@@ -20,6 +20,29 @@ jobs:
         with:
           node-version: 18
 
+      - name: 🕵️ Debug - Verify config.js File
+        run: |
+          echo "🔍 Checking if config.js exists in public/"
+          if [ -d "public" ]; then
+            echo "✅ 'public/' directory exists"
+          else
+            echo "❌ 'public/' directory is MISSING!"
+          fi
+
+          echo "📂 Listing all files in the repository:"
+          find .  # Lists all files and directories
+
+          echo "📂 Listing contents of public/:"
+          ls -lah public/ || echo "⚠️ No public/ directory found"
+
+          if [ -f "public/config.js" ]; then
+            echo "✅ config.js EXISTS!"
+            echo "📝 Contents of config.js:"
+            cat public/config.js
+          else
+            echo "❌ config.js NOT FOUND!"
+          fi
+
       - name: 📂 Create `config.js` from GitHub Secrets
         run: |
           mkdir -p public  # Ensure the public directory exists
