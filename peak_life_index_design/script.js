@@ -1,6 +1,5 @@
 // Import Firebase SDK
 import { ENV } from "./public/config.js"; 
-console.log(ENV.FIREBASE_API_KEY);
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {
   getFirestore,
