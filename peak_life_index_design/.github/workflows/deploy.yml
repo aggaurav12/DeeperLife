@@ -12,36 +12,11 @@ jobs:
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v3
-        with:
-          persist-credentials: false  # Ensures manual authentication for committing
 
       - name: 🔧 Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: 🕵️ Debug - Verify config.js File
-        run: |
-          echo "🔍 Checking if config.js exists in public/"
-          if [ -d "public" ]; then
-            echo "✅ 'public/' directory exists"
-          else
-            echo "❌ 'public/' directory is MISSING!"
-          fi
-
-          echo "📂 Listing all files in the repository:"
-          find .  # Lists all files and directories
-
-          echo "📂 Listing contents of public/:"
-          ls -lah public/ || echo "⚠️ No public/ directory found"
-
-          if [ -f "public/config.js" ]; then
-            echo "✅ config.js EXISTS!"
-            echo "📝 Contents of config.js:"
-            cat public/config.js
-          else
-            echo "❌ config.js NOT FOUND!"
-          fi
 
       - name: 📂 Create `config.js` from GitHub Secrets
         run: |
@@ -57,9 +32,9 @@ jobs:
 
       - name: 🕵️ Debug - Verify config.js File
         run: |
-          echo "Checking if config.js exists..."
-          ls -l public/  # List files in public directory
-          cat public/config.js || echo "config.js NOT FOUND!"
+          echo "🔍 Checking if config.js exists..."
+          ls -l public/
+          cat public/config.js || echo "❌ config.js NOT FOUND!"
 
       - name: 💾 Commit and Push `config.js`
         run: |
