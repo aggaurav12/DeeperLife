@@ -32,20 +32,10 @@ jobs:
 
       - name: 🛠️ Verify `config.js`
         run: |
-          echo "Checking if `config.js` exists..."
+          echo "Checking if \`config.js\` exists in the \`peak_life_index_design\` directory..."
           ls -l peak_life_index_design/config.js || echo "⚠️ config.js NOT FOUND!"
-          echo "🔍 Contents of `config.js`:"
-          cat peak_life_index_design/config.js || echo "⚠️ Unable to read `config.js`!"
-
-      - name: 🛠️ Verify `firebase.json`
-        run: |
-          echo "Checking if `firebase.json` exists..."
-          ls -l firebase.json || echo "⚠️ firebase.json NOT FOUND!"
-
-      - name: 🛠️ Verify Public Directory
-        run: |
-          echo "Checking if `peak_life_index_design` exists and contains files..."
-          ls -l peak_life_index_design || echo "⚠️ Public directory NOT FOUND!"
+          echo "🔍 Contents of \`config.js\`:"
+          cat peak_life_index_design/config.js || echo "⚠️ Unable to read \`config.js\`!"
 
       - name: 🔥 Install Firebase CLI
         run: npm install -g firebase-tools
