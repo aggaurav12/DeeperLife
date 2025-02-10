@@ -19,48 +19,25 @@ jobs:
           node-version: 18
 
       - name: 💀 Debug - Show Repository Structure Before Creating config.js
-        run: |
-          echo "📂 Listing repository structure BEFORE creating config.js"
-          ls -R
+        run: ls -R
 
       - name: 📂 Create `config.js` from GitHub Secrets
         run: |
           mkdir -p public  # Ensure the public directory exists
-          echo "const ENV = {" > public/config.js
+          echo "window.ENV = {" > public/config.js
           echo "  FIREBASE_API_KEY: '${{ secrets.FIREBASE_API_KEY }}'," >> public/config.js
           echo "  FIREBASE_AUTH_DOMAIN: '${{ secrets.FIREBASE_AUTH_DOMAIN }}'," >> public/config.js
           echo "  FIREBASE_PROJECT_ID: '${{ secrets.FIREBASE_PROJECT_ID }}'," >> public/config.js
           echo "  FIREBASE_STORAGE_BUCKET: '${{ secrets.FIREBASE_STORAGE_BUCKET }}'," >> public/config.js
           echo "  FIREBASE_MESSAGING_SENDER_ID: '${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}'," >> public/config.js
           echo "  FIREBASE_APP_ID: '${{ secrets.FIREBASE_APP_ID }}'" >> public/config.js
-          echo "}; export default ENV;" >> public/config.js
+          echo "};" >> public/config.js
 
       - name: 🛈 Debug - Verify config.js File
         run: |
           echo "🔍 Checking if config.js exists..."
           ls -l public/ || echo "⚠️ public/ directory NOT FOUND!"
           cat public/config.js || echo "❌ config.js NOT FOUND!"
-
-      - name: 💀 Debug - Check Git Status Before Commit
-        run: |
-          git status
-          git diff public/config.js || echo "🔄 No changes detected in config.js"
-
-      - name: 📂 Commit and Push `config.js`
-        run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "[email protected]"
-          git add public/config.js
-          git commit -m "Auto-generate config.js [skip ci]" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🔍 Debug - Verify config.js After Commit
-        run: |
-          git pull origin main
-          ls -l public/ || echo "⚠️ public/ directory NOT FOUND AFTER COMMIT!"
-          cat public/config.js || echo "❌ config.js STILL NOT FOUND AFTER COMMIT!"
 
       - name: 🔥 Install Firebase CLI
         run: npm install -g firebase-tools
