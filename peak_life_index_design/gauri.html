@@ -3,31 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog - Peak Life</title>
+  <title>About Gauri Mittal</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="workshop.html">Workshops</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="consulting.html">Contact Us</a></li>
-      </ul>
-    </nav>
-    <div class="header-logo">
-      <img src="images/logo5.png" alt="Peak Life Logo">
-    </div>
-  </header>
 
-  <section class="blog-section">
-    <h1 class="blog-heading">Our Blog</h1>
-    <div class="blog-grid" id="blog-section">
-      <!-- Blog cards will be dynamically loaded here -->
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="gauri.html" class="active">About Gauri</a></li>
+    </ul>
+  </nav>
+  <div class="header-logo">
+    <img src="images/logo5.png" alt="Peak Life Logo">
+  </div>
+</header>
+
+<section class="about-gauri">
+  <div class="gauri-container">
+    <div class="gauri-content">
+      <h2>About Dr. Gauri Mittal</h2>
+      <p>Dr. Gauri Mittal is a expert in Lifestyle Disease Management and Mind-Body Medicine.</p>
+      <p>She has written novels on Wattpad and Amazon, and her work has been recognized in the Amazon Pen to Publish Contest.</p>
+      <p>Beyond writing, she is also a passionate educator in *Mind-Body Medicine and Wellness*</p>
+      <a href="https://www.amazon.in/dp/B07NDCT5BH/ref=cm_sw_r_apan_09KP3SDBN87SV8C8Q65Q" target="_blank" class="btn">Checkout her Novel</a>
     </div>
-  </section>
+    <div class="gauri-image">
+      <img src="images/Gaurvvv.jpg" alt="Dr. Gauri Mittal">
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="footer-container">
@@ -70,12 +79,6 @@
 
   <p class="footer-text">&copy; 2025 Peak Life. All rights reserved.</p>
 </footer>
-  <script type="module" src="script.js"></script>
-  <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          console.log("✅ Calling loadBlogs() from workshop.html...");
-          loadBlogs();  // Ensure it runs after DOM loads
-      });
-  </script>
+
 </body>
 </html>

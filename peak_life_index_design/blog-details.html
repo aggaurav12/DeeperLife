@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Details</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="workshop.html">Workshops</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="consulting.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    <div class="header-logo">
+      <img src="images/logo5.png" alt="Peak Life Logo">
+    </div>
+  </header>
+
+  <main class="blog-details">
+    <div id="blog-content" class="blog-details-container">
+      <!-- Full blog content will be dynamically loaded here -->
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Peak Life. All rights reserved.</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { ENV } from "./public/config.js"; 
+  
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: ENV.FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
+      authDomain: ENV.FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
+      projectId: ENV.FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
+      storageBucket: ENV.FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: ENV.FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
+      appId: ENV.FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
+    // Load the full blog based on the ID in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const blogId = urlParams.get("id");
+  
+    if (blogId) {
+      const blogContent = document.getElementById("blog-content");
+      getDoc(doc(db, "blogs", blogId))
+        .then((docSnap) => {
+          if (docSnap.exists()) {
+            const blog = docSnap.data();
+            blogContent.innerHTML = `
+              <h1>${blog.title || "Untitled Blog"}</h1>
+              <img src="${blog.image || 'images/placeholder.png'}" alt="${blog.title || 'Blog Image'}">
+              <p>${blog.content || "No content available."}</p>
+              <p><small>Posted on: ${blog.timestamp?.seconds 
+                ? new Date(blog.timestamp.seconds * 1000).toLocaleDateString() 
+                : "Unknown"}</small></p>
+            `;
+          } else {
+            blogContent.innerHTML = "<p>⚠️ Blog not found.</p>";
+          }
+        })
+        .catch((error) => {
+          console.error("❌ Error fetching blog:", error);
+          blogContent.innerHTML = "<p>⚠️ Unable to load blog content.</p>";
+        });
+    } else {
+      document.getElementById("blog-content").innerHTML = "<p>⚠️ Invalid blog ID.</p>";
+    }
+  </script>  
+</body>
+</html>
