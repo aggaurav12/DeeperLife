@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "peak_life_index_design",
     "ignore": [
       "firebase.json",
       "**/.*",
