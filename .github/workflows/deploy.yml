@@ -37,6 +37,16 @@ jobs:
           echo "🔍 Contents of \`config.js\`:"
           cat peak_life_index_design/config.js || echo "⚠️ Unable to read \`config.js\`!"
 
+      - name: 🛠️ Commit `config.js` to Ensure Inclusion
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "[email protected]"
+          git add peak_life_index_design/config.js
+          git commit -m "Ensure config.js inclusion [skip ci]" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: 🔥 Install Firebase CLI
         run: npm install -g firebase-tools
 
