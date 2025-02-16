@@ -1,7 +1,7 @@
 // Import Firebase SDK 
 //import ENV from "./config.js"; 
 import ENV from "./firebase-config.js"; // Import secure Firebase config
-const ENV = window.ENV;  
+//const ENV = window.ENV;  
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {
