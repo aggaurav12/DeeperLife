@@ -1,10 +1,5 @@
-// Import Firebase SDK
-<<<<<<< HEAD
- import { ENV } from "./config.js"; 
-=======
- 
+// Import Firebase SDK 
 import ENV from "./config.js"; 
->>>>>>> 3120cb4863b5fe8bd8ee35ea56e7427a944ddb28
 //import { ENV } from "./public/config.js"; 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {
