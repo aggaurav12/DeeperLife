@@ -3,7 +3,7 @@ name: Deploy to Firebase Hosting 🚀
 on:
   push:
     branches:
-      - main  # Runs this workflow when changes are pushed to `main`
+      - main  # Runs this workflow when changes are pushed to the `main` branch
 
 jobs:
   deploy:
@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: 📂 Inject Environment Variables at Build Time
+      - name: 📂 Set Firebase Config as Environment Variables
         run: |
           echo "VITE_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> $GITHUB_ENV
           echo "VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> $GITHUB_ENV
