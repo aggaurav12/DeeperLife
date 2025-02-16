@@ -36,17 +36,26 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 // Auto-login using Popup Authentication
-signInWithPopup(auth, provider)
-  .then((result) => {
-    console.log("Connected to Firebase as:", result.user.email);
-    loadBlogs();
-    loadQueries();
-    loadWorkshops();
-    loadMusic();
-  })
-  .catch((error) => {
-    console.error("Firebase Authentication Error:", error.message);
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  const loginButton = document.getElementById("login-btn"); // Ensure you have a login button in HTML
+
+  if (loginButton) {
+    loginButton.addEventListener("click", function () {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log("Connected to Firebase as:", result.user.email);
+          loadBlogs();
+          loadQueries();
+          loadWorkshops();
+          loadMusic();
+        })
+        .catch((error) => {
+          console.error("Firebase Authentication Error:", error.message);
+        });
+    });
+  }
+});
+
 
   // 🔒 Secure Admin Page Access with a Secret Key
 document.addEventListener("DOMContentLoaded", function () {
