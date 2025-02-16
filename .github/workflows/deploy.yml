@@ -3,7 +3,7 @@ name: Deploy to Firebase Hosting 🚀
 on:
   push:
     branches:
-      - main  # Runs this workflow when changes are pushed to `main` branch
+      - main  # Runs this workflow when changes are pushed to the `main` branch
 
 jobs:
   deploy:
@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir -p peak_life_index_design
           cat <<EOT > peak_life_index_design/firebase-config.js
-          const ENV = {
+          window.ENV = {
             FIREBASE_API_KEY: "${{ secrets.FIREBASE_API_KEY }}",
             FIREBASE_AUTH_DOMAIN: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
             FIREBASE_PROJECT_ID: "${{ secrets.FIREBASE_PROJECT_ID }}",
@@ -30,7 +30,6 @@ jobs:
             FIREBASE_MESSAGING_SENDER_ID: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}",
             FIREBASE_APP_ID: "${{ secrets.FIREBASE_APP_ID }}"
           };
-          export default ENV;
           EOT
 
       - name: 🛠 Verify `firebase-config.js` Exists
