@@ -3,7 +3,7 @@ name: Deploy to Firebase Hosting 🚀
 on:
   push:
     branches:
-      - main  # Runs when changes are pushed to `main`
+      - main
 
 jobs:
   deploy:
@@ -18,22 +18,24 @@ jobs:
         with:
           node-version: 18
 
-      - name: 🔥 Inject Firebase Credentials into Runtime Environment
+      - name: 📂 Inject Firebase Config into `firebase-config.js`
         run: |
           mkdir -p peak_life_index_design
-          cat <<EOT > peak_life_index_design/.env
-          VITE_FIREBASE_API_KEY="${{ secrets.FIREBASE_API_KEY }}"
-          VITE_FIREBASE_AUTH_DOMAIN="${{ secrets.FIREBASE_AUTH_DOMAIN }}"
-          VITE_FIREBASE_PROJECT_ID="${{ secrets.FIREBASE_PROJECT_ID }}"
-          VITE_FIREBASE_STORAGE_BUCKET="${{ secrets.FIREBASE_STORAGE_BUCKET }}"
-          VITE_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"
-          VITE_FIREBASE_APP_ID="${{ secrets.FIREBASE_APP_ID }}"
+          cat <<EOT > peak_life_index_design/firebase-config.js
+          window.ENV = {
+            FIREBASE_API_KEY: "${{ secrets.FIREBASE_API_KEY }}",
+            FIREBASE_AUTH_DOMAIN: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
+            FIREBASE_PROJECT_ID: "${{ secrets.FIREBASE_PROJECT_ID }}",
+            FIREBASE_STORAGE_BUCKET: "${{ secrets.FIREBASE_STORAGE_BUCKET }}",
+            FIREBASE_MESSAGING_SENDER_ID: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}",
+            FIREBASE_APP_ID: "${{ secrets.FIREBASE_APP_ID }}"
+          };
           EOT
 
-      - name: 🛠 Verify `.env` File Exists
+      - name: 🛠 Verify `firebase-config.js` Exists
         run: |
-          ls -l peak_life_index_design/.env || echo "⚠️ .env NOT FOUND!"
-          cat peak_life_index_design/.env || echo "⚠️ Unable to read .env!"
+          ls -l peak_life_index_design/firebase-config.js || echo "⚠️ firebase-config.js NOT FOUND!"
+          cat peak_life_index_design/firebase-config.js || echo "⚠️ Unable to read firebase-config.js!"
 
       - name: 🔥 Install Firebase CLI
         run: npm install -g firebase-tools
