@@ -94,7 +94,7 @@ nav a:hover {
 }
 
 body:not(.index-page) footer {
-  background-color: #333;
+  background-color: #443a15;
   color: #fff;
   text-align: center;
   padding: 1.5em 0;
@@ -1450,4 +1450,3 @@ body {
   background: rgba(0, 0, 0, 0.2); /* Adjust for darker or lighter overlay */
   z-index: 2;
 }
-
