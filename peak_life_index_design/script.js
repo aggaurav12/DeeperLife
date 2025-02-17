@@ -261,19 +261,35 @@ async function updateAdminPassword() {
     console.log(isIndexPage ? "🔢 Limiting workshops to 4 for index.html" : "📄 Loading all workshops...");
 
     onSnapshot(workshopQuery, (querySnapshot) => {
+        let workshops = [];
+
+        querySnapshot.forEach((docSnap) => {
+            let workshop = docSnap.data();
+            workshop.id = docSnap.id;
+            workshops.push(workshop);
+        });
+
+        // ✅ Custom Sorting: Move empty dates to the end
+        workshops.sort((a, b) => {
+            if (!a.date || a.date.trim() === "") return 1; // Move empty date to last
+            if (!b.date || b.date.trim() === "") return -1; // Keep valid dates first
+            return new Date(a.date) - new Date(b.date); // Regular ascending order
+        });
+
+        // Clear existing content
         if (workshopSchedule) workshopSchedule.innerHTML = "";
         if (workshopList) workshopList.innerHTML = "";
 
-      querySnapshot.forEach((docSnap) => {
-          const workshop = docSnap.data();
-          const workshopId = docSnap.id;
+        // Render sorted workshops
+        workshops.forEach((workshop) => {
+            const workshopId = workshop.id;
 
             // ✅ Only print the image tag if an image exists
             const imageTag = workshop.image
                 ? `<div class="workshop-image-container">
                     <img src="${workshop.image}" alt="Workshop Image" class="workshop-image">
                  </div>`
-              : "";
+                : "";
 
             // Public Workshop Card
             const publicWorkshopCard = `
@@ -281,8 +297,8 @@ async function updateAdminPassword() {
                     ${imageTag} <!-- ✅ Image wrapped in div to maintain layout -->
                     <div class="event-card-content">
                         <h3>${workshop.title || "Untitled Workshop"}</h3>
-                        <p>${workshop.details.substring(0, 100) || "No details available"}...</p>
-                        <p><strong>Date:</strong> ${workshop.date || "N/A"}</p>
+                        <p>${workshop.details ? workshop.details.substring(0, 100) + "..." : "No details available"}</p>
+                        <p><strong>Date:</strong> ${workshop.date || "TBA"}</p>
                     </div>
                     <div class="event-card-footer">
                         <a href="workshop-details.html?id=${workshopId}" target="_blank" class="btn-know-more">Know More</a>
@@ -295,7 +311,7 @@ async function updateAdminPassword() {
             const adminWorkshopCard = `
                 <div class="admin-workshop-card">
                     ${imageTag}
-                    <p><strong>Date:</strong> ${workshop.date || "N/A"}</p>
+                    <p><strong>Date:</strong> ${workshop.date || "TBA"}</p>
                     <p><strong>Title:</strong> ${workshop.title || "Untitled"}</p>
                     <p><strong>Details:</strong> ${workshop.details || "No details available"}</p>
                     <button onclick="deleteWorkshop('${workshopId}')">Delete</button>
@@ -311,6 +327,7 @@ async function updateAdminPassword() {
         console.error("❌ Error fetching workshops:", error);
     });
 }
+
 
 function loadWorkshopDetails() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -422,7 +439,8 @@ async function addWorkshop() {
   const date = document.getElementById("workshop-date").value.trim();
   const imageInput = document.getElementById("workshop-image");
 
-  if (!title || !details || !date) {
+  // if (!title || !details || !date) {
+  if (!title || !details) {
     alert("⚠️ Please fill out all required fields!");
     return;
   }
@@ -542,8 +560,8 @@ async function addBlog() {
   const content = document.getElementById("blog-content").value;
   const imageInput = document.getElementById("blog-image");
 
-  if (!title || !content) {
-      alert("⚠️ Please fill out all required fields!");
+  if (!title) {
+      alert("⚠️ Please fill out Blog Title!");
       return;
   }
 
@@ -734,7 +752,7 @@ window.deleteMusic = function (event, id) {
   window.addMusic = addMusic;
   window.deleteMusic = deleteMusic;
   window.updateAdminPassword = updateAdminPassword;
-  
+
   // Expose Firebase Firestore methods globally
   window.addDoc = addDoc;
   window.collection = collection;
