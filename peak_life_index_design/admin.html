@@ -161,6 +161,7 @@
         <button class="tab-button" data-tab="queries">Queries</button>
         <button class="tab-button" data-tab="music">Music</button>
         <button class="tab-button" data-tab="registrations">Registrations</button>
+        <button class="tab-button" data-tab="admin-user-password">Admin Password</button>
       </div>
 
       <!-- Workshops Tab -->
@@ -241,6 +242,16 @@
         <h2>Workshop Registrations</h2>
         <div id="registration-list"></div>
       </div>
+
+  <!-- Admin Password Update Tab -->
+  <div id="admin-user-password" class="tab-content">
+    <h2>Update Admin Password</h2>
+    <label for="current-admin-password">Current Password:</label>
+    <input type="password" id="current-admin-password" placeholder="Enter current password">
+    <label for="new-admin-password">New Admin Password:</label>
+    <input type="password" id="new-admin-password" placeholder="Enter new password">
+    <button id="update-password-btn">Update Password</button>
+  </div>
     </div>
   </section>
 
@@ -303,9 +314,16 @@
 
     document.getElementById("admin-login-btn").addEventListener("click", () => {
       const password = document.getElementById("admin-password").value;
-      if (password === "admin123") {
+      const adminPassword =  getAdminPassword();
+
+      if (!adminPassword) {
+      alert("❌ Could not retrieve admin password. Please try again later.");
+      return;
+      }
+      if (password === adminPassword) {
         document.getElementById("admin-login").style.display = "none";
         document.getElementById("admin-panel").style.display = "block";
+
       } else {
         alert("Incorrect password!");
       }

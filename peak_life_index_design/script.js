@@ -1,6 +1,5 @@
 // Import Firebase SDK 
 import ENV from "./config.js"; 
-//import { ENV } from "./public/config.js"; 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {
   getFirestore,
@@ -12,6 +11,8 @@ import {
   orderBy,
   onSnapshot,
   getDoc, // ✅ Add getDoc to import list
+  updateDoc,
+  setDoc,
   limit // ✅ Import limit to use in Firestore queries
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
@@ -61,13 +62,68 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   console.log("✅ DOM fully loaded. Initializing Firebase...");
 
+    // Function to get admin password from Firestore
+async function getAdminPassword() {
+  const docRef = doc(db, "settings", "admin_settings");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().adminPassword;
+  } else {
+    console.error("⚠️ Admin password not found in Firestore!");
+    return null;
+  }
+}
+
+// Function to update the admin password
+async function updateAdminPassword() {
+  const currentPassword = document.getElementById("current-admin-password").value;
+  const newPassword = document.getElementById("new-admin-password").value;
+
+  const adminPassword = await getAdminPassword();
+  if (currentPassword === adminPassword) {
+  
+    if (!newPassword) {
+    alert("⚠️ Please enter a new password!");
+    return;
+  }
+  try {
+    const docRef = doc(db, "settings", "admin_settings");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      // ✅ If document exists, update the password
+      await updateDoc(docRef, { adminPassword: newPassword });
+    } else {
+      // ✅ If document does NOT exist, create it with the new password
+      await setDoc(docRef, { adminPassword: newPassword });
+    }
+
+    alert("✅ Admin password updated successfully!");
+    document.getElementById("new-admin-password").value = ""; // Clear input field
+  } catch (error) {
+    console.error("❌ Error updating admin password:", error);
+    alert("❌ Failed to update password. Please try again.");
+  }
+ } else {
+  alert("❌ Entered Password is not matching with Current password");
+ }
+}
+
   // Admin Login Functionality
    document.getElementById("admin-login-btn")?.addEventListener("click", adminLogin);
-   const adminPassword = "admin123";
+   document.getElementById("update-password-btn")?.addEventListener("click", updateAdminPassword);
    const urlParams = new URLSearchParams(window.location.search);
 
-  function adminLogin() {
+  async function adminLogin() {
     const enteredPassword = document.getElementById("admin-password").value;
+    // ✅ Wait for the password from Firestore
+    const adminPassword = await getAdminPassword();
+
+    if (!adminPassword) {
+      alert("❌ Could not retrieve admin password. Please try again later.");
+      return;
+    }
     if (enteredPassword === adminPassword) {
       console.log("✅ Admin Access Granted");
       sessionStorage.setItem("isAdmin", "true"); // ✅ Store admin session
@@ -119,19 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("❌ Error loading queries:", error);
     });
   }
-  
-
-  // async function addQuery(event) {
-  //   event.preventDefault();
-  //   const name = document.getElementById("visitor-name").value;
-  //   const school = document.getElementById("visitor-school").value;
-  //   const email = document.getElementById("visitor-email").value;
-  //   const message = document.getElementById("visitor-message").value;
-
-  //   await addDoc(collection(db, "queries"), { name, school, email, message });
-  //   alert("Your query has been submitted successfully!");
-  //   document.getElementById("home-inquiry-form")?.reset();
-  // }
 
   async function addQuery(event) {
     event.preventDefault();
@@ -494,12 +537,6 @@ function showNotification(message, type = "info") {
     });
 }
 
-
-
-
-  
-
-
 async function addBlog() {
   const title = document.getElementById("blog-title").value;
   const content = document.getElementById("blog-content").value;
@@ -549,7 +586,6 @@ function showNotification(message) {
       notification.remove();
   }, 3000);
 }
-
 
 window.deleteBlog = async function (id) {
   try {
@@ -697,6 +733,8 @@ window.deleteMusic = function (event, id) {
   window.loadMusic = loadMusic;
   window.addMusic = addMusic;
   window.deleteMusic = deleteMusic;
+  window.updateAdminPassword = updateAdminPassword;
+  
   // Expose Firebase Firestore methods globally
   window.addDoc = addDoc;
   window.collection = collection;
