@@ -390,6 +390,21 @@ body:not(.index-page) footer a:hover {
   animation: fadeIn 0.3s ease-in-out, fadeOut 0.3s ease-in-out 2.7s;
 }
 
+.blog-details-container img {
+  max-width: 100%; /* Ensures the image doesn't exceed the container width */
+  height: auto; /* Maintains the aspect ratio */
+  display: block; /* Removes extra spacing */
+  margin: 0 auto; /* Centers the image */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+@media (max-width: 768px) {
+  .blog-details-container img {
+      width: 100%; /* Makes the image fit within smaller screens */
+  }
+}
+
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

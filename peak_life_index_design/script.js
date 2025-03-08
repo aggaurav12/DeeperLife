@@ -240,61 +240,67 @@ async function updateAdminPassword() {
 
   // Workshop Management
   function loadWorkshops() {
-    const workshopSchedule = document.getElementById("workshopSchedule"); // For public workshop.html or index.html
+    const workshopSchedule = document.getElementById("workshopSchedule"); // For upcoming workshops
+    const conductedWorkshops = document.getElementById("conductedWorkshops"); // For past workshops
     const workshopList = document.getElementById("workshop-list"); // For admin.html
 
-    if (!workshopSchedule && !workshopList) {
-        console.warn("⚠️ Neither workshopSchedule nor workshopList found in DOM.");
+    if (!workshopSchedule && !conductedWorkshops && !workshopList) {
+        console.warn("⚠️ No workshop containers found in DOM.");
         return;
     }
 
     console.log("✅ Workshop containers found! Determining query...");
 
-    // Detect if it's index.html
+    // Detect if it's index.html (index page should only show future workshops)
     const isIndexPage = window.location.pathname.includes("index.html");
 
-    // Use a Firestore query with a limit for the index.html page
-    const workshopQuery = isIndexPage
-        ? query(collection(db, "workshops"), orderBy("date", "asc"), limit(4)) // Limit to first 4 workshops
-        : query(collection(db, "workshops"), orderBy("date", "asc")); // Load all workshops for other pages
+    // Query workshops in **ascending order** (sooner first)
+    const workshopQuery = query(collection(db, "workshops"), orderBy("date", "asc"));
 
-    console.log(isIndexPage ? "🔢 Limiting workshops to 4 for index.html" : "📄 Loading all workshops...");
+    console.log("📄 Fetching workshops in ascending order...");
 
     onSnapshot(workshopQuery, (querySnapshot) => {
-        let workshops = [];
+        let upcomingWorkshops = [];
+        let pastWorkshops = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize to start of the day
 
         querySnapshot.forEach((docSnap) => {
             let workshop = docSnap.data();
             workshop.id = docSnap.id;
-            workshops.push(workshop);
+            const workshopDate = new Date(workshop.date);
+
+            if (workshop.date) {
+                if (workshopDate >= today) {
+                    upcomingWorkshops.push(workshop); // Future workshops
+                } else {
+                    pastWorkshops.push(workshop); // Past workshops
+                }
+            }
         });
 
-        // ✅ Custom Sorting: Move empty dates to the end
-        workshops.sort((a, b) => {
-            if (!a.date || a.date.trim() === "") return 1; // Move empty date to last
-            if (!b.date || b.date.trim() === "") return -1; // Keep valid dates first
-            return new Date(a.date) - new Date(b.date); // Regular ascending order
-        });
+        // ✅ If it's index.html, limit to first 4 upcoming workshops
+        if (isIndexPage) {
+            upcomingWorkshops = upcomingWorkshops.slice(0, 4);
+        }
 
         // Clear existing content
         if (workshopSchedule) workshopSchedule.innerHTML = "";
+        if (conductedWorkshops) conductedWorkshops.innerHTML = "";
         if (workshopList) workshopList.innerHTML = "";
 
-        // Render sorted workshops
-        workshops.forEach((workshop) => {
+        // Function to create workshop cards
+        function createWorkshopCard(workshop, isPast = false) {
             const workshopId = workshop.id;
-
-            // ✅ Only print the image tag if an image exists
             const imageTag = workshop.image
                 ? `<div class="workshop-image-container">
                     <img src="${workshop.image}" alt="Workshop Image" class="workshop-image">
                  </div>`
                 : "";
 
-            // Public Workshop Card
-            const publicWorkshopCard = `
-                <div class="event-card">
-                    ${imageTag} <!-- ✅ Image wrapped in div to maintain layout -->
+            return `
+                <div class="event-card ${isPast ? "past-workshop" : ""}">
+                    ${imageTag}
                     <div class="event-card-content">
                         <h3>${workshop.title || "Untitled Workshop"}</h3>
                         <p>${workshop.details ? workshop.details.substring(0, 100) + "..." : "No details available"}</p>
@@ -302,31 +308,41 @@ async function updateAdminPassword() {
                     </div>
                     <div class="event-card-footer">
                         <a href="workshop-details.html?id=${workshopId}" target="_blank" class="btn-know-more">Know More</a>
-                        <button onclick="registerForWorkshop('${workshopId}')" class="btn-register">Register</button>
                     </div>
                 </div>
             `;
+        }
 
-            // Admin Workshop Card
-            const adminWorkshopCard = `
-                <div class="admin-workshop-card">
-                    ${imageTag}
-                    <p><strong>Date:</strong> ${workshop.date || "TBA"}</p>
-                    <p><strong>Title:</strong> ${workshop.title || "Untitled"}</p>
-                    <p><strong>Details:</strong> ${workshop.details || "No details available"}</p>
-                    <button onclick="deleteWorkshop('${workshopId}')">Delete</button>
-                    <hr>
-                </div>
-            `;
+        // Render Upcoming Workshops
+        upcomingWorkshops.forEach((workshop) => {
+            if (workshopSchedule) workshopSchedule.innerHTML += createWorkshopCard(workshop);
+        });
 
-            // Append Cards to Corresponding Sections
-            if (workshopSchedule) workshopSchedule.innerHTML += publicWorkshopCard;
-            if (workshopList) workshopList.innerHTML += adminWorkshopCard;
+        // Render Conducted (Past) Workshops
+        pastWorkshops.reverse(); // Show most recent conducted workshops first
+        pastWorkshops.forEach((workshop) => {
+            if (conductedWorkshops) conductedWorkshops.innerHTML += createWorkshopCard(workshop, true);
+        });
+
+        // Admin Workshop Cards
+        pastWorkshops.concat(upcomingWorkshops).forEach((workshop) => {
+            if (workshopList) {
+                workshopList.innerHTML += `
+                    <div class="admin-workshop-card">
+                        <p><strong>Date:</strong> ${workshop.date || "TBA"}</p>
+                        <p><strong>Title:</strong> ${workshop.title || "Untitled"}</p>
+                        <p><strong>Details:</strong> ${workshop.details || "No details available"}</p>
+                        <button onclick="deleteWorkshop('${workshop.id}')">Delete</button>
+                        <hr>
+                    </div>
+                `;
+            }
         });
     }, (error) => {
         console.error("❌ Error fetching workshops:", error);
     });
 }
+
 
 
 function loadWorkshopDetails() {
@@ -359,6 +375,7 @@ function loadWorkshopDetails() {
     document.getElementById("workshop-content").innerHTML = "<p>⚠️ Invalid workshop ID.</p>";
   }
 }
+
 
 // Call the function only on `workshop-details.html`
 if (window.location.pathname.includes("workshop-details.html")) {
