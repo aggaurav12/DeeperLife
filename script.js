@@ -252,7 +252,6 @@ async function updateAdminPassword() {
     console.log("✅ Workshop containers found! Determining query...");
 
     // Detect if it's index.html (index page should only show future workshops)
-    //const isIndexPage = window.location.pathname.includes("index.html");
     const isIndexPage = window.location.pathname === "/" || window.location.pathname.endsWith("index.html");
 
 
@@ -534,8 +533,8 @@ function showNotification(message, type = "info") {
             blogs.push({ id: docSnap.id, ...docSnap.data() });
         });
 
-        // If on index.html, limit to the latest 5 blogs
-        const blogsToDisplay = isIndexPage ? blogs.slice(0, 5) : blogs;
+        // If on index.html, limit to the latest 4 blogs
+        const blogsToDisplay = isIndexPage ? blogs.slice(0, 4) : blogs;
 
         // Clear the containers
         if (blogSection) blogSection.innerHTML = "";
@@ -648,7 +647,7 @@ window.deleteBlog = async function (id) {
     const isHomePage = window.location.pathname === "/" || window.location.pathname.endsWith("index.html");
 
     const musicQuery = isHomePage
-        ? query(collection(db, "music"), orderBy("timestamp", "desc"), limit(5)) // ✅ Limit to 5
+        ? query(collection(db, "music"), orderBy("timestamp", "desc"), limit(4)) // ✅ Limit to 4
         : query(collection(db, "music"), orderBy("timestamp", "desc")); // No limit on other pages
 
     onSnapshot(musicQuery, (querySnapshot) => {
