@@ -18,10 +18,9 @@ jobs:
         with:
           node-version: 18
 
-      - name: 📂 Inject Environment Variables into `firebase-config.js`
+      - name: 📂 Inject Environment Variables into `onfig.js`
         run: |
-          mkdir -p peak_life_index_design
-          cat <<EOT > peak_life_index_design/firebase-config.js
+
           window.ENV = {
             FIREBASE_API_KEY: "${{ secrets.FIREBASE_API_KEY }}",
             FIREBASE_AUTH_DOMAIN: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
@@ -32,10 +31,10 @@ jobs:
           };
           EOT
 
-      - name: 🛠 Verify `firebase-config.js` Exists
+      - name: 🛠 Verify `config.js` Exists
         run: |
-          ls -l peak_life_index_design/firebase-config.js || echo "⚠️ firebase-config.js NOT FOUND!"
-          cat peak_life_index_design/firebase-config.js || echo "⚠️ Unable to read firebase-config.js!"
+          ls -l config.js || echo "⚠️ config.js NOT FOUND!"
+          cat config.js || echo "⚠️ Unable to read config.js!"
 
       - name: 🔥 Install Firebase CLI
         run: npm install -g firebase-tools

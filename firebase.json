@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "peak_life_index_design",
+    "public": ".", 
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -8,7 +8,7 @@
     ],
     "headers": [
       {
-        "source": "/firebase-config.js",
+        "source": "/config.js",
         "headers": [
           {
             "key": "Cache-Control",

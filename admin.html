@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Peak Life</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+    }
+
+    header {
+      background-color: #857853;
+      color: #fff;
+      padding: 10px 20px;
+    }
+
+    header nav ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      justify-content: center;
+    }
+
+    header nav ul li {
+      margin: 0 10px;
+    }
+
+    header nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .admin {
+      padding: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tabs button {
+      padding: 10px 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .tabs button.active {
+      background-color: #857853;
+      color: #fff;
+      border-color: #857853;
+    }
+
+    .tab-content {
+      display: none;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #857853;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #3700b3;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background: #857853;
+      color: #fff;
+    }
+
+    .footer-container a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="workshop.html">Workshops</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="consulting.html">Contact Us</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+      </ul>
+    </nav>
+    <div class="header-logo">
+      <img src="images/logo5.png" alt="Peak Life Logo">
+    </div>
+  </header>
+
+  <section class="admin">
+    <h1>Admin Dashboard</h1>
+    <p>Manage blogs, workshops, queries, and music videos in one place.</p>
+
+    <!-- Admin Login -->
+    <div id="admin-login">
+      <p>Please enter the admin password to continue:</p>
+      <input type="password" id="admin-password" placeholder="Enter Password">
+      <button id="admin-login-btn">Login</button>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" style="display:none;">
+      <!-- Tab Navigation -->
+      <div class="tabs">
+        <button class="tab-button active" data-tab="workshops">Workshops</button>
+        <button class="tab-button" data-tab="blogs">Blogs</button>
+        <button class="tab-button" data-tab="queries">Queries</button>
+        <button class="tab-button" data-tab="music">Music</button>
+        <button class="tab-button" data-tab="registrations">Registrations</button>
+        <button class="tab-button" data-tab="admin-user-password">Admin Password</button>
+      </div>
+
+      <!-- Workshops Tab -->
+      <div id="workshops" class="tab-content active">
+        <h2>Manage Workshops</h2>
+        <form id="workshop-form">
+          <div class="form-group">
+            <label for="workshop-title">Title:</label>
+            <input type="text" id="workshop-title" placeholder="Workshop Title" required>
+          </div>
+          <div class="form-group">
+            <label for="workshop-details">Details:</label>
+            <textarea id="workshop-details" placeholder="Workshop Details" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="workshop-date">Date:</label>
+            <input type="date" id="workshop-date" required>
+          </div>
+          <div class="form-group">
+            <label for="workshop-image">Image:</label>
+            <input type="file" id="workshop-image" accept="image/*">
+          </div>
+          <button type="button" onclick="addWorkshop()">Add Workshop</button>
+        </form>
+        <div id="workshop-list"></div>
+      </div>
+
+      <!-- Blogs Tab -->
+      <div id="blogs" class="tab-content">
+        <h2>Manage Blogs</h2>
+        <form id="blog-form">
+          <div class="form-group">
+            <label for="blog-title">Title:</label>
+            <input type="text" id="blog-title" placeholder="Blog Title" required>
+          </div>
+          <div class="form-group">
+            <label for="blog-content">Content:</label>
+            <textarea id="blog-content" placeholder="Blog Content" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="blog-image">Image:</label>
+            <input type="file" id="blog-image" accept="image/*">
+          </div>
+          <button type="button" onclick="addBlog()">Add Blog</button>
+        </form>
+        <div id="blog-list"></div>
+      </div>
+
+      <!-- Queries Tab -->
+      <div id="queries" class="tab-content">
+        <h2>Manage Queries</h2>
+        <div id="query-list"></div>
+      </div>
+
+      <!-- Music Tab -->
+      <div id="music" class="tab-content">
+        <h2>Manage Music</h2>
+        <form id="music-form">
+          <div class="form-group">
+            <label for="music-title">Title:</label>
+            <input type="text" id="music-title" placeholder="Music Title" required>
+          </div>
+          <div class="form-group">
+            <label for="music-url">URL:</label>
+            <input type="url" id="music-url" placeholder="Music URL" required>
+          </div>
+          <div class="form-group">
+            <label for="music-thumbnail">Thumbnail:</label>
+            <input type="file" id="music-thumbnail" accept="image/*" required>
+          </div>
+          <button type="button" onclick="addMusic()">Add Music</button>
+        </form>
+        <div id="music-section"></div>
+      </div>
+
+      <!-- Registrations Tab -->
+      <div id="registrations" class="tab-content">
+        <h2>Workshop Registrations</h2>
+        <div id="registration-list"></div>
+      </div>
+
+  <!-- Admin Password Update Tab -->
+  <div id="admin-user-password" class="tab-content">
+    <h2>Update Admin Password</h2>
+    <label for="current-admin-password">Current Password:</label>
+    <input type="password" id="current-admin-password" placeholder="Enter current password">
+    <label for="new-admin-password">New Admin Password:</label>
+    <input type="password" id="new-admin-password" placeholder="Enter new password">
+    <button id="update-password-btn">Update Password</button>
+  </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="images/logo5.png" alt="Peak Life Logo">
+      </div>
+  
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="workshop.html">Workshops</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="music.html">Music</a></li>
+          <li><a href="consulting.html">Contact Us</a></li>
+        </ul>
+      </div>
+  
+      <!-- <div class="footer-contact">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
+        <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
+      </div> -->
+  
+      <div class="footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
+            <img src="images/facebook.png" alt="Facebook">
+          </a>
+          <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+            <img src="images/instagram.png" alt="Instagram">
+          </a>
+          <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+            <img src="images/linkedin.png" alt="LinkedIn">
+          </a>
+        </div>
+      </div>
+    </div>
+
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+  <script>
+    const tabs = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    document.getElementById("admin-login-btn").addEventListener("click", () => {
+      const password = document.getElementById("admin-password").value;
+      const adminPassword =  getAdminPassword();
+
+      if (!adminPassword) {
+      alert("❌ Could not retrieve admin password. Please try again later.");
+      return;
+      }
+      if (password === adminPassword) {
+        document.getElementById("admin-login").style.display = "none";
+        document.getElementById("admin-panel").style.display = "block";
+
+      } else {
+        alert("Incorrect password!");
+      }
+    });
+  </script>
+</body>
+</html>

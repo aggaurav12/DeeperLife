@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulting - Peak Life</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="workshop.html">Workshops</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="consulting.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    <div class="header-logo">
+      <img src="images/logo5.png" alt="Peak Life Logo">
+    </div>
+  </header>
+
+  <section class="consulting">
+    <div class="consulting-container">
+      <div class="consulting-info">
+        <h1>📋 Consulting Services</h1>
+        <p>Get personalized guidance on health and wellness from our experts.</p>
+        <ul class="consulting-benefits">
+          <li>✔️ Expert health advice</li>
+          <li>✔️ Personalized wellness plans</li>
+          <li>✔️ Mind-body medicine consultation</li>
+        </ul>
+      </div>
+  
+      <div class="consulting-form">
+        <h2>📩 Submit Your Concern</h2>
+        <form id="home-inquiry-form">
+          <div class="form-group">
+            <label for="visitor-name">Full Name</label>
+            <input type="text" id="visitor-name" placeholder="Enter your full name" required>
+          </div>
+  
+          <div class="form-group">
+            <label for="visitor-email">Email</label>
+            <input type="email" id="visitor-email" placeholder="Enter your email" required>
+          </div>
+  
+          <div class="form-group">
+            <label for="visitor-contact">Contact Number</label>
+            <input type="tel" id="visitor-contact" placeholder="Enter your contact number" required>
+          </div>
+  
+          <div class="form-group">
+            <label for="visitor-message">Your Concern</label>
+            <textarea id="visitor-message" placeholder="Describe your concern..." required></textarea>
+          </div>
+  
+          <button type="submit" class="btn">Submit Inquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="images/logo5.png" alt="Peak Life Logo">
+      </div>
+  
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="workshop.html">Workshops</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="music.html">Music</a></li>
+          <li><a href="consulting.html">Contact Us</a></li>
+        </ul>
+      </div>
+  
+      <!-- <div class="footer-contact">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
+        <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
+      </div> -->
+  
+      <div class="footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
+            <img src="images/facebook.png" alt="Facebook">
+          </a>
+          <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+            <img src="images/instagram.png" alt="Instagram">
+          </a>
+          <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+            <img src="images/linkedin.png" alt="LinkedIn">
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+<script>
+     // ✅ Attach `addQuery()` to the contact form dynamically
+  document.addEventListener("DOMContentLoaded", function () {
+      const queryForm = document.getElementById("home-inquiry-form");
+      if (queryForm) {
+          queryForm.addEventListener("submit", function (event) {
+              event.preventDefault(); // Prevent default form submission
+              addQuery(event);
+          });
+      }
+  });
+
+</script>
+</body>
+</html>
