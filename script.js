@@ -252,7 +252,9 @@ async function updateAdminPassword() {
     console.log("✅ Workshop containers found! Determining query...");
 
     // Detect if it's index.html (index page should only show future workshops)
-    const isIndexPage = window.location.pathname.includes("index.html");
+    //const isIndexPage = window.location.pathname.includes("index.html");
+    const isIndexPage = window.location.pathname === "/" || window.location.pathname.endsWith("index.html");
+
 
     // Query workshops in **ascending order** (sooner first)
     const workshopQuery = query(collection(db, "workshops"), orderBy("date", "asc"));
@@ -518,7 +520,8 @@ function showNotification(message, type = "info") {
     console.log("✅ Loading blogs...");
 
     const isAdminPage = window.location.pathname.includes("admin.html"); // ✅ Detect if it's admin page
-    const isIndexPage = window.location.pathname.includes("index.html"); // ✅ Detect if it's index.html
+    //const isIndexPage = window.location.pathname.includes("index.html"); // ✅ Detect if it's index.html
+    const isIndexPage = window.location.pathname === "/" || window.location.pathname.endsWith("index.html");
     const isAdminUser = sessionStorage.getItem("isAdmin") === "true";
 
     // Fetch all blogs ordered by timestamp
@@ -641,7 +644,9 @@ window.deleteBlog = async function (id) {
     console.log("✅ Loading music videos...");
 
     // ✅ Apply limit of 5 ONLY on index.html
-    const isHomePage = window.location.pathname.includes("index.html");
+    //const isHomePage = window.location.pathname.includes("index.html");
+    const isHomePage = window.location.pathname === "/" || window.location.pathname.endsWith("index.html");
+
     const musicQuery = isHomePage
         ? query(collection(db, "music"), orderBy("timestamp", "desc"), limit(5)) // ✅ Limit to 5
         : query(collection(db, "music"), orderBy("timestamp", "desc")); // No limit on other pages
