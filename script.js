@@ -343,8 +343,6 @@ async function updateAdminPassword() {
     });
 }
 
-
-
 function loadWorkshopDetails() {
   const urlParams = new URLSearchParams(window.location.search);
   const workshopId = urlParams.get("id");
