@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: 📂 Inject Environment Variables into `onfig.js`
+      - name: 📂 Inject Environment Variables into `config.js`
         run: |
 
           window.ENV = {
