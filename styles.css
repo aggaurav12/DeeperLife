@@ -32,7 +32,7 @@ header {
 }
 
 .header-logo img {
-  height: 52px;
+  height: 50px;
   width: auto;
   display: block;
 }
@@ -1483,5 +1483,5 @@ nav ul li a {
   text-decoration: none;
   font-size: 22px; /* Controls nav link text size */
   color: #ffffff;
-  font-weight: 100000;
+  font-weight: 80000;
 }
