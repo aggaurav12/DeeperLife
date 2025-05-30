@@ -1481,7 +1481,7 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  font-size: 22px; /* Controls nav link text size */
+  font-size: 20px; /* Controls nav link text size */
   color: #ffffff;
   font-weight: 80000;
 }
