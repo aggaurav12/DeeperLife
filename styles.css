@@ -13,7 +13,8 @@ body {
 }
 
 header {
-  background-color: #857853;
+  background-color: #217B9C
+  	;
   color: #fff;
   padding: 1em 2em;
   display: flex;
@@ -31,7 +32,7 @@ header {
 }
 
 .header-logo img {
-  height: 50px;
+  height: 52px;
   width: auto;
   display: block;
 }
@@ -94,7 +95,7 @@ nav a:hover {
 }
 
 body:not(.index-page) footer {
-  background-color: #443a15;
+  background-color: #217B9C;
   color: #fff;
   text-align: center;
   padding: 1.5em 0;
@@ -151,19 +152,19 @@ body:not(.index-page) footer a:hover {
 
 .mission h2 {
   font-size: 2.5em;
-  color: #bd9d36;
+  color: #1D2F50;
   margin-bottom: 0.5em;
 }
 
 .mission-subtitle {
-  font-size: 1.8em;
+  font-size: 2em;
   font-weight: bold;
-  color: #333;
+  color: #003366;
 }
 
 .mission-description {
-  font-size: 1.2em;
-  color: #555;
+  font-size: 1.4em;
+  color: #003366;
   margin-top: 1rem;
 }
 
@@ -224,14 +225,14 @@ body:not(.index-page) footer a:hover {
 
 .gauri-content h2 {
   font-size: 2rem;
-  color: #333333;
+  color: #754C24;
   margin-bottom: 10px;
 }
 
 .gauri-quote {
   font-style: italic;
   font-size: 1.2rem;
-  color: #555555;
+  color: #003366;
   margin: 0;
   border-left: 4px solid #a18321;
   padding-left: 10px;
@@ -239,7 +240,7 @@ body:not(.index-page) footer a:hover {
 
 .gauri-description {
   font-size: 1rem;
-  color: #666666;
+  color: #002a66;
   line-height: 1.6;
 }
 
@@ -294,7 +295,7 @@ body:not(.index-page) footer a:hover {
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #6a1b9a;
+  color: #1D2F50	;
 }
 
 .blog-grid {
@@ -329,7 +330,7 @@ body:not(.index-page) footer a:hover {
 .blog-card-title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #857853;
+  color: #003366;
   margin-bottom: 10px;
 }
 
@@ -350,7 +351,7 @@ body:not(.index-page) footer a:hover {
 }
 
 .blog-read-more {
-  background-color: #857853;
+  background-color: #1D2F50;
   color: #fff;
   padding: 8px 15px;
   font-size: 0.9rem;
@@ -360,7 +361,7 @@ body:not(.index-page) footer a:hover {
 }
 
 .blog-read-more:hover {
-  background-color: #857853;
+  background-color: #1BA9FF;
 }
 
 /* Fallback for Missing Image */
@@ -560,7 +561,7 @@ body:not(.index-page) footer a:hover {
 }
 
 .event-card a {
-  color: #857853;
+  color: #1BA9FF;
   text-decoration: none;
   font-weight: bold;
 }
@@ -673,18 +674,18 @@ body:not(.index-page) footer a:hover {
 
 .contact-info h2 {
   font-size: 2.5em;
-  color: #857853;
+  color: #3DA35D;
   margin-bottom: 0.5em;
 }
 
 .contact-info p {
   font-size: 1.2em;
-  color: #555;
+  color: #003366;
   margin-bottom: 1rem;
 }
 
 .contact-info a {
-  color: #857853;
+  color: #24909a;
   text-decoration: none;
   font-weight: bold;
 }
@@ -698,7 +699,7 @@ body:not(.index-page) footer a:hover {
   display: block;
   margin: 1.5em auto; /* Center-align and add extra space */
   padding: 0.8em 1.5em;
-  background-color: #857853;
+  background-color: #1D2F50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -787,7 +788,7 @@ body:not(.index-page) footer a:hover {
 
 /* Modern Footer Styling */
 footer {
-  background: #41340a; /* Dark background for footer */
+  background: #217B9C	; /* Dark background for footer */
   color: #b47878; /* Text color for footer */
   padding: 3em 0; /* Increased padding for better spacing */
   text-align: center;
@@ -804,8 +805,8 @@ footer {
 }
 
 .footer-logo img {
-  width: 140px;
-  margin-bottom: 1em;
+  width: 220px;
+  margin-bottom: 0.5em;
 }
 
 .footer-links, .footer-contact, .footer-social {
@@ -817,9 +818,9 @@ footer {
 .footer-links h3,
 .footer-contact h3,
 .footer-social h3 {
-  font-size: 1.2em;
+  font-size: 1.8em;
   margin-bottom: 0.8em;
-  color: #857853; /* Highlighted color for section headers */
+  color: #FFFFFF; /* Highlighted color for section headers */
 }
 
 .footer-links ul {
@@ -832,13 +833,13 @@ footer {
 }
 
 .footer-links ul li a {
-  color: #ccc;
+  color: #FFFFFF;
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .footer-links ul li a:hover {
-  color: #857853; /* Softer hover color for links */
+  color: #1BA9FF; /* Softer hover color for links */
 }
 
 .footer-contact p {
@@ -859,13 +860,13 @@ footer {
 }
 
 .footer-social .social-icons a img {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .footer-social .social-icons a img:hover {
-  transform: scale(1.2); /* Smooth zoom effect */
+  transform: scale(1.8); /* Smooth zoom effect */
   filter: brightness(1.2); /* Brighten on hover */
 }
 
@@ -923,7 +924,7 @@ body {
 
 .consulting-info h1 {
   font-size: 2.5em;
-  color: #857853;
+  color: #1D2F50;
   margin-bottom: 0.5em;
 }
 
@@ -952,7 +953,7 @@ body {
 
 .consulting-form h2 {
   font-size: 2em;
-  color: #857853;
+  color: #1D2F50;
   margin-bottom: 1rem;
 }
 
@@ -979,7 +980,7 @@ body {
 
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: #857853;
+  border-color: #1D2F50;
   outline: none;
 }
 
@@ -989,7 +990,7 @@ body {
 }
 
 .btn {
-  background-color: #857853;
+  background-color: #1D2F50;
   color: #fff;
   padding: 12px 20px;
   font-size: 1.2em;
@@ -1002,7 +1003,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #857853;
+  background-color: #1BA9FF;
 }
 
 /* Responsive Design */
@@ -1025,7 +1026,7 @@ body {
 
 .music h2 {
   font-size: 2em;
-  color: #857853;
+  color: #1D2F50;
   margin-bottom: 1em;
 }
 
@@ -1052,7 +1053,7 @@ body {
 
 .music-card h3 {
   margin-bottom: 0.5em;
-  color: #333;
+  color: #1BA9FF;
 }
 
 .music-card p {
@@ -1307,7 +1308,7 @@ body {
   font-size: 0.9rem;
   text-decoration: none;
   color: #fff;
-  background: #857853;
+  background: #f52808;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1463,4 +1464,24 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.2); /* Adjust for darker or lighter overlay */
   z-index: 2;
+}
+
+/*For Main Header Font Size*/
+/* Navigation Styling */
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  font-size: 22px; /* Controls nav link text size */
+  color: #ffffff;
+  font-weight: 100000;
 }
