@@ -544,7 +544,7 @@ function showNotification(message, type = "info") {
         blogsRef,
         orderBy("timestamp", "desc"),
         ...(lastVisible ? [startAfter(lastVisible)] : []),
-        limit(8)
+        limit(10)
       );
     } else if (isAdminPage) {
       blogsQuery = query(blogsRef, orderBy("timestamp", "desc"));
@@ -592,7 +592,7 @@ function showNotification(message, type = "info") {
       if (isBlogPage) {
         const loadMoreBtn = document.getElementById("load-more-btn");
   
-        if (blogs.length < 8) {
+        if (blogs.length < 10) {
           allBlogsLoaded = true;
           if (loadMoreBtn) loadMoreBtn.style.display = "none";
         } else {
