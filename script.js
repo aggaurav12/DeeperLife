@@ -5,6 +5,8 @@ import {
   getFirestore,
   collection,
   addDoc,
+  startAfter, 
+  getDocs,
   deleteDoc,
   doc,
   query,
@@ -54,6 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("Firebase Authentication Error:", error.message);
         });
     });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadBlogs(); // Initial load for guests
+  const loadMoreBtn = document.getElementById("load-more-btn");
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", () => loadBlogs(true));
   }
 });
 
@@ -505,72 +515,118 @@ function showNotification(message, type = "info") {
     alert("Workshop deleted successfully!");
     loadWorkshops();
   }
-
-  // Blog Management
-  function loadBlogs() {
+  let lastVisible = null;
+  let allBlogsLoaded = false;
+  let blogsLoadedSoFar = 0;
+  
+  function loadBlogs(isLoadMore = false) {
     const blogSection = document.getElementById("blog-section");
     const blogList = document.getElementById("blog-list");
-
+  
     if (!blogSection && !blogList) {
-        console.warn("⚠️ No valid blog container found in DOM.");
-        return;
+      console.warn("⚠️ No valid blog container found in DOM.");
+      return;
     }
-
-    console.log("✅ Loading blogs...");
-
-    const isAdminPage = window.location.pathname.includes("admin.html"); // ✅ Detect if it's admin page
-    //const isIndexPage = window.location.pathname.includes("index.html"); // ✅ Detect if it's index.html
+  
+    const isAdminPage = window.location.pathname.endsWith("admin.html");
     const isIndexPage = window.location.pathname === "/" || window.location.pathname.endsWith("index.html");
+    const isBlogPage = window.location.pathname.endsWith("blog.html");
     const isAdminUser = sessionStorage.getItem("isAdmin") === "true";
-
-    // Fetch all blogs ordered by timestamp
-    const blogsQuery = query(collection(db, "blogs"), orderBy("timestamp", "desc"));
-
-    // Fetch blogs based on the query
-    onSnapshot(blogsQuery, (querySnapshot) => {
-        const blogs = [];
-        querySnapshot.forEach((docSnap) => {
-            blogs.push({ id: docSnap.id, ...docSnap.data() });
-        });
-
-        // If on index.html, limit to the latest 4 blogs
-        const blogsToDisplay = isIndexPage ? blogs.slice(0, 4) : blogs;
-
-        // Clear the containers
+  
+    const blogsRef = collection(db, "blogs");
+    let blogsQuery;
+  
+    if (isIndexPage) {
+      blogsQuery = query(blogsRef, orderBy("timestamp", "desc"), limit(4));
+    } else if (isBlogPage) {
+      if (allBlogsLoaded) return;
+      blogsQuery = query(
+        blogsRef,
+        orderBy("timestamp", "desc"),
+        ...(lastVisible ? [startAfter(lastVisible)] : []),
+        limit(8)
+      );
+    } else if (isAdminPage) {
+      blogsQuery = query(blogsRef, orderBy("timestamp", "desc"));
+    } else {
+      return; // Unrecognized context
+    }
+  
+    getDocs(blogsQuery).then((querySnapshot) => {
+      const blogs = [];
+      querySnapshot.forEach(doc => {
+        blogs.push({ id: doc.id, ...doc.data() });
+      });
+  
+      if (!isLoadMore || isAdminPage) {
+        blogsLoadedSoFar = 0;
         if (blogSection) blogSection.innerHTML = "";
         if (blogList) blogList.innerHTML = "";
-
-        let totalBlogs = blogs.length; // ✅ Get total number of blogs
-        blogsToDisplay.forEach((blog, index) => {
-            console.log(`📝 Blog Loaded:`, blog);
-
-            // ✅ Only show delete button if on admin page and user is admin
-            const deleteButton = (isAdminPage && isAdminUser)
-                ? `<button class="delete-btn" onclick="deleteBlog('${blog.id}')">🗑️ Delete</button>`
-                : "";
-
-            const blogCard = `
-                <div class="blog-card">
-                    <img src="${blog.image || 'images/placeholder.png'}" alt="${blog.title || 'Missing'}" class="blog-image">
-                    <div class="blog-card-content">
-                        <h3 class="blog-card-title">#${totalBlogs - index}: ${blog.title || 'Untitled Blog'}</h3>
-                        <p class="blog-card-body">${(blog.content || '').substring(0, 150)}...</p>
-                        <div class="blog-card-footer">
-                            <a href="blog-details.html?id=${blog.id}" class="blog-read-more" target="_blank">Read More</a>
-                            ${deleteButton} <!-- ✅ Only for admin page -->
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Append blog cards
-            if (blogSection) blogSection.innerHTML += blogCard;
-            if (blogList) blogList.innerHTML += blogCard;
-        });
-    }, (error) => {
-        console.error("❌ Error fetching blogs:", error);
+      }
+  
+      blogs.forEach((blog, index) => {
+        const blogNumber = (isBlogPage || isAdminPage)
+          ? blogsLoadedSoFar + index + 1
+          : null;
+  
+        const deleteButton = (isAdminPage && isAdminUser)
+          ? `<button class="delete-btn" onclick="deleteBlog('${blog.id}')">🗑️ Delete</button>`
+          : "";
+  
+        const blogCard = `
+          <div class="blog-card">
+            <img src="${blog.image || 'images/placeholder.png'}" alt="${blog.title || 'Missing'}" class="blog-image">
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">
+                ${blogNumber !== null ? `#${blogNumber}: ` : ""}${blog.title || 'Untitled Blog'}
+              </h3>
+              <p class="blog-card-body">${(blog.content || '').substring(0, 150)}...</p>
+              <div class="blog-card-footer">
+                <a href="blog-details.html?id=${blog.id}" class="blog-read-more" target="_blank">Read More</a>
+                ${deleteButton}
+              </div>
+            </div>
+          </div>
+        `;
+  
+        if (blogSection) blogSection.innerHTML += blogCard;
+        if ((isAdminPage || blogList) && !isBlogPage) blogList.innerHTML += blogCard;
+      });
+  
+      blogsLoadedSoFar += blogs.length;
+  
+      if (isBlogPage) {
+        const loadMoreBtn = document.getElementById("load-more-btn");
+  
+        if (blogs.length < 8) {
+          allBlogsLoaded = true;
+          if (loadMoreBtn) loadMoreBtn.style.display = "none";
+        } else {
+          if (loadMoreBtn) {
+            loadMoreBtn.style.display = "inline-block";
+            loadMoreBtn.onclick = () => loadBlogs(true);
+          }
+          lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        }
+      }
+    }).catch(err => {
+      console.error("❌ Error loading blogs:", err);
     });
-}
+  }
+  
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("✅ DOM ready, calling loadBlogs()");
+  loadBlogs();
+
+  const loadMoreBtn = document.getElementById("load-more-btn");
+  if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", () => {
+          console.log("📥 Loading more blogs...");
+          loadBlogs(true); // Load next page
+      });
+  }
+});
 
 async function addBlog() {
   const title = document.getElementById("blog-title").value;
