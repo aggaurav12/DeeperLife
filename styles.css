@@ -789,7 +789,7 @@ body:not(.index-page) footer a:hover {
 /* Modern Footer Styling */
 footer {
   background: #217B9C	; /* Dark background for footer */
-  color: #b47878; /* Text color for footer */
+  color: #cbc5c5; /* Text color for footer */
   padding: 3em 0; /* Increased padding for better spacing */
   text-align: center;
   border-top: none; /* Ensure no unwanted borders on top */
