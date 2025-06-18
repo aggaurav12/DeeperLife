@@ -549,7 +549,7 @@ function showNotification(message, type = "info") {
     } else if (isAdminPage) {
       blogsQuery = query(blogsRef, orderBy("timestamp", "desc"));
     } else {
-      return; // Unrecognized context
+      return; // Unknown context
     }
   
     getDocs(blogsQuery).then((querySnapshot) => {
@@ -564,11 +564,7 @@ function showNotification(message, type = "info") {
         if (blogList) blogList.innerHTML = "";
       }
   
-      blogs.forEach((blog, index) => {
-        const blogNumber = (isBlogPage || isAdminPage)
-          ? blogsLoadedSoFar + index + 1
-          : null;
-  
+      blogs.forEach((blog) => {
         const deleteButton = (isAdminPage && isAdminUser)
           ? `<button class="delete-btn" onclick="deleteBlog('${blog.id}')">🗑️ Delete</button>`
           : "";
@@ -577,9 +573,7 @@ function showNotification(message, type = "info") {
           <div class="blog-card">
             <img src="${blog.image || 'images/placeholder.png'}" alt="${blog.title || 'Missing'}" class="blog-image">
             <div class="blog-card-content">
-              <h3 class="blog-card-title">
-                ${blogNumber !== null ? `#${blogNumber}: ` : ""}${blog.title || 'Untitled Blog'}
-              </h3>
+              <h3 class="blog-card-title">${blog.title || 'Untitled Blog'}</h3>
               <p class="blog-card-body">${(blog.content || '').substring(0, 150)}...</p>
               <div class="blog-card-footer">
                 <a href="blog-details.html?id=${blog.id}" class="blog-read-more" target="_blank">Read More</a>
