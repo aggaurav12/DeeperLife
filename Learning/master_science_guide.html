@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Science Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070b14;
+  --surface: #0d1220;
+  --surface2: #111827;
+  --border: #1e2940;
+  --border2: #263352;
+  --accent: #38bdf8;
+  --accent2: #818cf8;
+  --accent3: #34d399;
+  --accent4: #fb923c;
+  --accent5: #f472b6;
+  --accent6: #facc15;
+  --red: #f87171;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --muted2: #94a3b8;
+  --formula-bg: #0f1729;
+  --formula-border: #818cf8;
+  --note-bg: #0f1a10;
+  --note-border: #34d399;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ── LAYOUT ────────────────────────────────────────── */
+.app { display:flex; min-height:100vh; }
+
+/* ── SIDEBAR ────────────────────────────────────────── */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+.sidebar-logo {
+  padding: 1.4rem 1.2rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.3;
+}
+
+.sidebar-logo p {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.search-wrap { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
+.search-wrap input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap input::placeholder { color: var(--muted); }
+
+.section-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.8rem 1.2rem 0.3rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  color: var(--muted2);
+  font-size: 0.82rem;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.06); }
+.nav-item .ni-icon { font-size: 0.95rem; flex-shrink:0; width:18px; text-align:center; }
+.nav-item .ni-count { margin-left:auto; font-size:0.68rem; background:var(--border); padding:1px 6px; border-radius:8px; color:var(--muted); }
+
+/* ── MAIN ────────────────────────────────────────── */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* ── TOP BAR ────────────────────────────────────────── */
+.topbar {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; }
+.topbar-sub { font-size:0.75rem; color:var(--muted); margin-top:1px; }
+.topic-count { font-size:0.78rem; background:var(--border); color:var(--muted2); padding:3px 10px; border-radius:20px; }
+
+/* ── CONTENT ────────────────────────────────────────── */
+.content { padding: 2rem; max-width: 900px; }
+
+/* ── CATEGORY BANNER ────────────────────────────────── */
+.cat-banner {
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.cat-banner::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at top left, rgba(255,255,255,0.06) 0%, transparent 60%);
+}
+.cat-banner h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  position:relative;
+}
+.cat-banner p { color:rgba(255,255,255,0.7); font-size:0.9rem; margin-top:0.3rem; position:relative; }
+
+/* ── TOPIC CARD ─────────────────────────────────────── */
+.topic-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  scroll-margin-top: 80px;
+}
+.topic-card:hover { border-color: var(--border2); }
+
+.card-header {
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.card-header:hover { background: rgba(255,255,255,0.02); }
+
+.card-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.card-meta { flex:1; min-width:0; }
+.card-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; }
+.card-sub { font-size:0.78rem; color:var(--muted2); margin-top:2px; }
+
+.toggle-btn {
+  width:28px; height:28px;
+  border:1px solid var(--border2);
+  background:none;
+  color:var(--muted2);
+  border-radius:6px;
+  cursor:pointer;
+  font-size:0.9rem;
+  display:flex; align-items:center; justify-content:center;
+  transition: all 0.2s;
+  flex-shrink:0;
+}
+.toggle-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+.card-body { padding: 1.5rem; display:none; }
+.card-body.open { display:block; }
+
+/* ── TYPOGRAPHY IN CARDS ─────────────────────────────── */
+.card-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 1.4rem 0 0.5rem;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--accent);
+}
+.card-body h3:first-child { margin-top: 0; }
+
+.card-body h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent3);
+  margin: 1rem 0 0.3rem;
+}
+
+.card-body p {
+  color: #cbd5e1;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  margin-bottom: 0.6rem;
+}
+
+/* ── FORMULA ─────────────────────────────────────────── */
+.formula {
+  background: var(--formula-bg);
+  border: 1px solid var(--formula-border);
+  border-left: 3px solid var(--formula-border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #c4b5fd;
+  line-height: 1.9;
+  overflow-x: auto;
+}
+
+/* ── NOTE ────────────────────────────────────────────── */
+.note {
+  background: var(--note-bg);
+  border: 1px solid var(--note-border);
+  border-left: 3px solid var(--note-border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin: 0.8rem 0;
+  font-size: 0.85rem;
+  color: #a7f3d0;
+}
+.note strong { color: var(--accent3); }
+
+/* ── LIST ────────────────────────────────────────────── */
+.card-body ul { list-style:none; padding:0; margin: 0.4rem 0 0.8rem; }
+.card-body ul li {
+  padding: 0.3rem 0 0.3rem 1.4rem;
+  font-size: 0.87rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  position: relative;
+}
+.card-body ul li::before {
+  content:'▸';
+  position:absolute; left:0;
+  color: var(--accent2);
+  font-size: 0.75rem;
+  top: 0.35rem;
+}
+.card-body ul li b { color: var(--text); }
+
+.card-body ol { padding-left: 1.4rem; margin: 0.4rem 0 0.8rem; }
+.card-body ol li {
+  font-size: 0.87rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  padding: 0.2rem 0;
+}
+.card-body ol li b { color: var(--text); }
+
+/* ── TABLE ───────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8rem 0;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.data-table th {
+  background: var(--surface);
+  color: var(--accent);
+  font-weight: 600;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border2);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+.data-table td {
+  padding: 0.55rem 0.8rem;
+  color: #94a3b8;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom:none; }
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+.data-table td b { color: var(--text); }
+.data-table td em { color: var(--accent4); font-style:normal; font-weight:500; }
+
+/* ── CATEGORY TABS ───────────────────────────────────── */
+#cat-all { display:block; }
+
+.cat-section { display:none; }
+.cat-section.visible { display:block; }
+
+/* ── SCROLLBAR ───────────────────────────────────────── */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+
+/* ── EXPAND ALL BTN ──────────────────────────────────── */
+.expand-btn {
+  background: var(--border);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+.expand-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ── HIGHLIGHT PILL ──────────────────────────────────── */
+.pill {
+  display:inline-block;
+  font-size:0.7rem;
+  padding:2px 8px;
+  border-radius:20px;
+  margin: 0 3px 3px 0;
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar { display:none; }
+  .content { padding: 1rem; }
+}
+
+/* ── PROGRESS BAR ────────────────────────────────────── */
+.progress-bar { position:fixed; top:0; left:0; height:2px; background:var(--accent); z-index:999; transition:width 0.1s; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="app">
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Master Science Guide</h1>
+    <p>30+ Topics · Deep Explanations</p>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="sideSearch" placeholder="🔍  Search topics..." oninput="filterSide(this.value)">
+  </div>
+  <div id="sideNav"></div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main" id="mainScroll">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbarTitle">All Topics</div>
+      <div class="topbar-sub" id="topbarSub">Select a category from the sidebar</div>
+    </div>
+    <div style="display:flex;gap:0.5rem;align-items:center;">
+      <span class="topic-count" id="topicCount">30 topics</span>
+      <button class="expand-btn" onclick="toggleAll()">Expand All</button>
+    </div>
+  </div>
+  <div class="content" id="contentArea"></div>
+</div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════
+const CATS = [
+  { id:'physics',    label:'Physics',                emoji:'⚛️',  color:'#38bdf8', bg:'#0c1e2e', count:13 },
+  { id:'space',      label:'Space Science',          emoji:'🚀',  color:'#818cf8', bg:'#13122e', count:5  },
+  { id:'electrical', label:'Electrical Engineering', emoji:'⚡',  color:'#facc15', bg:'#1a160a', count:4  },
+  { id:'electronics',label:'Electronics',            emoji:'🔌',  color:'#34d399', bg:'#0a1e14', count:3  },
+  { id:'mechanical', label:'Mechanical Engineering', emoji:'⚙️',  color:'#fb923c', bg:'#1e120a', count:3  },
+  { id:'modern',     label:'Modern Science',         emoji:'🔬',  color:'#f472b6', bg:'#1e0a16', count:2  },
+  { id:'india',      label:'India & Geography',      emoji:'🗺️',  color:'#4ade80', bg:'#0a1a0e', count:4  },
+  { id:'medical',    label:'Medical & Vedic',        emoji:'🏥',  color:'#f87171', bg:'#1e0a0a', count:3  },
+];
+
+const TOPICS = [
+// ════ PHYSICS ════
+{ id:'faraday', cat:'physics', icon:'🧲', title:"Faraday's Law of Electromagnetic Induction", sub:"The foundation of all electric generators & transformers",
+  body:`
+<h3>What is Faraday's Law?</h3>
+<p>Faraday's Law of Electromagnetic Induction is one of the most important laws in physics and engineering. It states that an electromotive force (EMF) is induced in a conductor whenever the <b>magnetic flux</b> through that conductor changes. Michael Faraday discovered this in 1831, and it became the foundation for electric generators, transformers, and the entire modern power industry.</p>
+<p>In simple terms: if you move a magnet near a wire, a current flows in the wire. Or if you change the current in one coil, it induces a current in a nearby coil.</p>
+<div class="formula">EMF = -dΦ/dt
+where Φ (magnetic flux) = B × A × cos(θ)
+B = magnetic field strength (Tesla)
+A = area of loop (m²)
+θ = angle between B and normal to the surface
+N coils: EMF = -N × dΦ/dt</div>
+<h3>The Negative Sign — Lenz's Law</h3>
+<p>The negative sign represents <b>Lenz's Law</b> — the induced current always flows in a direction that <b>OPPOSES</b> the change causing it. This is nature conserving energy.</p>
+<p><b>Example:</b> Push a magnet INTO a coil → induced current creates a field that REPELS the magnet. Pull it OUT → induced current ATTRACTS the magnet. You must do work against this opposition — and that work becomes electrical energy.</p>
+<h3>Three Types of Electromagnetic Induction</h3>
+<ul>
+<li><b>Motional EMF:</b> A conductor physically moving through a magnetic field (e.g., generator rotor spinning in a magnetic field)</li>
+<li><b>Mutual Induction:</b> Changing current in one coil (primary) induces EMF in a nearby coil (secondary) — basis of transformers</li>
+<li><b>Self-Induction:</b> A coil induces EMF in itself when its own current changes — basis of inductors in circuits</li>
+</ul>
+<h3>Real-World Applications</h3>
+<table class="data-table">
+<tr><th>Application</th><th>How Faraday's Law Is Used</th></tr>
+<tr><td><b>Electric Generator</b></td><td>Rotating coil in magnetic field → changing flux → AC power for homes & industry</td></tr>
+<tr><td><b>Transformer</b></td><td>Changing AC flux induces voltage in secondary coil — steps voltage up/down</td></tr>
+<tr><td><b>Induction Motor</b></td><td>Rotating magnetic field induces currents in rotor → force → rotation</td></tr>
+<tr><td><b>Wireless Charging</b></td><td>Coil in charger induces current in coil inside phone (Qi standard, 6.78 MHz)</td></tr>
+<tr><td><b>Induction Cooktop</b></td><td>High-frequency AC creates changing field → eddy currents in pot → heat</td></tr>
+<tr><td><b>Metal Detector</b></td><td>Eddy currents in hidden metal alter primary coil's inductance — detected electronically</td></tr>
+<tr><td><b>MRI Machine</b></td><td>Changing magnetic fields induce RF signals from hydrogen nuclei in body tissue</td></tr>
+<tr><td><b>Credit/Debit Cards</b></td><td>Magnetic strip read by induction when swiped through card reader</td></tr>
+</table>
+<div class="note"><strong>Fun Fact:</strong> When Faraday demonstrated electromagnetic induction to politicians, the Prime Minister asked "What use is it?" Faraday replied: "What use is a newborn baby?" Today, virtually all electric power on Earth is generated using Faraday's principle.</div>`
+},
+
+{ id:'maxwell', cat:'physics', icon:'📡', title:"Maxwell's Laws — Four Equations of Electromagnetism", sub:"The equations that unified electricity, magnetism, and light",
+  body:`
+<h3>Introduction</h3>
+<p>James Clerk Maxwell (1831–1879) achieved one of the greatest unifications in the history of science. He took the experimental discoveries of Faraday, Ampere, Gauss, and others and expressed them as <b>four elegant mathematical equations</b>. These describe ALL electromagnetic phenomena and predicted the existence of electromagnetic waves — including light.</p>
+<p>Einstein called Maxwell's work <em>"the most profound and most fruitful that physics has experienced since the time of Newton."</em></p>
+<div class="formula">1. ∇·E = ρ/ε₀           (Gauss's Law for Electricity)
+2. ∇·B = 0               (Gauss's Law for Magnetism)
+3. ∇×E = -∂B/∂t          (Faraday's Law — differential form)
+4. ∇×B = μ₀J + μ₀ε₀∂E/∂t (Ampere-Maxwell Law)</div>
+<h3>What Each Equation Means</h3>
+<ol>
+<li><b>Gauss's Law (Electric):</b> Electric charges (ρ) create diverging electric field lines. Positive charges EMIT field lines, negative charges ABSORB them. Total flux through any closed surface = enclosed charge / ε₀.</li>
+<li><b>Gauss's Law (Magnetic):</b> Magnetic field lines ALWAYS form complete loops — they never start or end. No magnetic monopoles exist. Total magnetic flux through any closed surface = zero.</li>
+<li><b>Faraday's Law:</b> A changing magnetic field (∂B/∂t) creates a circulating electric field. This drives current in generators and transformers.</li>
+<li><b>Ampere-Maxwell Law:</b> Both electric currents (J) AND changing electric fields (∂E/∂t) create circulating magnetic fields. Maxwell added the displacement current term (μ₀ε₀∂E/∂t) — his critical contribution.</li>
+</ol>
+<h3>Maxwell's Greatest Prediction: Speed of Light</h3>
+<p>From his equations, Maxwell derived that electromagnetic disturbances propagate as waves at speed:</p>
+<div class="formula">c = 1/√(μ₀ε₀) = 299,792,458 m/s ≈ 3×10⁸ m/s
+μ₀ = 4π × 10⁻⁷ H/m (permeability of free space)
+ε₀ = 8.854 × 10⁻¹² F/m (permittivity of free space)</div>
+<p>This matched exactly the measured speed of light — <b>proving that LIGHT IS AN ELECTROMAGNETIC WAVE</b>. One of the most stunning predictions in the history of science.</p>
+<h3>Displacement Current — Maxwell's Innovation</h3>
+<p>Ampere's original law had a logical inconsistency — it didn't work for circuits with capacitors (no current flows through the gap, yet a magnetic field exists). Maxwell resolved this by adding the "displacement current" term — a changing electric field acts like a current and produces a magnetic field, even in empty space with no charges moving.</p>
+<p>This meant oscillating electric and magnetic fields could sustain each other through empty space — creating self-propagating electromagnetic waves. Maxwell predicted radio waves 25 years before Hertz discovered them experimentally.</p>`
+},
+
+{ id:'speed_light', cat:'physics', icon:'💡', title:"Speed of Light — The Universe's Speed Limit", sub:"c = 299,792,458 m/s — why nothing can exceed it",
+  body:`
+<h3>The Fundamental Constant</h3>
+<p>The speed of light in a vacuum, denoted <b>c</b>, is exactly 299,792,458 m/s. This is not just the speed of visible light — it's the speed of ALL electromagnetic radiation and the <b>ultimate speed limit of the universe</b>. It is one of the few physical constants that is exact (the meter is defined in terms of c).</p>
+<div class="formula">c = 299,792,458 m/s  =  3 × 10⁸ m/s (approximate)
+   = 186,282 miles/second
+   = 1,079,252,848 km/h
+   ≈ 670,616,629 mph</div>
+<h3>How Light Travels Through a Vacuum (No Medium Needed)</h3>
+<p>Unlike sound waves (which need a medium — air, water, solid), light is a <b>self-sustaining electromagnetic wave</b>. From Maxwell's equations: a changing electric field creates a magnetic field, and that changing magnetic field creates an electric field — the two fields sustain each other, propagating through empty space forever.</p>
+<p>In the 19th century, scientists hypothesized a "luminiferous aether" (the medium for light). The <b>Michelson-Morley experiment (1887)</b> found NO evidence of aether. Einstein resolved this by declaring: c is constant for ALL observers regardless of their own motion — a radical departure from Newtonian physics.</p>
+<h3>Why Nothing Can Exceed the Speed of Light</h3>
+<p>As an object with mass accelerates, its <b>relativistic mass</b> increases:</p>
+<div class="formula">m_rel = m₀ / √(1 - v²/c²)
+As v → c:  m_rel → ∞
+Energy needed: E = m_rel × c² → ∞
+∴ Infinite energy required → physically impossible</div>
+<p>Only massless particles (photons, gluons) can travel exactly at c. Particles with mass can approach but never reach c. Even neutrinos — among the least massive particles — travel at 0.9999999c, not exactly c.</p>
+<h3>Light Travel Times</h3>
+<table class="data-table">
+<tr><th>Destination</th><th>Distance</th><th>Light Travel Time</th></tr>
+<tr><td>Earth to Moon</td><td>384,400 km</td><td><em>~1.28 seconds</em></td></tr>
+<tr><td>Earth to Sun</td><td>150,000,000 km</td><td><em>~8.32 minutes</em></td></tr>
+<tr><td>Earth to Mars (closest)</td><td>54,600,000 km</td><td><em>~3.03 minutes</em></td></tr>
+<tr><td>Earth to Jupiter</td><td>628,000,000 km</td><td><em>~34.9 minutes</em></td></tr>
+<tr><td>Earth to Pluto</td><td>5,906,000,000 km</td><td><em>~5.5 hours</em></td></tr>
+<tr><td>Earth to Proxima Centauri</td><td>4.02 × 10¹³ km</td><td><em>4.24 light-years</em></td></tr>
+<tr><td>Milky Way diameter</td><td>9.46 × 10¹⁷ km</td><td><em>100,000 light-years</em></td></tr>
+<tr><td>Andromeda Galaxy</td><td>2.37 × 10¹⁹ km</td><td><em>2.537 million light-years</em></td></tr>
+<tr><td>Observable Universe</td><td>—</td><td><em>93 billion light-years (diameter)</em></td></tr>
+</table>
+<h3>Speed of Light in Different Media</h3>
+<p>Light slows when traveling through material. The ratio of c to the speed in the medium is the <b>refractive index (n)</b>:</p>
+<div class="formula">n = c/v  →  v = c/n
+Air:     n ≈ 1.0003  →  v ≈ 299,703,000 m/s (barely slower)
+Water:   n ≈ 1.333   →  v ≈ 225,000,000 m/s
+Glass:   n ≈ 1.5     →  v ≈ 200,000,000 m/s
+Diamond: n ≈ 2.417   →  v ≈ 124,000,000 m/s</div>
+<div class="note"><strong>Note:</strong> When light slows in a medium, its frequency stays constant — its wavelength shortens. When light re-enters vacuum, it speeds back up to c. The frequency (color) of light never changes due to refraction.</div>`
+},
+
+{ id:'em_spectrum', cat:'physics', icon:'🌈', title:"The Electromagnetic Spectrum", sub:"From radio waves to gamma rays — all EM radiation explained",
+  body:`
+<h3>Overview</h3>
+<p>The electromagnetic spectrum is the complete range of all electromagnetic radiation, ordered by wavelength (or equivalently, frequency). All EM waves travel at c = 3×10⁸ m/s in vacuum, but differ in wavelength and frequency, giving them vastly different properties and applications.</p>
+<div class="formula">c = f × λ
+c = speed of light = 3×10⁸ m/s
+f = frequency (Hz = cycles/second)
+λ = wavelength (m)
+Photon energy: E = hf = hc/λ
+h = Planck's constant = 6.626 × 10⁻³⁴ J·s</div>
+<h3>The Seven Major Bands</h3>
+<table class="data-table">
+<tr><th>Band</th><th>Wavelength</th><th>Frequency</th><th>Key Applications</th></tr>
+<tr><td><b>Radio Waves</b></td><td>10³–10⁻¹ m</td><td>3 Hz–3 GHz</td><td>AM/FM radio, WiFi, Bluetooth, mobile phones, GPS, radar, TV</td></tr>
+<tr><td><b>Microwaves</b></td><td>10⁻¹–10⁻³ m</td><td>3–300 GHz</td><td>Microwave ovens, satellite communication, radar, 5G networks</td></tr>
+<tr><td><b>Infrared (IR)</b></td><td>10⁻³–7×10⁻⁷ m</td><td>300 GHz–430 THz</td><td>TV remotes, night vision, heat sensing, fiber optic comms, JWST</td></tr>
+<tr><td><b>Visible Light</b></td><td>7×10⁻⁷–4×10⁻⁷ m</td><td>430–750 THz</td><td>Human vision (red→violet), photography, solar energy</td></tr>
+<tr><td><b>Ultraviolet (UV)</b></td><td>4×10⁻⁷–10⁻⁸ m</td><td>750 THz–30 PHz</td><td>Sterilization, fluorescence, sunburn, vitamin D synthesis</td></tr>
+<tr><td><b>X-Rays</b></td><td>10⁻⁸–10⁻¹¹ m</td><td>30 PHz–30 EHz</td><td>Medical imaging (bones), security scanners, materials analysis</td></tr>
+<tr><td><b>Gamma Rays</b></td><td>&lt;10⁻¹¹ m</td><td>&gt;30 EHz</td><td>Cancer radiotherapy, nuclear reactions, sterilizing medical equipment</td></tr>
+</table>
+<h3>Visible Light Colors</h3>
+<table class="data-table">
+<tr><th>Color</th><th>Wavelength</th><th>Frequency</th><th>Notes</th></tr>
+<tr><td>Red</td><td>620–750 nm</td><td>400–484 THz</td><td>Lowest energy visible; longest wavelength</td></tr>
+<tr><td>Orange</td><td>590–620 nm</td><td>484–508 THz</td><td>—</td></tr>
+<tr><td>Yellow</td><td>570–590 nm</td><td>508–526 THz</td><td>—</td></tr>
+<tr><td>Green</td><td>495–570 nm</td><td>526–606 THz</td><td>Human eye most sensitive here</td></tr>
+<tr><td>Blue</td><td>450–495 nm</td><td>606–668 THz</td><td>—</td></tr>
+<tr><td>Violet</td><td>380–450 nm</td><td>668–789 THz</td><td>Highest energy visible; shortest wavelength</td></tr>
+</table>
+<h3>Why the Sky is Blue and Sunsets are Red</h3>
+<p><b>Rayleigh Scattering:</b> Atmospheric molecules scatter shorter wavelengths (blue) much more than longer wavelengths (red) — proportional to 1/λ⁴. During the day, blue light scatters in all directions → blue sky. At sunset, sunlight travels through 10× more atmosphere, blue is scattered away completely, only red/orange reaches your eyes → red sunset.</p>`
+},
+
+{ id:'relativity', cat:'physics', icon:'🌀', title:"Theory of Relativity", sub:"Einstein's Special (1905) & General (1915) Relativity",
+  body:`
+<h3>Special Relativity (1905) — Two Postulates</h3>
+<ol>
+<li><b>Postulate 1:</b> The laws of physics are the same in all inertial (non-accelerating) reference frames.</li>
+<li><b>Postulate 2:</b> The speed of light in a vacuum (c) is constant for ALL observers, regardless of the motion of the source or observer.</li>
+</ol>
+<p>Postulate 2 is astonishing. If you drive at 100 km/h and throw a ball at 100 km/h, a bystander sees it at 200 km/h. But if you shine a flashlight while moving at 0.9c, the bystander still measures light at c — NOT 1.9c. This is experimentally verified to extraordinary precision.</p>
+<h3>Consequences of Special Relativity</h3>
+<h4>Time Dilation</h4>
+<p>Moving clocks run slower. A clock on a fast-moving spaceship ticks more slowly than an identical clock on Earth:</p>
+<div class="formula">t' = t / √(1 - v²/c²) = γt
+γ (Lorentz factor) = 1/√(1 - v²/c²)
+At v = 0.5c:  γ = 1.155  (time passes 15.5% slower)
+At v = 0.866c: γ = 2.0   (time passes 2× slower)
+At v = 0.99c:  γ = 7.09  (time passes 7× slower)
+At v = 0.9999c: γ = 70.7 (time passes 70× slower)</div>
+<h4>Length Contraction</h4>
+<div class="formula">L' = L₀/γ = L₀ × √(1 - v²/c²)
+Moving objects shrink in the direction of motion
+At v = 0.866c: object is half its rest length</div>
+<h4>Mass-Energy Equivalence</h4>
+<div class="formula">E = mc² (rest energy)
+Total energy: E² = (pc)² + (mc²)²
+For massless photons: E = pc = hf</div>
+<h3>General Relativity (1915)</h3>
+<p>Einstein extended Special Relativity to include gravity and acceleration. The revolutionary insight: <b>GRAVITY IS NOT A FORCE — it is the curvature of spacetime caused by mass and energy.</b></p>
+<p>Imagine spacetime as a rubber sheet. A heavy object (Sun) creates a depression. Planets follow curved paths through this warped spacetime — not because they're pulled by a force, but because they follow the straightest possible path (a geodesic) through curved space.</p>
+<h3>All Confirmed Predictions of General Relativity</h3>
+<ul>
+<li><b>Bending of light:</b> Gravitational lensing — confirmed in 1919 solar eclipse by Eddington</li>
+<li><b>Gravitational time dilation:</b> Clocks run slower in stronger gravitational fields</li>
+<li><b>Gravitational redshift:</b> Light climbing out of gravity well loses energy → shifts red</li>
+<li><b>Mercury's orbit precession:</b> Explained a 150-year-old mystery that Newtonian gravity couldn't</li>
+<li><b>Black holes:</b> Regions where spacetime curvature is infinite</li>
+<li><b>Gravitational waves:</b> Ripples in spacetime — detected by LIGO on September 14, 2015</li>
+<li><b>Expanding universe:</b> GR equations naturally predict expansion (Friedmann solutions)</li>
+<li><b>GPS correction:</b> Without relativistic corrections, GPS would be wrong by ~10 km/day</li>
+</ul>`
+},
+
+{ id:'blackhole', cat:'physics', icon:'🕳️', title:"Black Holes", sub:"Objects so extreme that even light cannot escape",
+  body:`
+<h3>What is a Black Hole?</h3>
+<p>A black hole is a region in spacetime where the gravitational curvature is so extreme that nothing — not matter, not light, not any information — can escape once it crosses the <b>event horizon</b>. The escape velocity at the event horizon exactly equals the speed of light.</p>
+<p><b>Important:</b> Black holes are NOT cosmic vacuum cleaners. If the Sun were replaced by a black hole of equal mass, Earth's orbit would be completely unchanged. The difference only matters when you get extremely close.</p>
+<h3>Schwarzschild Radius</h3>
+<div class="formula">r_s = 2GM/c²  (Schwarzschild radius — event horizon for non-rotating BH)
+G = 6.674 × 10⁻¹¹ N·m²/kg²
+For Earth: r_s = 8.87 mm  (compress Earth to size of a marble!)
+For Sun:   r_s = 2.95 km
+For 10 M☉ BH: r_s = 29.5 km
+For Sgr A*: r_s = 12.4 million km</div>
+<h3>Structure of a Black Hole</h3>
+<table class="data-table">
+<tr><th>Region</th><th>Description</th></tr>
+<tr><td><b>Singularity</b></td><td>Central point of infinite density. Spacetime curvature infinite. All mass concentrated here (theoretically). Physics breaks down — quantum gravity needed.</td></tr>
+<tr><td><b>Event Horizon</b></td><td>The "point of no return." Escape velocity = c. Once crossed, nothing can escape — not even information. Radius = Schwarzschild radius.</td></tr>
+<tr><td><b>Photon Sphere</b></td><td>At 1.5× Schwarzschild radius. Photons can orbit in unstable circular paths. Light from behind black hole can be bent around to the front.</td></tr>
+<tr><td><b>Ergosphere</b></td><td>Only around rotating (Kerr) black holes. Spacetime is dragged around (frame dragging). Energy can be extracted (Penrose process).</td></tr>
+<tr><td><b>Accretion Disk</b></td><td>Hot gas and matter spiraling in, heated to millions of degrees by friction. Makes black holes luminous in X-rays — some outshine entire galaxies (quasars).</td></tr>
+</table>
+<h3>Types of Black Holes</h3>
+<table class="data-table">
+<tr><th>Type</th><th>Mass Range</th><th>Formation</th></tr>
+<tr><td><b>Stellar</b></td><td>3–100 M☉</td><td>Core collapse of massive stars (&gt;20 M☉) after supernova. Most common type.</td></tr>
+<tr><td><b>Intermediate</b></td><td>100–10⁵ M☉</td><td>Merging smaller black holes. Few confirmed examples.</td></tr>
+<tr><td><b>Supermassive</b></td><td>10⁶–10¹⁰ M☉</td><td>Found at centers of most galaxies. Milky Way: Sagittarius A* = 4 million M☉.</td></tr>
+<tr><td><b>Primordial</b></td><td>Any mass</td><td>Theoretically formed in early universe density fluctuations. Dark matter candidate.</td></tr>
+</table>
+<h3>Gravitational Lensing</h3>
+<p>Massive objects curve spacetime — and light follows curved spacetime. A black hole can act as a gravitational lens, bending light from objects behind it, creating multiple images, Einstein rings, and magnified distant objects.</p>
+<h3>Hawking Radiation</h3>
+<p>In 1974, Stephen Hawking predicted that black holes slowly emit thermal radiation due to quantum effects near the event horizon. Virtual particle-antiparticle pairs form near the horizon; one falls in, one escapes. Over vast timescales, this causes black holes to slowly evaporate. For a stellar black hole: ~10⁶⁷ years to evaporate — far longer than the current age of the universe (13.8 × 10⁹ years).</p>`
+},
+
+{ id:'timedilation', cat:'physics', icon:'⏱️', title:"Time Dilation", sub:"Why speed and gravity make time pass differently",
+  body:`
+<h3>The Shocking Reality</h3>
+<p>Time dilation is not science fiction — it's a <b>measurable, experimentally verified phenomenon</b>. Time is not absolute. How fast time passes depends on your speed and the gravitational field around you. This has been confirmed with atomic clocks on airplanes, GPS satellites, and particle accelerators.</p>
+<h3>Velocity Time Dilation (Special Relativity)</h3>
+<div class="formula">t' = t / √(1 - v²/c²) = γt  (moving clock appears slow)
+OR: Δt_moving = Δt_rest × √(1 - v²/c²)  (time passes less for moving observer)</div>
+<table class="data-table">
+<tr><th>Speed</th><th>Lorentz Factor γ</th><th>Effect on Time</th></tr>
+<tr><td>1,000 km/h (airplane)</td><td>≈1.0000000000004</td><td>0.04 nanoseconds/day slow</td></tr>
+<tr><td>0.1c (10% light speed)</td><td>1.005</td><td>0.5% time slow</td></tr>
+<tr><td>0.5c</td><td>1.155</td><td>15.5% time slow</td></tr>
+<tr><td>0.866c</td><td>2.0</td><td>50% slow — 1 year = 2 years outside</td></tr>
+<tr><td>0.99c</td><td>7.09</td><td>85.9% slow</td></tr>
+<tr><td>0.9999c</td><td>70.7</td><td>98.6% slow — 1 year = 70.7 years outside</td></tr>
+</table>
+<h3>Gravitational Time Dilation (General Relativity)</h3>
+<p>Clocks in stronger gravitational fields run SLOWER. Closer to a massive object = slower time. At a black hole's event horizon, time effectively stops from outside.</p>
+<div class="formula">t' = t × √(1 - r_s/r) = t × √(1 - 2GM/rc²)
+At Earth's surface vs deep space: ~0.7 microseconds/day slower</div>
+<h3>GPS Satellites — A Real Example</h3>
+<table class="data-table">
+<tr><th>Effect</th><th>Cause</th><th>Result</th></tr>
+<tr><td>Special Relativity (velocity)</td><td>Satellites move at 14,000 km/h</td><td>Satellite clocks run SLOW by 7.2 μs/day</td></tr>
+<tr><td>General Relativity (gravity)</td><td>Satellites at 20,200 km (weaker gravity)</td><td>Satellite clocks run FAST by 45.9 μs/day</td></tr>
+<tr><td>Net effect</td><td>GR dominates over SR</td><td>Net FAST by 38.7 μs/day</td></tr>
+<tr><td>If uncorrected</td><td>3×10⁸ m/s × 38.7×10⁻⁶ s</td><td>Position error grows by <em>~11.6 km per day!</em></td></tr>
+</table>
+<h3>The Twin Paradox</h3>
+<p>One twin travels at 0.9c to a star 10 light-years away and returns. The traveling twin ages ~9.7 years. The Earth twin ages ~22 years. When they reunite, the traveling twin is <b>12 years younger!</b> This is real — it has been confirmed with atomic clocks on airplanes (Hafele-Keating experiment, 1971) and with muons in particle accelerators.</p>`
+},
+
+{ id:'emc2', cat:'physics', icon:'💥', title:"E = mc² — Mass-Energy Equivalence", sub:"The most famous equation in physics explained",
+  body:`
+<h3>The Most Famous Equation</h3>
+<p>Einstein's equation E = mc² tells us: <b>mass and energy are two forms of the same thing</b>. Mass can be converted to energy and energy to mass. The constant c² ≈ 9×10¹⁶ m²/s² is so enormous that even a tiny amount of mass contains a staggering amount of energy.</p>
+<div class="formula">E = mc²
+E = Energy (Joules)
+m = Mass (kilograms)
+c = 3×10⁸ m/s
+c² = 9×10¹⁶ m²/s²
+
+Full formula: E² = (pc)² + (mc²)²
+For stationary object (p=0): E = mc²</div>
+<h3>Energy in Everyday Objects (Complete Conversion)</h3>
+<table class="data-table">
+<tr><th>Object</th><th>Mass</th><th>Energy if Fully Converted</th></tr>
+<tr><td>1 gram (a paperclip)</td><td>0.001 kg</td><td><em>9×10¹³ J = 21 kiloton nuclear bomb</em></td></tr>
+<tr><td>1 kg</td><td>1 kg</td><td><em>9×10¹⁶ J = 21 megaton hydrogen bomb</em></td></tr>
+<tr><td>Cup of water (250g)</td><td>0.25 kg</td><td><em>2.25×10¹⁶ J — powers a city for days</em></td></tr>
+<tr><td>Human body (70 kg)</td><td>70 kg</td><td><em>6.3×10¹⁸ J — 1.5 billion tons of TNT</em></td></tr>
+</table>
+<h3>Where E=mc² Is Used</h3>
+<h4>Nuclear Fission (Power Plants & Atomic Bomb)</h4>
+<p>When Uranium-235 splits, the total mass of products is slightly LESS than original mass. This "missing" mass (mass defect) converts to energy via E=mc². In a nuclear power plant, 1 kg of uranium fuel releases as much energy as burning <b>3 million kg of coal</b>. Typical nuclear power plant: ~1000 MW from 3 kg of U-235 per day.</p>
+<h4>Nuclear Fusion (The Sun)</h4>
+<p>The Sun fuses 600 million tonnes of hydrogen into 596 million tonnes of helium every second. The 4 million tonnes "missing" per second is converted to energy — this is the source of all solar energy. The Sun has been doing this for 4.6 billion years and will continue for another 5 billion years.</p>
+<h4>Antimatter Annihilation</h4>
+<p>When matter meets antimatter, 100% of mass converts to energy — the most efficient energy release possible. Even 1 gram of antimatter + 1 gram of matter releases 1.8 × 10¹⁴ J. The LHC produces antimatter but only in nanogram quantities — worth quadrillions of dollars per gram.</p>
+<h4>Particle Accelerators</h4>
+<p>At CERN's LHC, protons accelerate to 0.9999999896c. Their relativistic mass increases 7,000×. When they collide, kinetic energy converts to mass — creating new particles heavier than the original protons. This is how the Higgs boson (discovered 2012) was created.</p>`
+},
+
+{ id:'doppler', cat:'physics', icon:'〰️', title:"Doppler Effect", sub:"Why ambulance sirens change pitch and galaxies shift red",
+  body:`
+<h3>What is the Doppler Effect?</h3>
+<p>The Doppler Effect is the change in frequency of a wave as the source moves relative to the observer. Approaching source → higher frequency. Receding source → lower frequency. Works for sound, light, water waves — any wave.</p>
+<div class="formula">For sound: f' = f × (v_sound + v_observer) / (v_sound + v_source)
+v_source negative if approaching, positive if receding
+Speed of sound in air ≈ 343 m/s at 20°C
+
+For light (relativistic Doppler):
+f' = f × √[(1+β)/(1-β)]  where β = v/c
+Redshift z = (λ_observed - λ_emitted) / λ_emitted = v/c (low speeds)</div>
+<h3>Sound: The Ambulance Example</h3>
+<p>Ambulance siren at 700 Hz. As it approaches you at 100 km/h:</p>
+<div class="formula">f' = 700 × (343 + 0) / (343 - 27.8) ≈ 762 Hz (higher pitch)</div>
+<p>As it recedes:</p>
+<div class="formula">f' = 700 × (343 + 0) / (343 + 27.8) ≈ 649 Hz (lower pitch)</div>
+<p>The driver hears 700 Hz the whole time — only the observer hears the change.</p>
+<h3>Light: Redshift and Blueshift</h3>
+<table class="data-table">
+<tr><th>Type</th><th>Cause</th><th>Effect</th><th>Example</th></tr>
+<tr><td><b>Redshift</b></td><td>Object moving away</td><td>Wavelength increases (stretches toward red)</td><td>All distant galaxies are redshifted — universe expanding</td></tr>
+<tr><td><b>Blueshift</b></td><td>Object moving toward</td><td>Wavelength decreases (compresses toward blue)</td><td>Andromeda galaxy approaching — will merge with Milky Way in 4.5B years</td></tr>
+<tr><td><b>Cosmological Redshift</b></td><td>Universe expanding (spacetime stretching)</td><td>More extreme than ordinary Doppler</td><td>CMB photons: redshifted from ~3000K to 2.725K — wavelengths stretched 1000×</td></tr>
+</table>
+<h3>How Redshift Proved the Universe is Expanding</h3>
+<p>In 1929, Edwin Hubble measured redshifts of 46 galaxies and found they were all moving away — and the farther away, the faster they recede. This is <b>Hubble's Law</b>:</p>
+<div class="formula">v = H₀ × d
+H₀ ≈ 70 km/s/Mpc (Hubble constant)
+At d = 1 Mpc: galaxy recedes at 70 km/s
+At d = 100 Mpc: recedes at 7,000 km/s</div>
+<h3>Real-World Applications</h3>
+<ul>
+<li><b>Weather Radar (Doppler Radar):</b> Measures speed of rain/hail toward/away from radar — shows storm movement and intensity</li>
+<li><b>Police Speed Guns:</b> Microwave Doppler radar measures reflected signal shift → calculates car speed</li>
+<li><b>Medical Ultrasound:</b> Measures blood flow speed in arteries, detects blockages (echocardiogram, carotid scan)</li>
+<li><b>Exoplanet Detection (Radial Velocity):</b> A planet's gravity makes its star "wobble" toward/away → periodic Doppler shift → planet mass and orbit calculated</li>
+<li><b>Astronomy:</b> Determines speed, composition, and temperature of stars from spectral line shifts and shapes</li>
+</ul>`
+},
+
+{ id:'stringtheory', cat:'physics', icon:'🧵', title:"String Theory", sub:"A proposed Theory of Everything",
+  body:`
+<h3>The Problem String Theory Tries to Solve</h3>
+<p>Physics has two enormously successful but <b>mutually incompatible</b> theories:</p>
+<ul>
+<li><b>General Relativity:</b> Describes gravity perfectly at large scales. Predicts a smooth, continuous spacetime.</li>
+<li><b>Quantum Mechanics:</b> Describes the other three forces (electromagnetic, weak, strong) at subatomic scales. Predicts a foamy, probabilistic reality.</li>
+</ul>
+<p>When you try to combine them — to describe gravity at quantum scales (e.g., inside a black hole, at the Big Bang) — you get nonsensical infinities. String theory is the leading attempt to reconcile both into a single "Theory of Everything."</p>
+<h3>The Basic Idea</h3>
+<p>In standard particle physics, all fundamental particles are treated as zero-dimensional <b>POINTS</b>. String theory proposes they are actually one-dimensional <b>STRINGS</b> of energy, about 10⁻³⁵ meters long (the Planck length — incomprehensibly tiny).</p>
+<p>These strings can be open (line segments) or closed (loops). Their different <b>vibrational modes</b> correspond to different particles — like a violin string vibrating in harmonics to produce different notes. An electron is a string vibrating in one mode; a photon in another; a graviton (gravity particle) in yet another.</p>
+<h3>Key Predictions & Features</h3>
+<ul>
+<li><b>Extra Dimensions:</b> String theory requires 10 or 11 dimensions. The extra 6–7 are "compactified" (curled up) at scales ~10⁻³⁵ m — far too small to detect directly.</li>
+<li><b>Supersymmetry (SUSY):</b> Each known particle has a heavier "superpartner." Doubles the particle spectrum. None confirmed yet at the LHC.</li>
+<li><b>Graviton:</b> String theory naturally produces a massless spin-2 particle — the graviton — quantum of gravity. Standard Model cannot accommodate gravity.</li>
+<li><b>M-Theory:</b> Edward Witten (1995) showed all 5 competing string theories are limits of one 11-dimensional "M-theory."</li>
+</ul>
+<h3>The Controversy</h3>
+<p>String theory currently makes no <b>testable, falsifiable predictions</b> at achievable energy scales. Critics (including Lee Smolin, Peter Woit) argue it is not science. Supporters argue it is the only mathematically consistent framework unifying gravity with quantum mechanics. The debate continues to define fundamental physics.</p>`
+},
+
+{ id:'parallel', cat:'physics', icon:'🌌', title:"Parallel Universes & Multiverse", sub:"Is our universe just one of infinitely many?",
+  body:`
+<h3>Is Our Universe Unique?</h3>
+<p>Modern physics offers several theoretical frameworks suggesting our universe may be just one of many — perhaps infinitely many. These are not science fiction; they arise naturally from established physics theories.</p>
+<h3>Five Major Multiverse Theories</h3>
+<h4>1. Many-Worlds Interpretation (Hugh Everett, 1957)</h4>
+<p>The most radical interpretation of quantum mechanics. Every time a quantum measurement occurs, the universe splits into branches — one for each possible outcome. Schrödinger's cat is alive in one branch and dead in another. <b>ALL outcomes happen, in different parallel worlds.</b> There are an inconceivable number of parallel versions of you reading this right now, having made different choices at every quantum branching moment.</p>
+<h4>2. Eternal Inflation / Bubble Universes</h4>
+<p>The inflationary model of the Big Bang (rapid exponential expansion in the first 10⁻³² seconds) suggests inflation never stopped everywhere — it keeps happening, creating new "bubble universes" that pinch off from the inflating bulk. Each bubble could have different physical constants, dimensions, and laws of physics.</p>
+<h4>3. String Theory Landscape</h4>
+<p>String theory's extra dimensions can be configured in ~10⁵⁰⁰ different ways — each corresponding to a universe with different physical laws, particle masses, and constants. The "anthropic principle" suggests we find ourselves in one compatible with our existence.</p>
+<h4>4. Mathematical Universe Hypothesis (Max Tegmark)</h4>
+<p>The most radical proposal: every mathematically consistent structure exists as a real physical universe. Our universe is not just described by mathematics — <b>it IS mathematics.</b></p>
+<h4>5. Simulation Hypothesis (Nick Bostrom)</h4>
+<p>If advanced civilizations can create realistic simulations of universes, and if many do so, statistically most "conscious beings" live in simulations. Therefore, we probably live in a simulation run by an advanced civilization.</p>
+<div class="note"><strong>Note:</strong> None of these multiverse theories are currently testable or falsifiable in the traditional scientific sense. Some physicists (including David Deutsch) consider Many-Worlds the most scientifically rigorous, as it makes no additional assumptions beyond standard quantum mechanics.</div>`
+},
+
+{ id:'resonance', cat:'physics', icon:'🎵', title:"Sympathetic Resonance", sub:"How vibrations transfer between objects at the same frequency",
+  body:`
+<h3>What is Resonance?</h3>
+<p>Every physical system has <b>natural frequencies</b> — specific frequencies at which it prefers to vibrate. When an external force drives the system at exactly one of these natural frequencies, the amplitude of vibration builds up dramatically over time — this is <b>resonance</b>. Sympathetic resonance occurs when one vibrating object causes another nearby object to vibrate at the same frequency WITHOUT direct contact — through sound waves or electromagnetic fields.</p>
+<div class="formula">Resonant frequency of a string: f = (1/2L)√(T/μ)
+L = length (m), T = tension (N), μ = mass per unit length (kg/m)
+
+Resonant frequency of a spring-mass: f = (1/2π)√(k/m)
+k = spring constant (N/m), m = mass (kg)
+
+Q factor (sharpness of resonance) = ω₀m/b
+Higher Q = sharper resonance = louder sympathetic vibration</div>
+<h3>Famous Examples</h3>
+<ul>
+<li><b>Tuning Forks:</b> Strike one fork at 440 Hz (A4), hold near identical unstruck fork — it vibrates and produces 440 Hz sound. Remove struck fork — second one is still ringing.</li>
+<li><b>Opera Singer Breaking Glass:</b> Glass resonant frequency ~555 Hz for wine glass. Sing exactly at that frequency with sufficient amplitude — glass vibrates so violently it shatters. Confirmed by MythBusters with amplified voice.</li>
+<li><b>Tacoma Narrows Bridge (1940):</b> Wind created vortices at 0.2 Hz — exactly the bridge's natural frequency. Resonant vibration built up catastrophically. Bridge collapsed in 4 months. Changed civil engineering forever.</li>
+<li><b>Radio Tuning:</b> Your receiver is an LC (inductor-capacitor) resonant circuit. Turning the dial changes the resonant frequency to match a station's broadcast frequency. When they match, that station's signal is strongly received.</li>
+<li><b>Sitar:</b> Has 13 additional "sympathetic strings" that aren't played directly — they resonate with the 7 played strings, creating the characteristic shimmering, complex sound.</li>
+<li><b>MRI:</b> RF pulses at the Larmor frequency of hydrogen nuclei (63.9 MHz at 1.5T) cause resonant absorption and re-emission of energy — this is how MRI images are formed.</li>
+</ul>
+<h3>Resonance in Atoms</h3>
+<p>Atoms have discrete energy levels. They absorb light at specific wavelengths matching energy differences between levels — atomic resonance. This is the basis of spectroscopy (identifying elements from light), lasers (stimulated emission at resonant frequency), and atomic clocks (cesium resonance at 9,192,631,770 Hz, accurate to 1 second in 300 million years).</p>`
+},
+
+{ id:'centrifugal', cat:'physics', icon:'🎡', title:"Centrifugal & Centripetal Force", sub:"The real force of circular motion and the apparent outward force",
+  body:`
+<h3>The Two Forces of Circular Motion</h3>
+<p>When an object moves in a circle, its velocity direction is constantly changing — even if its speed is constant. A constantly changing velocity means acceleration exists (centripetal acceleration). A force must provide this acceleration — the centripetal force. The "centrifugal force" is what you feel when you're in the rotating system.</p>
+<h3>Centripetal Force (The Real Inward Force)</h3>
+<div class="formula">F_centripetal = mv²/r = mω²r = m × 4π²r/T²
+m = mass (kg), v = speed (m/s), r = radius (m)
+ω = angular velocity (rad/s), T = period (s)
+Centripetal acceleration: a_c = v²/r = ω²r</div>
+<table class="data-table">
+<tr><th>Situation</th><th>What Provides Centripetal Force</th></tr>
+<tr><td>Satellite orbiting Earth</td><td>Gravity (= centripetal force → circular orbit)</td></tr>
+<tr><td>Ball on a string</td><td>Tension in the string</td></tr>
+<tr><td>Car turning a corner</td><td>Friction between tires and road surface</td></tr>
+<tr><td>Electron orbiting nucleus</td><td>Electromagnetic attraction</td></tr>
+<tr><td>Planets orbiting Sun</td><td>Gravitational attraction from Sun</td></tr>
+<tr><td>Roller coaster loop</td><td>Normal force from track + gravity</td></tr>
+</table>
+<h3>Centrifugal Force (The Apparent Outward Force)</h3>
+<p>Centrifugal force is a <b>pseudo-force</b> (fictitious force) — it only appears to exist if you're in a rotating reference frame. Inside a spinning car, you feel "pushed" outward — but that's actually your <b>inertia</b> (tendency to continue in a straight line) resisting the centripetal force turning you. From outside the car, no outward force exists — you're simply watching someone who is being forced to turn.</p>
+<h3>Real-World Applications</h3>
+<ul>
+<li><b>Centrifuge:</b> Spins samples rapidly. Effective gravity = ω²r → 10,000g in ultracentrifuges. Separates blood cells (red cells sink, plasma rises), cream from milk, uranium-235 from U-238 (gas centrifuge enrichment).</li>
+<li><b>Washing Machine Spin Cycle:</b> Drum rotates at ~1000 rpm. Centrifugal force (in rotating frame) presses clothes against drum wall. Water exits through holes. At 1000 rpm, radius 25 cm: a = ω²r = (105)² × 0.25 ≈ 2,750 m/s² ≈ 280g.</li>
+<li><b>Artificial Gravity in Space:</b> Rotating space station creates centrifugal pseudo-gravity. F = mω²r = mg → ω = √(g/r). For r = 500 m: ω = 0.14 rad/s (1 revolution per 44 seconds).</li>
+<li><b>Banked Roads and Curves:</b> Road banked at angle θ provides centripetal force component. Ideal banking: tan(θ) = v²/rg. Car can corner without relying on friction.</li>
+</ul>`
+},
+
+// ════ SPACE SCIENCE ════
+{ id:'solar', cat:'space', icon:'☀️', title:"Formation of the Solar System", sub:"How our Sun and planets formed from a collapsing nebula",
+  body:`
+<h3>The Solar Nebula Theory</h3>
+<p>About 4.603 billion years ago, a vast molecular cloud (nebula) of gas (~74% hydrogen, 24% helium, 2% heavier elements) began to collapse under its own gravity. This collapse may have been triggered by a nearby supernova shockwave compressing the cloud. What happened next, step by step:</p>
+<ol>
+<li><b>Collapse and spin-up:</b> As the cloud collapsed inward, conservation of angular momentum caused it to spin faster (like an ice skater pulling arms in). Over ~100,000 years, it flattened into a rotating disk.</li>
+<li><b>Protosun forms:</b> Center grew denser and hotter as infalling gas compressed. A protostar formed — not yet fusing, just hot from gravitational collapse. After ~100,000 years: temperature reached ~15 million °C → hydrogen nuclear fusion ignited → the Sun was "born."</li>
+<li><b>Protoplanetary disk:</b> Remaining gas and dust formed a rotating disk (the solar nebula) around the nascent Sun.</li>
+<li><b>Accretion begins:</b> Dust grains stuck together electrostatically → pebbles (cm) → boulders (m) → planetesimals (km) → planetary embryos (1000s km) → full planets, over ~100 million years.</li>
+<li><b>Solar wind clears disk:</b> When the Sun's fusion ignited fully, the solar wind blew away remaining gas and dust — ending planet formation.</li>
+</ol>
+<h3>Why Inner Planets Are Rocky, Outer Are Gaseous</h3>
+<p>The solar nebula had a "frost line" (snow line) at about 2.7 AU from the Sun. Inside this line, only silicates and metals could condense (temperatures too high for ices). Outside, water, ammonia, and methane could freeze — providing 4× more material for planet-building. This is why Jupiter accreted enough mass to gravitationally capture hydrogen gas, forming a gas giant.</p>
+<table class="data-table">
+<tr><th>Zone</th><th>Planets</th><th>Composition</th><th>Reason</th></tr>
+<tr><td>&lt;2.7 AU (inside frost line)</td><td>Mercury, Venus, Earth, Mars</td><td>Rocky silicates, iron core</td><td>Too hot for ices to condense</td></tr>
+<tr><td>&gt;2.7 AU (beyond frost line)</td><td>Jupiter, Saturn, Uranus, Neptune</td><td>Gas/ice giants with rock cores</td><td>Ices provide more mass → capture H/He gas</td></tr>
+<tr><td>~2.7 AU (asteroid belt)</td><td>Ceres, Vesta, millions of rocks</td><td>Rocky/metallic</td><td>Jupiter's gravity disrupted planet formation here</td></tr>
+</table>
+<h3>The Sun's Life Cycle</h3>
+<table class="data-table">
+<tr><th>Stage</th><th>Timeline</th><th>What Happens</th></tr>
+<tr><td>Formation</td><td>4.603 billion years ago</td><td>Nebula collapse → nuclear fusion ignites</td></tr>
+<tr><td>Main Sequence (now)</td><td>Middle age — 4.6 Gyr old, ~5 Gyr remaining</td><td>Hydrogen fusion in core: 4H → He + energy</td></tr>
+<tr><td>Subgiant</td><td>+5 billion years</td><td>Core hydrogen runs out, shell burning begins</td></tr>
+<tr><td>Red Giant</td><td>+5-7 billion years</td><td>Sun expands to 256× current radius — engulfs Mercury, Venus, possibly Earth</td></tr>
+<tr><td>Helium Flash</td><td>+7.5 billion years</td><td>Core ignites helium fusion</td></tr>
+<tr><td>Planetary Nebula</td><td>+7.7 billion years</td><td>Outer layers shed — beautiful glowing shell</td></tr>
+<tr><td>White Dwarf</td><td>Final state</td><td>Earth-sized ultra-dense remnant, cools over billions of years</td></tr>
+</table>`
+},
+
+{ id:'hubble', cat:'space', icon:'🔭', title:"Hubble vs James Webb Space Telescope", sub:"Comparing humanity's two greatest space observatories",
+  body:`
+<h3>Hubble Space Telescope (HST)</h3>
+<p>Launched April 24, 1990, orbiting at 547 km altitude above Earth's atmosphere. Hubble has made more than 1.5 million observations and contributed to over 19,000 peer-reviewed scientific papers.</p>
+<h4>Key Hubble Discoveries</h4>
+<ul>
+<li>Confirmed accelerating expansion of universe → existence of dark energy (1998, Nobel Prize 2011)</li>
+<li>Determined age of universe to be 13.8 billion years</li>
+<li>Deep Field images showed 10,000+ galaxies in a patch of sky the size of a grain of sand at arm's length</li>
+<li>Measured Hubble constant H₀ to unprecedented precision</li>
+<li>Observed formation of planets around other stars (protoplanetary disks)</li>
+<li>Discovered supermassive black holes are in virtually every large galaxy</li>
+<li>Observed stellar nurseries inside nebulae (Pillars of Creation)</li>
+</ul>
+<h3>James Webb Space Telescope (JWST)</h3>
+<p>Launched December 25, 2021. First science images released July 12, 2022. Located at the L2 Lagrange point, 1.5 million km from Earth — always on the night side, continuously shielded from the Sun.</p>
+<table class="data-table">
+<tr><th>Feature</th><th>Hubble</th><th>James Webb (JWST)</th></tr>
+<tr><td>Mirror diameter</td><td>2.4 m</td><td><em>6.5 m (18 gold-coated beryllium segments)</em></td></tr>
+<tr><td>Light-collecting area</td><td>4.5 m²</td><td><em>25.4 m² (5.6× Hubble)</em></td></tr>
+<tr><td>Primary wavelength</td><td>Ultraviolet + visible + near-IR</td><td><em>Near to mid-infrared (0.6–28 μm)</em></td></tr>
+<tr><td>Location</td><td>547 km LEO</td><td><em>L2 Lagrange point (1.5 million km)</em></td></tr>
+<tr><td>Operating temperature</td><td>Room temperature</td><td><em>−233°C (40 K) — for infrared sensitivity</em></td></tr>
+<tr><td>Sunshield</td><td>Not needed</td><td><em>Tennis-court-sized 5-layer Kapton shield</em></td></tr>
+<tr><td>Serviceable</td><td>Yes (serviced 5 times)</td><td><em>No — too far away</em></td></tr>
+<tr><td>Look-back time</td><td>13.4 billion years</td><td><em>100–400 million years after Big Bang</em></td></tr>
+<tr><td>Cost</td><td>$2.5 billion (over 25 years)</td><td><em>$10 billion (30-year development)</em></td></tr>
+</table>
+<h3>Why Infrared for Deep Space?</h3>
+<p>Two reasons JWST uses infrared: (1) <b>Cosmological redshift</b> — the universe's expansion has stretched ancient light from visible wavelengths into infrared. The most distant galaxies (formed 400 million years after Big Bang) emit UV/visible light that has been redshifted to infrared by 13+ billion years of cosmic expansion. (2) <b>Dust penetration</b> — infrared passes through dust clouds that completely block visible light, allowing JWST to see inside stellar nurseries where stars are being born right now.</p>
+<h3>Early JWST Discoveries</h3>
+<ul>
+<li>Galaxy JADES-GS-z13-0: 320 million years after Big Bang — most distant confirmed galaxy</li>
+<li>Detected CO₂ in exoplanet atmosphere (WASP-39b) — first direct detection</li>
+<li>Images of Pillars of Creation showing thousands of new stars invisible to Hubble</li>
+<li>Discovered six massive early galaxies that shouldn't exist — challenging galaxy formation models</li>
+</ul>`
+},
+
+{ id:'voyager', cat:'space', icon:'🛸', title:"Voyager Spacecraft — Humanity's Farthest Reach", sub:"The most distant human-made objects, now in interstellar space",
+  body:`
+<h3>The Mission Background</h3>
+<p>A rare planetary alignment (occurring only once every 176 years) in the late 1970s allowed a spacecraft to visit all four outer planets using <b>gravitational slingshots</b> — gaining speed from each planet's gravity. NASA capitalized on this with the Voyager program.</p>
+<table class="data-table">
+<tr><th>Spacecraft</th><th>Launch</th><th>Planets Visited</th><th>Distance (2024)</th><th>Speed</th><th>Milestone</th></tr>
+<tr><td><b>Voyager 1</b></td><td>Sept 5, 1977</td><td>Jupiter (1979), Saturn (1980)</td><td>~23.5 billion km from Sun</td><td>~17 km/s</td><td>Interstellar space: 2012</td></tr>
+<tr><td><b>Voyager 2</b></td><td>Aug 20, 1977</td><td>Jupiter, Saturn, Uranus, Neptune (all 4!)</td><td>~19.5 billion km from Sun</td><td>~15 km/s</td><td>Interstellar space: 2018</td></tr>
+</table>
+<h3>The Golden Record</h3>
+<p>Each Voyager carries a gold-plated copper phonograph record — a message to any extraterrestrial civilization that might find the spacecraft in millions of years. It contains:</p>
+<ul>
+<li>115 analog-encoded images of Earth, humans, animals, and scientific diagrams</li>
+<li>Greetings from Earth in 55 languages (including Hindi)</li>
+<li>12 minutes of Earth sounds: ocean waves, wind, thunder, volcanoes, birds, whales, human laughter</li>
+<li>90 minutes of music from various world cultures: Bach, Beethoven, Chuck Berry's "Johnny B. Goode," Indian classical music (Kesarbai Kerkar)</li>
+<li>Instructions for playing the record, using mathematics as universal language</li>
+</ul>
+<h3>Power Source — Still Working After 47 Years</h3>
+<p>Voyager uses <b>Radioisotope Thermoelectric Generators (RTGs)</b>: heat from the natural radioactive decay of Plutonium-238 (half-life: 87.7 years) is converted to electricity by thermocouples. Original power output: ~470 watts. Current (2024): ~250 watts. Despite traveling for 47 years, Voyager 1 is still transmitting scientific data — an extraordinary feat of engineering.</p>
+<h3>Communication Across Billions of Kilometers</h3>
+<ul>
+<li>Voyager's 22.4-watt radio transmitter (less than a refrigerator light bulb)</li>
+<li>Signal takes ~22 hours to reach Earth traveling at c = 3×10⁸ m/s</li>
+<li>NASA's Deep Space Network (huge dish antennas in California, Spain, Australia) receives signal of ~10⁻¹⁷ watts — 10 billion billion times weaker than a smartphone signal</li>
+<li>Data rate: 160 bits/second (vs your phone's 100+ million bits/second)</li>
+</ul>`
+},
+
+{ id:'escape', cat:'space', icon:'🚀', title:"Escape Velocity", sub:"The minimum speed needed to permanently escape a planet's gravity",
+  body:`
+<h3>Definition</h3>
+<p>Escape velocity is the minimum speed an object needs to escape a celestial body's gravitational field <b>completely and permanently</b>, with no further propulsion. At escape velocity, the object's kinetic energy exactly equals its gravitational potential energy — it will gradually slow to zero only at infinite distance.</p>
+<div class="formula">v_escape = √(2GM/R)
+G = 6.674 × 10⁻¹¹ N·m²/kg²  (gravitational constant)
+M = mass of body being escaped from (kg)
+R = radius of body, or distance from center (m)
+
+Derivation: ½mv² = GMm/R  →  v = √(2GM/R)</div>
+<h3>Escape Velocities Across the Solar System</h3>
+<table class="data-table">
+<tr><th>Body</th><th>Radius</th><th>Mass</th><th>Escape Velocity</th><th>In km/h</th></tr>
+<tr><td>Moon</td><td>1,737 km</td><td>7.34 × 10²² kg</td><td><em>2.38 km/s</em></td><td>8,568 km/h</td></tr>
+<tr><td>Mars</td><td>3,390 km</td><td>6.39 × 10²³ kg</td><td><em>5.03 km/s</em></td><td>18,108 km/h</td></tr>
+<tr><td>Earth</td><td>6,371 km</td><td>5.97 × 10²⁴ kg</td><td><em>11.19 km/s</em></td><td>40,284 km/h</td></tr>
+<tr><td>Saturn</td><td>58,232 km</td><td>5.68 × 10²⁶ kg</td><td><em>35.5 km/s</em></td><td>127,800 km/h</td></tr>
+<tr><td>Jupiter</td><td>71,492 km</td><td>1.90 × 10²⁷ kg</td><td><em>59.5 km/s</em></td><td>214,200 km/h</td></tr>
+<tr><td>Sun</td><td>695,700 km</td><td>1.99 × 10³⁰ kg</td><td><em>617.7 km/s</em></td><td>2.22 million km/h</td></tr>
+<tr><td>Neutron star</td><td>~10 km</td><td>~2 × 10³⁰ kg</td><td><em>~100,000–200,000 km/s</em></td><td>~50% speed of light</td></tr>
+<tr><td>Black hole event horizon</td><td>r_s = 2GM/c²</td><td>Any</td><td><em>= c = 300,000 km/s</em></td><td>The speed of light</td></tr>
+</table>
+<h3>India's Three Cosmic Velocities</h3>
+<table class="data-table">
+<tr><th>Velocity</th><th>Value (Earth)</th><th>Meaning</th></tr>
+<tr><td>1st Cosmic Velocity</td><td>7.91 km/s</td><td>Minimum speed for circular orbit at Earth's surface (orbital velocity)</td></tr>
+<tr><td>2nd Cosmic Velocity (Escape)</td><td>11.19 km/s</td><td>Escape Earth's gravity completely — go to Moon, Mars, etc.</td></tr>
+<tr><td>3rd Cosmic Velocity</td><td>16.65 km/s</td><td>Escape the entire Solar System from Earth's orbit</td></tr>
+</table>`
+},
+
+{ id:'darkmatter', cat:'space', icon:'🌑', title:"Dark Matter & Dark Energy", sub:"95% of the universe is invisible — what is it?",
+  body:`
+<h3>The Invisible Universe</h3>
+<p>One of the most astonishing discoveries in cosmology: ordinary matter — everything we can see, touch, and detect — makes up only about <b>5%</b> of the universe's total mass-energy. The remaining 95% consists of two mysterious entities.</p>
+<table class="data-table">
+<tr><th>Component</th><th>Fraction</th><th>What We Know</th></tr>
+<tr><td>Ordinary Matter</td><td><em>~5%</em></td><td>All atoms, stars, gas, dust — everything we can directly detect</td></tr>
+<tr><td>Dark Matter</td><td><em>~27%</em></td><td>Has gravity, doesn't emit/reflect light, doesn't interact electromagnetically</td></tr>
+<tr><td>Dark Energy</td><td><em>~68%</em></td><td>Causing accelerating expansion of universe; nature completely unknown</td></tr>
+</table>
+<h3>Evidence for Dark Matter</h3>
+<ul>
+<li><b>Galaxy Rotation Curves (Fritz Zwicky, Vera Rubin):</b> Stars at the outer edges of spiral galaxies orbit just as fast as inner stars. By Newton's law, outer stars should orbit much slower (like outer planets in our Solar System). The extra invisible mass holding them must extend far beyond the visible galaxy as a "dark matter halo."</li>
+<li><b>Gravitational Lensing:</b> Mass bends light (GR). The observed lensing around galaxy clusters is much stronger than can be explained by visible matter alone — implying vast amounts of unseen mass.</li>
+<li><b>Bullet Cluster:</b> Two galaxy clusters colliding. The hot gas (visible in X-rays) slowed down and separated from most of the mass (measured by lensing). Most mass is in some non-interacting, non-gaseous dark form.</li>
+<li><b>Cosmic Microwave Background:</b> The pattern of temperature fluctuations in the CMB is perfectly consistent with ~27% dark matter, 68% dark energy, 5% ordinary matter.</li>
+</ul>
+<h3>What Could Dark Matter Be?</h3>
+<ul>
+<li><b>WIMPs (Weakly Interacting Massive Particles):</b> Predicted by supersymmetry. Have not been found despite decades of searching in underground detectors (LUX, XENON).</li>
+<li><b>Axions:</b> Very light particles, originally proposed to solve a problem in QCD. Searched for with microwave cavities.</li>
+<li><b>Primordial Black Holes:</b> Black holes formed in the early universe. Some evidence from gravitational wave detections.</li>
+<li><b>Sterile Neutrinos:</b> Heavier versions of neutrinos that don't interact via weak force.</li>
+</ul>
+<h3>Dark Energy</h3>
+<p>In 1998, two teams studying Type Ia supernovae found the universe's expansion is <b>ACCELERATING</b> — distant supernovae are dimmer (farther) than expected for a decelerating or constant expansion. Something is pushing the universe apart faster over time. This is "dark energy."</p>
+<p>Einstein's <b>cosmological constant (Λ)</b> — which he added to his GR equations to create a static universe, then famously abandoned — may represent dark energy as a property of spacetime itself: empty space has intrinsic energy. The problem: quantum field theory predicts vacuum energy 10¹²⁰ times larger than observed — the worst prediction in physics history, called the "cosmological constant problem."</p>`
+},
+
+// ════ ELECTRICAL ════
+{ id:'acdc', cat:'electrical', icon:'⚡', title:"AC vs DC Electricity", sub:"Alternating vs Direct Current — the War of Currents",
+  body:`
+<h3>Direct Current (DC)</h3>
+<p>DC flows in ONE direction only — from negative to positive terminal (conventional current: positive to negative). Voltage magnitude is constant over time. Produced by batteries, solar cells, fuel cells, and DC generators.</p>
+<h3>Alternating Current (AC)</h3>
+<p>AC reverses direction periodically following a sinusoidal waveform. In India: <b>50 Hz</b> (50 complete cycles per second; current reverses 100 times per second). USA uses 60 Hz. The instantaneous voltage: V(t) = V_peak × sin(2πft).</p>
+<div class="formula">AC Voltage: V(t) = V_max × sin(2πft + φ)
+India: f = 50 Hz, V_rms = 230V, V_peak = 325V
+V_rms = V_peak / √2  →  V_peak = 230 × √2 = 325V
+Power: P = V_rms × I_rms × cos(φ)  [φ = power factor angle]
+3-Phase line voltage: V_L = √3 × V_phase = √3 × 230 = 400V</div>
+<h3>Tesla vs Edison — The War of Currents</h3>
+<p><b>Thomas Edison</b> championed DC. His Pearl Street Station (New York, 1882) was the world's first central power station, using DC at 110V. Problem: DC power loss P = I²R is enormous over long cables at 110V (high current needed). A power station was needed every mile.</p>
+<p><b>Nikola Tesla</b> developed AC generators, motors, and transformers. AC can be stepped up to very high voltages (reducing current, reducing losses: P_loss = I²R, so high V = low I = low loss). Transmitted efficiently hundreds of miles, then stepped down. Tesla partnered with Westinghouse. AC powered the 1893 Chicago World's Fair → AC won.</p>
+<table class="data-table">
+<tr><th>Application</th><th>Voltage</th><th>Frequency</th><th>Type</th><th>Use</th></tr>
+<tr><td>Household (India)</td><td>230V</td><td>50 Hz</td><td>AC</td><td>Appliances, lights, fans</td></tr>
+<tr><td>3-Phase industrial</td><td>415V (line)</td><td>50 Hz</td><td>AC</td><td>Motors, heavy machinery</td></tr>
+<tr><td>High voltage transmission</td><td>220–765 kV</td><td>50 Hz</td><td>AC</td><td>Power grid, long distances</td></tr>
+<tr><td>HVDC transmission</td><td>±500–800 kV</td><td>DC</td><td>DC</td><td>Very long distances, submarine cables</td></tr>
+<tr><td>Electronic circuits</td><td>3.3V / 5V / 12V</td><td>—</td><td>DC</td><td>CPUs, sensors, LEDs, logic</td></tr>
+<tr><td>EV batteries</td><td>400–800V</td><td>—</td><td>DC</td><td>Electric vehicle drivetrains</td></tr>
+</table>`
+},
+
+{ id:'transformer', cat:'electrical', icon:'🔄', title:"Transformers — Voltage Step-Up & Step-Down", sub:"How India's power grid transmits electricity efficiently",
+  body:`
+<h3>Principle of Operation</h3>
+<p>A transformer uses <b>mutual electromagnetic induction</b> to transfer electrical energy between two circuits at different voltage levels. It works ONLY with AC — DC current doesn't change, so creates no changing magnetic flux, inducing no EMF in the secondary.</p>
+<h3>Working and Formula</h3>
+<p>Two coils (primary and secondary) wound around a common <b>soft iron core</b>. AC current in primary → alternating magnetic field in core → changing flux → induces EMF in secondary coil (Faraday's Law).</p>
+<div class="formula">Voltage ratio = Turns ratio:
+V₁/V₂ = N₁/N₂
+
+Current is inversely proportional:
+I₁/I₂ = N₂/N₁
+
+Ideal transformer power conservation:
+P₁ = P₂  →  V₁I₁ = V₂I₂
+
+Efficiency: η = (P_out/P_in) × 100%
+Distribution transformers: 98–99% efficient</div>
+<h3>India's Power Transmission Chain</h3>
+<table class="data-table">
+<tr><th>Stage</th><th>Location</th><th>Voltage</th><th>Purpose</th></tr>
+<tr><td>Generation</td><td>Power Plant (turbine+generator)</td><td>11 kV AC</td><td>Generator output voltage</td></tr>
+<tr><td>Step-Up #1</td><td>Generator transformer</td><td>11 kV → 220–765 kV</td><td>Minimize current → minimize I²R losses</td></tr>
+<tr><td>Transmission</td><td>High-voltage overhead lines</td><td>220–765 kV</td><td>Carry power across hundreds of km</td></tr>
+<tr><td>Step-Down #1</td><td>Grid substation</td><td>765/220 → 132/66 kV</td><td>Regional/state distribution</td></tr>
+<tr><td>Step-Down #2</td><td>District substation</td><td>66 → 11 kV</td><td>City/industrial distribution</td></tr>
+<tr><td>Step-Down #3</td><td>Distribution transformer (pole)</td><td>11 kV → 230/415 V</td><td>Homes, shops, small businesses</td></tr>
+</table>
+<h3>Losses in Real Transformers</h3>
+<ul>
+<li><b>Copper Losses (I²R):</b> Heat in resistance of copper windings. Reduced by using thick copper wire.</li>
+<li><b>Iron/Core Losses:</b> Hysteresis loss (energy to align/flip magnetic domains with each AC cycle) + Eddy current loss (circulating induced currents in the iron core). Minimized by <b>laminating the core</b> into thin insulated sheets — eddy currents cannot circulate across laminations.</li>
+<li><b>Leakage Flux:</b> Not all magnetic flux from primary passes through secondary core — some leaks into air, reducing efficiency.</li>
+</ul>
+<div class="note"><strong>Why high voltage for transmission?</strong> Power P = VI = constant. If V is 100× higher, I is 100× lower. Since power loss = I²R, loss is 10,000× less! A 220kV line wastes much less than a 11kV line carrying the same power.</div>`
+},
+
+{ id:'motor', cat:'electrical', icon:'⚙️', title:"AC Motor, Generator & 3-Phase Power", sub:"How electricity becomes rotation and how India powers its industry",
+  body:`
+<h3>The Motor Principle</h3>
+<p>A current-carrying conductor in a magnetic field experiences a force (Lorentz Force Law). This force causes rotation — the basic principle of every electric motor.</p>
+<div class="formula">Force on conductor: F = IL × B = BIL sin(θ)
+F = force (N), B = magnetic field (T), I = current (A), L = length (m)
+Torque: τ = BINA cos(α)  [N=turns, A=area, α=angle]</div>
+<h3>3-Phase AC Induction Motor (Most Common Industrial Motor)</h3>
+<p>Invented by Tesla, this motor has no brushes or commutator — extremely reliable, minimal maintenance. Powers 70% of all industrial machinery worldwide.</p>
+<ol>
+<li>3-phase AC (3 wires, currents 120° apart in phase) supplied to <b>stator</b> coils creates a <b>Rotating Magnetic Field (RMF)</b> that spins at synchronous speed.</li>
+<li>The rotating field cuts across the <b>squirrel-cage rotor</b> (aluminum bars in cylindrical iron) → Faraday's Law: voltages and currents induced in rotor bars.</li>
+<li>Induced currents in magnetic field experience Lorentz force → rotor follows the rotating field.</li>
+<li>Rotor always lags slightly behind RMF — this <b>slip</b> (2–5%) is essential for induction to occur.</li>
+</ol>
+<div class="formula">Synchronous Speed: N_s = 120f/P  (rpm)
+f = frequency (Hz), P = number of magnetic poles
+At 50 Hz, 4 poles: N_s = 120×50/4 = 1500 rpm
+At 50 Hz, 2 poles: N_s = 3000 rpm
+Slip: s = (N_s - N_r)/N_s  (typically 2–5%)
+Rotor speed: N_r = N_s(1 - s) ≈ 1440 rpm for 4-pole at 50 Hz</div>
+<h3>Generator — The Reverse of a Motor</h3>
+<p>A generator converts mechanical energy to electrical energy. A coil rotated in a magnetic field has changing flux → induced EMF → AC current. Adding a commutator converts it to DC output (DC generator).</p>
+<div class="formula">Generator EMF: e = NBAω × sin(ωt)
+Peak EMF: E₀ = NBAω
+N=turns, B=field (T), A=area (m²), ω=angular velocity (rad/s)</div>
+<h3>Motor Efficiency Comparison</h3>
+<table class="data-table">
+<tr><th>Motor Type</th><th>Supply</th><th>Efficiency</th><th>Applications</th></tr>
+<tr><td>Large 3-phase induction</td><td>415V AC 3-phase</td><td>90–97%</td><td>Industrial pumps, fans, compressors, conveyors</td></tr>
+<tr><td>Small single-phase</td><td>230V AC</td><td>50–80%</td><td>Fans, mixers, washing machines, small tools</td></tr>
+<tr><td>BLDC Motor</td><td>DC (from inverter)</td><td>85–95%</td><td>EV wheels, drones, premium appliances</td></tr>
+<tr><td>Servo Motor</td><td>DC or AC</td><td>High precision</td><td>Robotics, CNC machines, printers</td></tr>
+<tr><td>Stepper Motor</td><td>Pulsed DC</td><td>Position controlled</td><td>3D printers, camera autofocus, plotters</td></tr>
+<tr><td>Power station generators</td><td>Steam/water turbine</td><td>~99% (electrical only)</td><td>Produce all grid electricity</td></tr>
+</table>`
+},
+
+{ id:'mosfet', cat:'electrical', icon:'🔬', title:"MOSFET, Transistors & Semiconductor Devices", sub:"The tiny switches that power all modern electronics",
+  body:`
+<h3>What is a Transistor?</h3>
+<p>A transistor is a three-terminal semiconductor device that can <b>amplify</b> electrical signals or act as an <b>electronic switch</b>. It is the fundamental building block of all digital electronics. A modern Apple M4 CPU contains approximately 28 billion transistors in a chip smaller than your fingernail — at 3nm process node.</p>
+<h3>Bipolar Junction Transistor (BJT)</h3>
+<p>The first practical transistor (invented 1947, Bell Labs — Nobel Prize 1956). Three terminals: Base (B), Collector (C), Emitter (E). Types: NPN and PNP. A small base current controls a large collector current.</p>
+<div class="formula">BJT: I_C = β × I_B  (current-controlled device)
+β (DC current gain) = typically 20–500
+V_CE(sat) ≈ 0.2V when fully ON (saturation)
+V_BE ≈ 0.7V (silicon NPN) when conducting</div>
+<h3>MOSFET (Metal-Oxide-Semiconductor FET)</h3>
+<p>MOSFETs dominate modern electronics — virtually every digital chip uses CMOS (Complementary MOS). <b>Voltage-controlled</b> (not current-controlled) → extremely power-efficient. Gate is insulated from channel by thin oxide (SiO₂ or HfO₂).</p>
+<div class="formula">MOSFET operation (N-channel, enhancement mode):
+Triode region: I_D = μₙCₒₓ(W/L)[(V_GS-V_th)V_DS - V_DS²/2]
+Saturation: I_D = (μₙCₒₓW/2L)(V_GS - V_th)²
+V_th = threshold voltage (0.3–0.7V in modern chips)
+W/L = width-to-length ratio (larger = more current capacity)</div>
+<h3>CMOS — Complementary MOS</h3>
+<p>CMOS pairs NMOS and PMOS transistors. In any logic state, one type is ON, the other OFF → static power dissipation ≈ 0. Current only flows during switching transitions. This is why a smartphone CPU with billions of transistors can run on a small battery.</p>
+<h3>555 Timer IC</h3>
+<p>The 555 timer IC (1971, Hans Camenzind at Signetics) is one of the most widely produced ICs ever — over 1 billion/year. Contains 25 transistors, 2 diodes, 15 resistors on a single chip.</p>
+<ul>
+<li><b>Monostable mode:</b> Single output pulse of precise duration when triggered</li>
+<li><b>Astable mode:</b> Continuous square wave oscillator — LED blinkers, buzzers</li>
+<li><b>Bistable mode:</b> Flip-flop — two stable states, set/reset with triggers</li>
+</ul>
+<h3>LED Display, Transistor, MOSFET summary</h3>
+<table class="data-table">
+<tr><th>Device</th><th>Control</th><th>Use Case</th><th>Key Parameter</th></tr>
+<tr><td>BJT (NPN)</td><td>Base current</td><td>Amplifiers, switches, audio</td><td>β = I_C/I_B (20–500)</td></tr>
+<tr><td>MOSFET (NMOS)</td><td>Gate voltage</td><td>Digital logic, power switching</td><td>V_th, R_DS(on)</td></tr>
+<tr><td>MOSFET (PMOS)</td><td>Gate voltage (negative)</td><td>Half of every CMOS gate</td><td>Complements NMOS</td></tr>
+<tr><td>IGBT</td><td>Gate voltage</td><td>High power: inverters, EVs, trains</td><td>Combines BJT + MOSFET advantages</td></tr>
+<tr><td>555 Timer</td><td>RC timing components</td><td>Oscillators, delays, PWM</td><td>t = 1.1RC (monostable)</td></tr>
+</table>`
+},
+
+// ════ ELECTRONICS ════
+{ id:'antenna', cat:'electronics', icon:'📡', title:"How an Antenna Works", sub:"Converting electricity to electromagnetic waves and back",
+  body:`
+<h3>The Basic Principle</h3>
+<p>An antenna is a transducer that converts alternating electrical current into electromagnetic waves (transmission) and electromagnetic waves into electrical current (reception). The key physics: <b>any accelerating electric charge radiates electromagnetic waves</b>. Alternating current in a conductor creates oscillating, accelerating charges → EM radiation.</p>
+<h3>Transmission Process (Step by Step)</h3>
+<ol>
+<li>Transmitter generates AC at radio frequency (e.g., 100 MHz for FM radio)</li>
+<li>This AC flows through the antenna conductor — electrons accelerate back and forth</li>
+<li>Oscillating electric field generates oscillating magnetic field perpendicular to it</li>
+<li>These mutually-sustaining oscillating fields propagate outward as EM wave at speed c</li>
+<li>At receiving antenna: EM wave's electric field forces electrons to oscillate at wave's frequency → tiny AC signal → amplified by receiver electronics</li>
+</ol>
+<h3>Resonance — Why Antenna Length Matters</h3>
+<div class="formula">Wavelength: λ = c/f = 3×10⁸/f
+Half-wave dipole (most common): L = λ/2 = c/(2f)
+Quarter-wave monopole: L = λ/4 = c/(4f)
+
+AM 1 MHz:    λ = 300 m  →  λ/2 = 150 m (tall broadcast tower!)
+FM 100 MHz:  λ = 3 m    →  λ/2 = 1.5 m
+WiFi 2.4 GHz: λ = 12.5 cm → λ/4 = 3.1 cm
+5G 28 GHz:   λ = 10.7 mm → antenna is tiny chip</div>
+<h3>Types of Antennas</h3>
+<table class="data-table">
+<tr><th>Type</th><th>Structure</th><th>Radiation Pattern</th><th>Uses</th></tr>
+<tr><td><b>Dipole</b></td><td>Two λ/4 arms, total λ/2</td><td>Omnidirectional (like a donut)</td><td>TV, FM radio, WiFi access points</td></tr>
+<tr><td><b>Monopole</b></td><td>Single λ/4 over ground plane</td><td>Hemispherical</td><td>Car radio antenna, mobile phones</td></tr>
+<tr><td><b>Yagi-Uda</b></td><td>Multiple parallel elements (driven + directors + reflector)</td><td>Highly directional (forward gain)</td><td>TV reception, long-range WiFi, HAM radio</td></tr>
+<tr><td><b>Parabolic Dish</b></td><td>Curved metal reflector + feed antenna at focus</td><td>Extremely narrow beam (high gain)</td><td>Satellite TV, radio telescopes, microwave links</td></tr>
+<tr><td><b>Patch/Microstrip</b></td><td>Flat printed conductor on PCB substrate</td><td>Hemispherical, moderate gain</td><td>Smartphones, GPS, laptops, drones</td></tr>
+<tr><td><b>Phased Array</b></td><td>Many small antennas, phase-shifted electronically</td><td>Electronically steerable beam</td><td>5G base stations, radar, AESA fighters</td></tr>
+<tr><td><b>Loop Antenna</b></td><td>Conductor loop, diameter &lt;&lt; λ</td><td>Figure-8 pattern</td><td>AM radio, RFID, NFC (your phone's tap-to-pay)</td></tr>
+</table>
+<div class="note"><strong>NFC in your phone</strong> is a tiny loop antenna at 13.56 MHz. When you tap your phone on a payment terminal, the terminal's antenna field induces current in your phone's loop → powers the NFC chip → data exchange. No battery needed in the terminal-side card!</div>`
+},
+
+{ id:'satellite', cat:'electronics', icon:'🛰️', title:"Satellites & Orbital Mechanics", sub:"How satellites stay in orbit and communicate with Earth",
+  body:`
+<h3>How a Satellite Stays in Orbit</h3>
+<p>A satellite is in <b>continuous free fall</b> — but moving horizontally so fast that as it falls, Earth's surface curves away beneath it at the same rate. It perpetually "misses" the Earth. No engine needed to maintain orbit (ignoring atmospheric drag) — only to change the orbit.</p>
+<div class="formula">Orbital speed (circular orbit): v = √(GM/r)
+Orbital period: T = 2π√(r³/GM)  (Kepler's 3rd Law: T² ∝ r³)
+At LEO (400 km): v ≈ 7.66 km/s, T ≈ 92 minutes
+At GEO (35,786 km): v ≈ 3.07 km/s, T = 24 hours exactly
+G = 6.674×10⁻¹¹, M_Earth = 5.97×10²⁴ kg</div>
+<h3>Types of Orbits</h3>
+<table class="data-table">
+<tr><th>Orbit Type</th><th>Altitude</th><th>Period</th><th>Speed</th><th>Applications</th></tr>
+<tr><td><b>LEO</b></td><td>200–2000 km</td><td>90–128 min</td><td>7.4–7.8 km/s</td><td>ISS, imaging, Starlink internet, Hubble</td></tr>
+<tr><td><b>MEO</b></td><td>2,000–35,786 km</td><td>2–24 hrs</td><td>3.5–7 km/s</td><td>GPS (20,200 km), GLONASS, Galileo navigation</td></tr>
+<tr><td><b>GEO</b></td><td>35,786 km</td><td>24 hrs (geostatic)</td><td>3.07 km/s</td><td>TV satellites, weather, communications</td></tr>
+<tr><td><b>HEO</b></td><td>Highly elliptical</td><td>12–24 hrs</td><td>Varies</td><td>Molniya (Russian), high-latitude coverage</td></tr>
+<tr><td><b>SSO</b></td><td>600–800 km, polar</td><td>~98 min</td><td>7.5 km/s</td><td>Earth observation, remote sensing, Cartosat</td></tr>
+<tr><td><b>L1/L2 Lagrange</b></td><td>1.5 million km from Earth</td><td>1 year</td><td>~1 km/s (relative)</td><td>JWST (L2), SOHO solar observatory (L1)</td></tr>
+</table>
+<h3>ISRO's Key Satellites</h3>
+<table class="data-table">
+<tr><th>Series</th><th>Type</th><th>Purpose</th></tr>
+<tr><td>INSAT series</td><td>GEO</td><td>Telecommunications, TV broadcasting, meteorology</td></tr>
+<tr><td>IRS series</td><td>SSO/LEO</td><td>Remote sensing, agriculture, water resources, disaster management</td></tr>
+<tr><td>GSAT series</td><td>GEO</td><td>High-throughput internet, TV, digital communications</td></tr>
+<tr><td>NavIC (IRNSS)</td><td>GEO + GSO</td><td>India's own GPS — 7 satellites covering India and 1500km around</td></tr>
+<tr><td>Cartosat</td><td>SSO</td><td>High-resolution imaging for mapping, urban planning, defense</td></tr>
+<tr><td>Chandrayaan series</td><td>Lunar orbit/surface</td><td>Moon exploration — Chandrayaan-1 confirmed water ice; C-3 landed near south pole 2023</td></tr>
+<tr><td>Mangalyaan (MOM)</td><td>Mars orbit</td><td>First Indian Mars mission; first Asian nation to succeed on first attempt (2014)</td></tr>
+</table>`
+},
+
+{ id:'led', cat:'electronics', icon:'💡', title:"LED & Modern Display Technologies", sub:"From p-n junction physics to OLED and MicroLED screens",
+  body:`
+<h3>How an LED Works</h3>
+<p>An LED (Light Emitting Diode) is a p-n junction semiconductor that emits photons when <b>forward biased</b>. When voltage is applied, electrons from the n-side recombine with holes from the p-side at the junction. This recombination releases energy as a photon. The photon's energy (and thus color/wavelength) is determined by the <b>bandgap energy</b> of the semiconductor material.</p>
+<div class="formula">E_photon = hf = hc/λ  =  E_bandgap (semiconductor)
+h = Planck's constant = 6.626×10⁻³⁴ J·s
+For red LED (660nm): E = hc/λ = 1.88 eV
+For blue LED (450nm): E = hc/λ = 2.76 eV
+Forward voltage ≈ E_bandgap / electron charge (eV → V)</div>
+<table class="data-table">
+<tr><th>Color</th><th>Semiconductor</th><th>Wavelength</th><th>Forward Voltage</th><th>Applications</th></tr>
+<tr><td>Red</td><td>GaAsP / AlGaInP</td><td>620–750 nm</td><td>1.8–2.0 V</td><td>Indicators, brake lights, displays</td></tr>
+<tr><td>Green</td><td>GaP / AlGaP</td><td>520–570 nm</td><td>2.0–2.2 V</td><td>Traffic lights, indicators, backlights</td></tr>
+<tr><td>Blue</td><td>InGaN (Shuji Nakamura, Nobel 2014)</td><td>450–490 nm</td><td>2.5–3.5 V</td><td>White LED base, Blu-ray disc, displays</td></tr>
+<tr><td>White</td><td>Blue LED + yellow phosphor (YAG:Ce)</td><td>Broad spectrum</td><td>2.5–3.5 V</td><td>Room lighting, phone backlights, flashlights</td></tr>
+<tr><td>Infrared</td><td>GaAs / AlGaAs</td><td>850–940 nm</td><td>1.2–1.6 V</td><td>TV remotes, night vision cameras, fiber optic</td></tr>
+<tr><td>UV</td><td>AlGaN</td><td>200–400 nm</td><td>3.5–4.5 V</td><td>Sterilization, counterfeit detection, curing</td></tr>
+</table>
+<h3>Display Technologies</h3>
+<table class="data-table">
+<tr><th>Technology</th><th>Working Principle</th><th>Pros</th><th>Cons</th><th>Used In</th></tr>
+<tr><td><b>LCD</b></td><td>LED backlight + liquid crystals twist/block light through polarizers</td><td>Cheap, bright, no burn-in</td><td>Poor blacks, limited viewing angle, thick</td><td>Budget TVs, monitors, calculators</td></tr>
+<tr><td><b>OLED</b></td><td>Organic molecules emit light when current flows — each pixel is its own light source</td><td>True black, infinite contrast, thin</td><td>Burn-in risk, expensive, some blue lifetime issues</td><td>iPhone OLED, Samsung Galaxy, LG OLED TV</td></tr>
+<tr><td><b>AMOLED</b></td><td>OLED with Active Matrix thin-film transistors per pixel</td><td>Faster response, better colors</td><td>Same OLED cons</td><td>Samsung Galaxy flagships, Pixel phones</td></tr>
+<tr><td><b>MicroLED</b></td><td>Tiny inorganic LED per sub-pixel (no organic materials)</td><td>Ultra bright, no burn-in, 100,000h lifetime</td><td>Extremely expensive to manufacture</td><td>Apple Watch Ultra, Samsung The Wall TV</td></tr>
+<tr><td><b>E-Ink</b></td><td>Charged black/white pigment particles move up/down in electric field</td><td>Zero power when static, readable in sunlight</td><td>Slow refresh, no video</td><td>Kindle, electronic shelf labels, e-paper</td></tr>
+</table>`
+},
+
+// ════ MECHANICAL ════
+{ id:'hydraulic', cat:'mechanical', icon:'💧', title:"Hydraulic Pressure — Pascal's Law", sub:"How small forces become massive forces in hydraulic systems",
+  body:`
+<h3>Pascal's Law</h3>
+<p>Blaise Pascal (1623–1662) discovered: <b>pressure applied to any point of a confined, incompressible fluid is transmitted equally and without reduction to all other points in the fluid</b> and to the walls of the container. This is the basis of all hydraulic machinery.</p>
+<div class="formula">Pressure: P = F/A  (Force per unit Area, Pascals = N/m²)
+Pascal's Law: P₁ = P₂  (same pressure throughout fluid)
+Therefore: F₁/A₁ = F₂/A₂
+Force multiplication: F₂ = F₁ × (A₂/A₁)
+Volume conservation: d₁ × A₁ = d₂ × A₂
+(Large piston moves proportionally LESS distance)</div>
+<h3>Numerical Example</h3>
+<p>Small piston: A₁ = 1 cm² = 0.0001 m². Large piston: A₂ = 100 cm² = 0.01 m². Apply force F₁ = 100 N:</p>
+<div class="formula">P = F₁/A₁ = 100 / 0.0001 = 1,000,000 Pa = 1 MPa
+F₂ = P × A₂ = 1,000,000 × 0.01 = 10,000 N (10 kN!)
+Mechanical Advantage = F₂/F₁ = A₂/A₁ = 100×
+BUT: Small piston must move 100× farther than large piston
+(Energy conservation — no free lunch!)</div>
+<h3>Real-World Applications</h3>
+<table class="data-table">
+<tr><th>Application</th><th>Working</th><th>Force Multiplication</th></tr>
+<tr><td><b>Car Brake System</b></td><td>Foot force → brake master cylinder → fluid → brake calipers at 4 wheels simultaneously</td><td>10–20×</td></tr>
+<tr><td><b>JCB/Excavator</b></td><td>Joystick controls hydraulic valve → hydraulic cylinder extends → bucket digs or lifts</td><td>Lift 10+ tonnes</td></tr>
+<tr><td><b>Aircraft Flight Controls</b></td><td>Pilot input → hydraulic actuators → control surfaces (flaps, rudder, ailerons)</td><td>Precise large-force control</td></tr>
+<tr><td><b>Hydraulic Press</b></td><td>Electric pump → high-pressure fluid → large ram</td><td>Metal forming, forging, scrap crushing</td></tr>
+<tr><td><b>Car Power Steering</b></td><td>Engine-driven pump → hydraulic assist on steering rack</td><td>Easy turning at low speed</td></tr>
+<tr><td><b>Dump Truck</b></td><td>Hydraulic ram under truck bed tilts to unload</td><td>Lifts several tonnes of material</td></tr>
+<tr><td><b>Car Jack</b></td><td>Hand pump → lifting piston via Pascal's Law</td><td>Lift 2-tonne car with one hand</td></tr>
+<tr><td><b>Hydraulic Brakes (Bicycle)</b></td><td>Lever → master cylinder → caliper pistons clamp disc</td><td>Consistent modulated braking</td></tr>
+</table>`
+},
+
+{ id:'engine', cat:'mechanical', icon:'🔧', title:"IC Engine — RPM, BHP & Torque Explained", sub:"How car engines convert fuel into motion",
+  body:`
+<h3>The 4-Stroke Otto Cycle (Petrol Engine)</h3>
+<table class="data-table">
+<tr><th>Stroke</th><th>Piston</th><th>Valves</th><th>What Happens</th></tr>
+<tr><td><b>1. Intake</b></td><td>Moves DOWN</td><td>Inlet OPEN, Exhaust CLOSED</td><td>Air-fuel mixture (petrol + air) drawn into cylinder</td></tr>
+<tr><td><b>2. Compression</b></td><td>Moves UP</td><td>Both CLOSED</td><td>Mixture compressed ~10:1 → temperature rises to ~400°C</td></tr>
+<tr><td><b>3. Power (Combustion)</b></td><td>Pushed DOWN</td><td>Both CLOSED</td><td>Spark plug fires → explosion → ~2500°C → piston pushed down → THIS IS WHERE ALL POWER COMES FROM</td></tr>
+<tr><td><b>4. Exhaust</b></td><td>Moves UP</td><td>Exhaust OPEN</td><td>Burnt gases (CO₂, H₂O, NOx) pushed out of cylinder</td></tr>
+</table>
+<h3>Key Engine Terms</h3>
+<h4>RPM (Revolutions Per Minute)</h4>
+<p>Measures how many times the crankshaft completes a full revolution per minute. In a 4-stroke engine at 3000 RPM, each piston fires 1500 times per minute.</p>
+<h4>BHP (Brake Horsepower)</h4>
+<p>Actual power output measured at the crankshaft using a dynamometer (brake). Accounts for all friction losses inside the engine. 1 BHP = 745.7 Watts.</p>
+<h4>Torque</h4>
+<p>The rotational force — how much "twisting" power the engine produces. Determines ACCELERATION and PULLING POWER. Diesel = high torque at low RPM (trucks). Petrol = high power at high RPM (sports cars).</p>
+<div class="formula">Power (kW) = Torque (Nm) × RPM / 9549
+Power (HP) = Torque (lb-ft) × RPM / 5252
+BHP ≈ Power HP × mechanical efficiency
+1 HP = 745.7 W,  1 kW = 1.341 HP
+Engine displacement (cc) = Volume swept by all pistons per cycle</div>
+<h3>Diesel vs Petrol Comparison</h3>
+<table class="data-table">
+<tr><th>Parameter</th><th>Petrol (Spark Ignition)</th><th>Diesel (Compression Ignition)</th></tr>
+<tr><td>Ignition</td><td>Spark plug</td><td>High compression (~20:1) heats air to ignite diesel</td></tr>
+<tr><td>Compression ratio</td><td>8:1 to 12:1</td><td>14:1 to 25:1</td></tr>
+<tr><td>Fuel efficiency</td><td>~12–16 km/L</td><td>~15–22 km/L (more energy per litre)</td></tr>
+<tr><td>Torque characteristic</td><td>Lower torque, higher RPM</td><td>High torque at low RPM (1500–2500 rpm)</td></tr>
+<tr><td>Power delivery</td><td>Smooth, high-revving</td><td>Strong low-end, limited high RPM</td></tr>
+<tr><td>Main emissions</td><td>CO, unburnt HC</td><td>NOx, PM (particulates/soot)</td></tr>
+<tr><td>Applications</td><td>Cars, motorcycles, aircraft</td><td>Trucks, buses, ships, tractors, generators</td></tr>
+</table>
+<div class="note"><strong>Why does diesel have better fuel economy?</strong> Diesel has ~15% more energy per litre than petrol, AND diesel engines have higher compression ratios → more thermodynamic efficiency (Carnot efficiency improves with temperature ratio). A modern diesel car can be 30–40% more fuel-efficient than its petrol equivalent.</div>`
+},
+
+{ id:'surface_tension', cat:'mechanical', icon:'💧', title:"Surface Tension & Capillary Action", sub:"Why water forms droplets and rises in thin tubes",
+  body:`
+<h3>What is Surface Tension?</h3>
+<p>Surface tension is the elastic tendency of liquid surfaces to minimize their area. It arises because molecules at the surface have fewer neighbors to bond with (only sideways and downward, not above), creating a net <b>inward force</b> on surface molecules. This creates a "skin-like" layer at the liquid surface.</p>
+<div class="formula">γ = F/L  (surface tension = force per unit length, N/m)
+OR: γ = dW/dA  (energy per unit area, J/m²)
+Water at 20°C: γ = 0.0728 N/m  (unusually high due to H-bonds)
+Mercury at 20°C: γ = 0.487 N/m  (highest common liquid)
+Ethanol: γ = 0.022 N/m
+Soap solution: γ ≈ 0.025–0.040 N/m</div>
+<h3>Why Water Has Unusually High Surface Tension</h3>
+<p>Water molecules form <b>hydrogen bonds</b> (O–H···O). Each water molecule can form up to 4 hydrogen bonds. At the surface, fewer neighbors means more unsatisfied bonds — creating a strong inward pull. This gives water one of the highest surface tensions of any common liquid at room temperature.</p>
+<h3>Manifestations of Surface Tension</h3>
+<ul>
+<li><b>Water strider insects:</b> Their weight is supported by surface tension deforming (not breaking) the water surface. Hydrophobic legs spread the load.</li>
+<li><b>Needle floating on water:</b> A steel needle (density 7.9 g/cm³, much denser than water) placed carefully lies in a slight surface depression — supported by surface tension, not buoyancy.</li>
+<li><b>Spherical droplets:</b> Surface tension minimizes surface area → most compact shape = sphere (minimum area for given volume).</li>
+<li><b>Soap bubbles:</b> Two soap-water interfaces enclosing air. Surface tension minimizes both interfaces → spherical bubble. Soap reduces γ from 0.073 to ~0.030 N/m.</li>
+<li><b>Detergents cleaning:</b> Surfactant molecules (detergent) have hydrophilic head and hydrophobic tail. They align at water-oil interfaces, drastically reducing surface tension → water can wet surfaces and lift grease.</li>
+</ul>
+<h3>Capillary Action</h3>
+<p>In narrow tubes, adhesion (liquid-wall attraction) and surface tension can pull liquid <b>against gravity</b>. Water "wets" glass (contact angle &lt;90°), so water climbs glass capillaries. Mercury doesn't wet glass (contact angle &gt;90°), so mercury is depressed in glass capillaries.</p>
+<div class="formula">Height of capillary rise: h = 2γ cos(θ) / (ρgr)
+γ = surface tension (N/m)
+θ = contact angle between liquid and wall
+ρ = liquid density (kg/m³), g = 9.81 m/s², r = tube radius (m)
+For water in glass (θ≈0°): h = 2×0.073/(1000×9.81×r) = 14.9/r mm
+(r in mm → h in mm; tiny r = large h)</div>
+<p><b>Biological importance:</b> Capillary action helps trees transport water from roots to leaves — even 100-meter-tall redwood trees. Also how blood moves through your 8-10 billion capillaries, and how paper towels absorb water.</p>`
+},
+
+// ════ MODERN SCIENCE ════
+{ id:'atombomb', cat:'modern', icon:'☢️', title:"Atom Bomb — Nuclear Fission Physics", sub:"The physics of nuclear chain reactions and atomic weapons",
+  body:`
+<h3>Nuclear Fission — The Core Reaction</h3>
+<p>Nuclear fission is the splitting of a heavy nucleus when struck by a neutron. The total mass of products is slightly LESS than the original — this <b>mass defect</b> converts to energy via E=mc². Even tiny mass differences produce enormous energy.</p>
+<div class="formula">²³⁵₉₂U + ¹₀n  →  ⁹²₃₆Kr + ¹⁴¹₅₆Ba + 3¹₀n + ~200 MeV
+Energy per fission: ~200 MeV = 3.2 × 10⁻¹¹ J
+1 kg U-235 complete fission: ~8.2 × 10¹³ J = 82 terajoules
+≡ ~20,000 tonnes of TNT (20 kilotons)
+Mass defect: ~0.001 atomic mass unit per fission
+0.001 u = 1.66 × 10⁻³⁰ kg → E = mc² = 1.49 × 10⁻¹³ J</div>
+<h3>The Chain Reaction</h3>
+<p>Each fission releases 2–3 neutrons. These trigger more fissions → exponential growth. In 80 generations: 2⁸⁰ ≈ 10²⁴ fissions. The time between fission generations: ~10 nanoseconds. So 80 generations happen in ~800 nanoseconds = less than 1 microsecond. This is why nuclear explosions are so instantaneous and violent.</p>
+<h3>Critical Mass</h3>
+<p>For a self-sustaining chain reaction, a minimum amount of fissile material is needed. Below critical mass, too many neutrons escape without hitting nuclei. Critical mass depends on geometry, enrichment level, and use of a reflector (surrounds the material, bounces neutrons back).</p>
+<table class="data-table">
+<tr><th>Material</th><th>Bare Critical Mass</th><th>With Reflector</th><th>Notes</th></tr>
+<tr><td>Uranium-235</td><td>~52 kg</td><td>~15 kg</td><td>Requires ~90%+ enrichment (natural U is 0.7% U-235)</td></tr>
+<tr><td>Plutonium-239</td><td>~10 kg</td><td>~4 kg</td><td>Produced in nuclear reactors from U-238</td></tr>
+</table>
+<h3>The Two Bomb Designs</h3>
+<h4>Gun-Type Design (Little Boy — Hiroshima, Aug 6 1945)</h4>
+<p>One subcritical U-235 mass fired into another using a gun barrel. Simple but wasteful — only ~1.4% of 64 kg of U-235 actually fissioned. Yield: 15 kilotons. Killed ~70,000–80,000 people instantly.</p>
+<h4>Implosion Design (Fat Man — Nagasaki, Aug 9 1945)</h4>
+<p>A spherical subcritical Pu-239 core surrounded by precisely shaped conventional explosive "lenses." Synchronized detonation creates an inward shockwave that uniformly compresses the core to supercriticality. Far more efficient: 21 kiloton yield from ~6 kg Pu-239. Used in all modern nuclear weapons.</p>
+<h3>Thermonuclear (Hydrogen) Bomb</h3>
+<p>A fission bomb provides the extreme temperature (~100 million °C) and pressure needed to initiate nuclear <b>fusion</b> of deuterium (²H) and tritium (³H). Fusion releases 3–4× more energy per unit mass than fission. The Soviet <b>Tsar Bomba</b> (1961): 50 megaton yield — ~3,000× the Hiroshima bomb. The largest explosion in human history.</p>
+<h3>Nuclear Power Plants</h3>
+<p>Use a controlled fission chain reaction (k = 1, not &gt;1) to produce heat → steam → turbine → electricity. Control rods (boron, cadmium) absorb neutrons to regulate reaction rate. India operates 22 nuclear reactors (7,480 MW), with 8 more under construction.</p>`
+},
+
+{ id:'quantum', cat:'modern', icon:'⚛️', title:"Quantum Theory & Quantum Computing", sub:"The strange world of superposition, entanglement and qubits",
+  body:`
+<h3>The Five Core Principles of Quantum Mechanics</h3>
+<ol>
+<li><b>Wave-Particle Duality:</b> Light (and all matter) behaves as both a wave AND a particle depending on the experiment. In the double-slit experiment, a SINGLE electron passes through BOTH slits simultaneously (wave) and creates an interference pattern, yet lands as a definite point (particle). Observing which slit it went through destroys the interference pattern — the act of measurement changes reality.</li>
+<li><b>Heisenberg's Uncertainty Principle:</b> You CANNOT simultaneously know both position AND momentum with arbitrary precision. This is not a measurement limitation — it's a fundamental property of nature, built into the mathematics of waves.
+<div class="formula">ΔxΔp ≥ ℏ/2  (position × momentum uncertainty)
+ΔEΔt ≥ ℏ/2  (energy × time uncertainty)
+ℏ = h/(2π) = 1.055 × 10⁻³⁴ J·s (reduced Planck constant)</div></li>
+<li><b>Superposition:</b> A quantum system exists in a COMBINATION of multiple states simultaneously until measured. The wavefunction ψ encodes probabilities of each outcome. Measurement "collapses" the wavefunction to a definite state. Schrödinger's cat: simultaneously alive AND dead until the box is opened.</li>
+<li><b>Quantum Tunneling:</b> A particle can pass through an energy barrier it classically cannot cross — like a ball rolling through a hill rather than over it. Probability decreases exponentially with barrier thickness. Used in: nuclear fusion in stars (allows protons to fuse at lower temperatures than classically needed), tunnel diodes, scanning tunneling microscopes, flash memory storage.</li>
+<li><b>Quantum Entanglement:</b> Two particles can be prepared in an entangled state such that measuring one INSTANTLY determines the other's state, regardless of distance. Einstein called this "spooky action at a distance" and believed it showed QM was incomplete. Bell's theorem (1964) and Aspect's experiments (1982, Nobel Prize 2022) proved entanglement is real. Cannot be used for faster-than-light communication (no information is transmitted).</li>
+</ol>
+<h3>Quantum Computing</h3>
+<h4>Classical vs Quantum Bits</h4>
+<table class="data-table">
+<tr><th>Aspect</th><th>Classical Computer</th><th>Quantum Computer</th></tr>
+<tr><td>Basic unit</td><td>Bit: 0 OR 1</td><td>Qubit: 0 AND 1 simultaneously (superposition)</td></tr>
+<tr><td>n-bit states</td><td>2ⁿ possible states, 1 at a time</td><td>2ⁿ states ALL AT ONCE</td></tr>
+<tr><td>n=10</td><td>1 state out of 1,024</td><td>All 1,024 states simultaneously</td></tr>
+<tr><td>n=300</td><td>1 state out of 2³⁰⁰</td><td>More states than atoms in observable universe</td></tr>
+<tr><td>Error rate</td><td>Extremely low (billions of operations error-free)</td><td>High — "noisy qubits" need error correction</td></tr>
+</table>
+<h4>Key Quantum Algorithms</h4>
+<ul>
+<li><b>Shor's Algorithm:</b> Factors large numbers exponentially faster than classical computers. A 2048-bit RSA encryption key that would take classical computers billions of years → factored in hours by a large fault-tolerant quantum computer. <em>Would break most internet encryption.</em></li>
+<li><b>Grover's Algorithm:</b> Searches an unsorted N-item database in √N steps (vs N/2 classical). Quadratic speedup. Useful for optimization problems.</li>
+<li><b>Quantum Simulation:</b> Simulates molecular quantum states directly. Revolutionary for drug discovery (simulating protein folding), materials science (superconductors), and fertilizer chemistry (nitrogen fixation).</li>
+</ul>
+<h4>Current State of Quantum Computing</h4>
+<p>IBM (1000+ qubits), Google (Willow: 105 qubits, claimed 10⁵× speedup on specific task), IonQ (trapped ion qubits). All current systems are "NISQ" (Noisy Intermediate-Scale Quantum) — too noisy for practical Shor's algorithm. Fault-tolerant quantum computers: estimated 10–20 years away.</p>`
+},
+
+// ════ INDIA & GEOGRAPHY ════
+{ id:'parliament', cat:'india', icon:'🏛️', title:"Indian Parliament — Structure & Functioning", sub:"How India's world's-largest-democracy legislature works",
+  body:`
+<h3>India's Democratic Structure</h3>
+<p>India is the world's largest democracy, governed by the Constitution of India (adopted January 26, 1950 — Republic Day). The Constitution is the supreme law of the land. Central legislature: <b>Parliament (Sansad)</b>, sitting in the Parliament Building, New Delhi.</p>
+<h3>Structure of Parliament</h3>
+<table class="data-table">
+<tr><th>House</th><th>Name</th><th>Composition</th><th>Term</th><th>Represents</th></tr>
+<tr><td><b>President</b></td><td>Head of State</td><td>1, elected by Electoral College (MPs + MLAs)</td><td>5 years</td><td>Constitutional head — summons, signs bills, dissolves LS</td></tr>
+<tr><td><b>Lok Sabha</b></td><td>Lower House / House of the People</td><td>543 directly elected + 2 nominated (discontinued)</td><td>5 years (unless dissolved)</td><td>Represents the PEOPLE of India directly</td></tr>
+<tr><td><b>Rajya Sabha</b></td><td>Upper House / Council of States</td><td>245 (233 elected by state assemblies + 12 nominated by President)</td><td>Permanent body (1/3 retire every 2 years)</td><td>Represents the STATES of India</td></tr>
+</table>
+<h3>Lok Sabha — Powers and Functions</h3>
+<ul>
+<li><b>Money Bills (Article 110):</b> Can ONLY be introduced in Lok Sabha, not Rajya Sabha. Rajya Sabha can only suggest amendments (not reject) and must return within 14 days.</li>
+<li><b>Council of Ministers:</b> The government is responsible to Lok Sabha. Prime Minister must command a majority in Lok Sabha. A vote of No-Confidence removes the entire cabinet.</li>
+<li><b>Joint Sitting (Article 108):</b> In case of deadlock, a joint sitting is called. Lok Sabha's larger numbers (543 vs ~245) dominate the outcome.</li>
+<li>Largest constituency by voters: Malkajgiri, Telangana (~3.7 million voters)</li>
+</ul>
+<h3>Rajya Sabha — Unique Powers</h3>
+<ul>
+<li><b>Cannot be dissolved</b> — ensures continuity of legislation during elections</li>
+<li>VP of India is ex-officio Chairman; Deputy Chairman elected from members</li>
+<li><b>Special Resolution (Article 249):</b> Can pass a resolution enabling Parliament to legislate on State List subjects</li>
+<li><b>Article 312:</b> Can create new All India Services (like IAS, IPS)</li>
+<li>States get RS seats proportional to population: UP (31), Maharashtra (19), Tamil Nadu (18)</li>
+</ul>
+<h3>How a Bill Becomes Law</h3>
+<ol>
+<li>Bill drafted by Ministry or private member; introduced in either house</li>
+<li><b>First Reading:</b> Introduction, title read, published in Gazette</li>
+<li><b>Second Reading:</b> General discussion + Committee stage (detailed clause-by-clause examination)</li>
+<li><b>Third Reading:</b> Final vote on complete bill — passed by simple majority</li>
+<li>Sent to other house — same 3-reading process</li>
+<li>If both houses agree: sent to President</li>
+<li>President: assents (becomes Act), returns with recommendations (Parliament can override by re-passing), or (for ordinary bills only) withholds assent (pocket veto)</li>
+</ol>
+<h3>Parliamentary Sessions</h3>
+<table class="data-table">
+<tr><th>Session</th><th>Months</th><th>Key Business</th></tr>
+<tr><td>Budget Session</td><td>February – May</td><td>Annual Union Budget (February 1), Finance Bill, Appropriation Bill</td></tr>
+<tr><td>Monsoon Session</td><td>July – August</td><td>General legislative business, question hour, private member bills</td></tr>
+<tr><td>Winter Session</td><td>November – December</td><td>Legislative business, urgent matters, discussions</td></tr>
+</table>`
+},
+
+{ id:'himalaya', cat:'india', icon:'⛰️', title:"Himalayan Formation — Plate Tectonics", sub:"How the world's highest mountains were created by colliding continents",
+  body:`
+<h3>The Indian Plate's Epic Journey</h3>
+<p>About 180 million years ago, the supercontinent Pangaea broke apart. The Indian subcontinent was part of Gondwana (southern supercontinent). Over millions of years, the Indian tectonic plate drifted northward at geologically fast speeds (~15–20 cm/year during peak drift). The Tethys Sea separated India from Asia for over 100 million years.</p>
+<h3>The Collision</h3>
+<p>About 50–55 million years ago, the Indian Plate collided with the Eurasian Plate. Unlike oceanic-continental collisions (where the denser oceanic plate subducts), BOTH Indian and Eurasian plates were continental — too buoyant to subduct deeply. Instead, the crust <b>crumpled upward and thickened</b>, creating the Himalayas through continental collision orogeny. The collision has not stopped — it continues today.</p>
+<h3>Why Marine Fossils Exist at High Altitude</h3>
+<p>The Tethys Sea floor sediments (with marine fossils of ammonites, sea shells, coral) were pushed up to form the Himalayas. Marine fossils have been found at over 5,000 meters altitude in the Himalayas — direct evidence of tectonic collision. The same fossils that prove evolution also prove plate tectonics.</p>
+<h3>Key Himalayan Facts</h3>
+<table class="data-table">
+<tr><th>Fact</th><th>Detail</th><th>Note</th></tr>
+<tr><td>Collision began</td><td>~50–55 million years ago</td><td>India was moving at 15–20 cm/year before collision</td></tr>
+<tr><td>Current convergence rate</td><td>~5 cm/year</td><td>India still moving north</td></tr>
+<tr><td>Still rising</td><td>~5 mm/year</td><td>Faster than erosion → net height gain</td></tr>
+<tr><td>Mt. Everest</td><td>8,848.86 m (2020 China-Nepal survey)</td><td>World's highest peak; Nepalese name: Sagarmatha; Tibetan: Chomolungma</td></tr>
+<tr><td>K2</td><td>8,611 m</td><td>World's 2nd highest, in Karakoram Range</td></tr>
+<tr><td>Himalayan length</td><td>~2,400 km</td><td>Kashmir to Arunachal Pradesh</td></tr>
+<tr><td>Average elevation</td><td>~6,000 m</td><td>Highest mountain range on Earth</td></tr>
+<tr><td>Number of peaks &gt;8000m</td><td>10 of world's 14</td><td>All "Eight-thousanders" in Himalaya/Karakoram</td></tr>
+<tr><td>Rivers originating</td><td>Ganges, Indus, Brahmaputra, Yangtze</td><td>Provide water to ~3 billion people</td></tr>
+</table>
+<h3>Himalayan Effect on Indian Climate — The Monsoon</h3>
+<ul>
+<li><b>Block cold Central Asian winds:</b> Himalayas prevent freezing Siberian winds from entering India → India stays warm in winter</li>
+<li><b>Monsoon mechanism:</b> Southwest monsoon winds carrying moisture from Indian Ocean hit the Himalayas → forced upward → cool → condense → heavy rainfall on southern slopes (India receives ~80% of rainfall in June–September)</li>
+<li><b>Rain shadow:</b> Tibet and Gobi Desert are dry because Himalayas block moisture from reaching them</li>
+<li><b>Seismic activity:</b> Ongoing tectonic collision creates frequent earthquakes in the Himalayan region (Nepal, Uttarakhand, Kashmir)</li>
+</ul>`
+},
+
+{ id:'panama', cat:'india', icon:'🚢', title:"Panama Canal — Engineering Marvel", sub:"How ships cross between Atlantic and Pacific through Central America",
+  body:`
+<h3>Why the Panama Canal Was Built</h3>
+<p>Before the canal, ships traveling from New York to San Francisco had to sail around <b>Cape Horn</b> (southern tip of South America) — a journey of ~22,000 km taking 67 days, through dangerous stormy seas. The Panama Canal cut this to ~9,500 km and 8–9 days, saving ~12,500 km per voyage. It is one of history's most impactful engineering projects.</p>
+<h3>The Canal Route</h3>
+<p>The canal is 82 km long, connecting the Caribbean Sea (Atlantic side) to the Gulf of Panama (Pacific side). Counterintuitively, the Pacific entrance is actually ~43 km east of the Caribbean entrance — due to Panama's S-shape. The highest point is Gatun Lake at 26 meters above sea level.</p>
+<h3>The Lock System — How Ships Are Raised and Lowered</h3>
+<p>The canal uses a series of water-filled chambers (locks) to raise ships 26 meters to Gatun Lake level and lower them back. No pumps are needed — water flows entirely by gravity from the higher lake into the locks. Gatun Lake (the world's largest man-made lake when built) is kept full by tropical rainfall.</p>
+<ol>
+<li>Ship enters first lock chamber; gates (massive steel miter gates) close behind</li>
+<li>Water released from adjacent higher level — flows in by gravity, raising ship</li>
+<li>When water levels equalize with next chamber, forward gates open, ship moves</li>
+<li>Three locks on each side = raised/lowered 26 meters total</li>
+<li>Ship transits 33km Gatun Lake at 26m elevation</li>
+<li>Lowered back to sea level on Pacific side via Miraflores and Pedro Miguel locks</li>
+</ol>
+<div class="note"><strong>Water Usage:</strong> Each ship passage uses ~197 million liters of fresh water (all flows out to sea). The 2016 expansion added water-saving basins that recycle 60% of lock water.</div>
+<h3>Key Canal Facts</h3>
+<table class="data-table">
+<tr><th>Fact</th><th>Data</th><th>Note</th></tr>
+<tr><td>Construction started</td><td>1881 (France), 1904 (USA)</td><td>French attempt failed — yellow fever/malaria killed 22,000 workers</td></tr>
+<tr><td>Opened</td><td>August 15, 1914</td><td>First ship: SS Ancon (US Army Corps)</td></tr>
+<tr><td>Expanded (Neo-Panamax)</td><td>2016</td><td>New wider locks: 427m × 55m (original: 305m × 33.5m)</td></tr>
+<tr><td>Canal length</td><td>82 km</td><td>Ships transit in 8–10 hours</td></tr>
+<tr><td>Minimum depth</td><td>26.5 m</td><td>Accommodates deep-draft container ships</td></tr>
+<tr><td>Ships per year</td><td>~14,000</td><td>~40 ships per day average</td></tr>
+<tr><td>Toll per transit</td><td>$200,000–$500,000</td><td>Largest ships pay most</td></tr>
+<tr><td>Revenue</td><td>~$3–4 billion/year</td><td>Panama's largest income source (~6% of GDP)</td></tr>
+<tr><td>Ownership</td><td>Panama (since December 31, 1999)</td><td>Previously controlled by USA (1904–1979 treaty, managed until 1999)</td></tr>
+<tr><td>World trade share</td><td>~5% of global maritime trade</td><td>~$270 billion of goods per year</td></tr>
+</table>`
+},
+
+{ id:'mobius', cat:'india', icon:'♾️', title:"Möbius Strip & Klein Bottle — Topology", sub:"Mathematical surfaces with impossible properties",
+  body:`
+<h3>What is Topology?</h3>
+<p>Topology is the branch of mathematics that studies properties of geometric objects preserved under <b>continuous deformations</b> — stretching, bending, twisting — but NOT tearing or gluing. In topology, a donut (torus) and a coffee mug are the SAME object (homeomorphic) because you can deform one into the other without tearing — both have exactly one "hole."</p>
+<h3>The Möbius Strip</h3>
+<p>Created by August Ferdinand Möbius (1858). Take a rectangular strip of paper, give it a <b>single half-twist (180°)</b>, and connect the ends. Result: a surface with only <b>ONE SIDE and ONE EDGE.</b></p>
+<h4>Properties</h4>
+<ul>
+<li><b>ONE SIDE:</b> An ant walking along the center line will traverse BOTH "apparent" sides and return to its starting point without ever crossing an edge. Try tracing along a Möbius strip — you end up where you started having covered the entire surface!</li>
+<li><b>ONE EDGE:</b> The boundary consists of a single continuous closed curve, not two separate edges.</li>
+<li><b>Non-orientable:</b> Cannot consistently define "clockwise" throughout the surface. A clock traveling around the strip comes back as a mirror image.</li>
+<li><b>Cut down the middle:</b> Instead of two separate rings, you get ONE longer ring with TWO full twists.</li>
+<li><b>Cut 1/3 from edge:</b> Creates TWO linked loops — one Möbius strip (width 1/3) and one longer double-twisted loop (width 2/3).</li>
+</ul>
+<h4>Real Applications</h4>
+<ul>
+<li><b>Conveyor belts:</b> A half-twisted belt wears both "sides" equally, doubling its service life. B.F. Goodrich patented Möbius conveyor belts.</li>
+<li><b>Recording tape:</b> Twisted loop uses both sides of magnetic tape before requiring replacement.</li>
+<li><b>Electronic resistors:</b> Möbius strip resistors cancel out their own inductance — useful in precision measurement equipment.</li>
+</ul>
+<h3>Klein Bottle</h3>
+<p>The 3D equivalent of a Möbius strip. A <b>closed surface with NO inside or outside, NO boundary, and NO volume</b>. Named after Felix Klein (1882). In 3D space, it MUST self-intersect (the tube passes through itself). It can only be properly embedded without self-intersection in <b>4-dimensional space</b>.</p>
+<p>A Klein bottle can be constructed by gluing two Möbius strips along their single boundary edges. A Klein bottle immersed in 3D is a useful visualization, but mathematically it "really" exists only in 4D.</p>
+<h3>Euler Characteristic and Topology</h3>
+<div class="formula">Euler characteristic: χ = V - E + F
+(Vertices - Edges + Faces)
+Sphere: χ = 2  (a ball has no holes)
+Torus (donut): χ = 0  (one hole)
+Möbius strip: χ = 0  (one boundary component)
+Klein bottle: χ = 0  (closed non-orientable surface)
+These are topological invariants — unchanged by any continuous deformation</div>
+<p><b>The Classification Theorem:</b> Every closed compact 2-manifold is either a connected sum of tori (orientable: sphere, torus, double torus...) or connected sum of projective planes (non-orientable: Klein bottle, projective plane...). Topology has completely classified all possible 2D surfaces.</p>`
+},
+
+// ════ MEDICAL & VEDIC ════
+{ id:'mri', cat:'medical', icon:'🏥', title:"MRI Machine — Medical Imaging", sub:"How magnetic fields and radio waves create 3D images of your body",
+  body:`
+<h3>What is MRI?</h3>
+<p>Magnetic Resonance Imaging (MRI) uses powerful magnetic fields and radio waves — <b>NO X-rays, NO ionizing radiation</b> — to create detailed 3D images of organs and soft tissues inside the body. Based on Nuclear Magnetic Resonance (NMR), discovered by Felix Bloch and Edward Purcell (Nobel Prize 1952).</p>
+<h3>Step-by-Step: How MRI Works</h3>
+<ol>
+<li><b>ALIGNMENT:</b> Patient placed inside superconducting magnet (1.5–7 Tesla — 30,000–140,000× Earth's field). Hydrogen protons (¹H nuclei — abundant in water and fat in all body tissue) align parallel or antiparallel to the field, like tiny compass needles. A slight excess aligns parallel → net magnetization.</li>
+<li><b>EXCITATION:</b> Short pulses of radiofrequency (RF) energy at the hydrogen Larmor frequency (63.9 MHz at 1.5T) are transmitted into the patient. Protons absorb this energy and are knocked out of alignment → they precess (wobble like spinning tops) at this exact frequency.</li>
+<li><b>RELAXATION:</b> When RF pulse stops, protons gradually return to alignment (relax), emitting RF signals. Different tissues relax at different rates characterized by T1 (longitudinal) and T2 (transverse) time constants. Fat: short T1 (bright on T1 images). Water: long T1, long T2 (bright on T2 images). Pathology (tumors, edema) often has different T1/T2 than surrounding normal tissue.</li>
+<li><b>SPATIAL ENCODING:</b> Gradient coils create three sets of spatially varying magnetic fields (Gx, Gy, Gz). These cause protons in different locations to precess at slightly different frequencies → their emitted RF signals encode position as frequency and phase.</li>
+<li><b>RECONSTRUCTION:</b> Computer collects thousands of RF signals from different gradient combinations (k-space). A <b>Fourier Transform</b> converts the frequency/phase information into a 3D image with extraordinary tissue contrast.</li>
+</ol>
+<div class="formula">Larmor frequency: f₀ = γB₀/(2π)
+γ (gyromagnetic ratio ¹H) = 2.675 × 10⁸ rad/s/T
+At 1.5 T: f₀ = 63.9 MHz  (radio frequency band!)
+At 3.0 T: f₀ = 127.7 MHz
+At 7.0 T: f₀ = 297.9 MHz</div>
+<h3>MRI vs Other Medical Imaging</h3>
+<table class="data-table">
+<tr><th>Modality</th><th>Technology</th><th>Radiation</th><th>Best For</th><th>Limitations</th></tr>
+<tr><td><b>X-Ray</b></td><td>X-ray photons (ionizing)</td><td>Low dose</td><td>Bones, fractures, chest</td><td>Poor soft tissue contrast, radiation</td></tr>
+<tr><td><b>CT Scan</b></td><td>Rotating X-ray + computer (ionizing)</td><td>Moderate</td><td>Bones, internal bleeding, chest, abdomen</td><td>High radiation, poor soft tissue vs MRI</td></tr>
+<tr><td><b>Ultrasound</b></td><td>Sound waves (non-ionizing)</td><td>None</td><td>Fetus, heart, blood vessels</td><td>Poor for bone/air, operator-dependent</td></tr>
+<tr><td><b>MRI</b></td><td>RF + magnetic field (non-ionizing)</td><td>None</td><td>Brain, spinal cord, joints, cancer</td><td>Expensive, slow (30–60 min), no metal implants</td></tr>
+<tr><td><b>PET Scan</b></td><td>Positron-emitting tracers (ionizing)</td><td>Moderate</td><td>Metabolic activity — cancer staging, brain function</td><td>Radiation, expensive, need cyclotron for tracers</td></tr>
+<tr><td><b>fMRI</b></td><td>MRI detecting blood oxygenation (BOLD signal)</td><td>None</td><td>Brain activity mapping in real-time</td><td>Indirect measure of neural activity</td></tr>
+</table>
+<h3>Types of MRI Scans</h3>
+<ul>
+<li><b>Brain MRI:</b> Detects tumors, stroke, MS plaques, Alzheimer's changes, trauma</li>
+<li><b>Cardiac MRI:</b> Heart structure and function — more detailed than echocardiogram</li>
+<li><b>Spine MRI:</b> Disc herniation, spinal cord compression, metastases</li>
+<li><b>Knee/Joint MRI:</b> Ligament tears (ACL), meniscus damage, cartilage loss</li>
+<li><b>MR Angiography:</b> Blood vessel imaging without contrast dye in many cases</li>
+<li><b>Diffusion MRI:</b> Maps water molecule movement — traces nerve fiber pathways in brain (tractography)</li>
+</ul>`
+},
+
+{ id:'neuro', cat:'medical', icon:'🧠', title:"Neuroscience — The Brain & Nervous System", sub:"How your brain processes information, controls your body, and creates consciousness",
+  body:`
+<h3>The Scale of the Brain</h3>
+<ul>
+<li>~86 billion neurons (nerve cells)</li>
+<li>~86 billion glial cells (support, protection, nutrition)</li>
+<li>~10¹⁴ (100 trillion) synaptic connections — more than there are stars in 1000 Milky Way galaxies</li>
+<li>Total wiring length of all axons: ~150,000 km (4× around Earth)</li>
+<li>Brain weight: ~1.4 kg (~2% of body weight)</li>
+<li>Energy consumption: ~20 W (~20% of body's energy despite being 2% of weight)</li>
+</ul>
+<h3>Anatomy of a Neuron</h3>
+<ul>
+<li><b>Dendrites:</b> Branching input receivers — collect signals from other neurons</li>
+<li><b>Cell Body (Soma):</b> Integrates incoming signals; contains nucleus and organelles</li>
+<li><b>Axon:</b> Long output fiber — carries signal to next neuron (up to 1 meter for motor neurons to toes)</li>
+<li><b>Myelin Sheath:</b> Fat insulation from Schwann cells (PNS) or oligodendrocytes (CNS). Increases conduction speed from 0.5 m/s to 120 m/s. Loss of myelin = Multiple Sclerosis.</li>
+<li><b>Axon Terminals:</b> Release neurotransmitters into the synapse</li>
+</ul>
+<div class="formula">Resting membrane potential: ~−70 mV (inside negative)
+Action potential threshold: ~−55 mV
+Peak action potential: ~+40 mV
+Duration: ~1–2 ms
+Refractory period: ~1–4 ms (limits max firing rate to ~250–1000 Hz)
+Signal propagation: 0.5 m/s (unmyelinated) to 120 m/s (myelinated)</div>
+<h3>The Brain's Major Regions</h3>
+<table class="data-table">
+<tr><th>Region</th><th>Key Functions</th><th>Damage Effects</th></tr>
+<tr><td><b>Frontal Lobe</b></td><td>Planning, decision-making, personality, impulse control, voluntary movement (motor cortex), speech production (Broca's area)</td><td>Personality change, poor judgment, Parkinson's disease (motor cortex)</td></tr>
+<tr><td><b>Parietal Lobe</b></td><td>Somatosensory processing (touch, pain, temperature, proprioception), spatial awareness, reading</td><td>Loss of sensation, spatial disorientation, neglect syndrome (ignoring one side of body)</td></tr>
+<tr><td><b>Temporal Lobe</b></td><td>Hearing (auditory cortex), language comprehension (Wernicke's area), long-term memory (hippocampus), face recognition</td><td>Hearing difficulty, amnesia (hippocampus damage → no new memories), language comprehension problems</td></tr>
+<tr><td><b>Occipital Lobe</b></td><td>All visual processing — shape, color, motion, object recognition</td><td>Visual deficits/blindness even if eyes are functioning perfectly</td></tr>
+<tr><td><b>Cerebellum</b></td><td>Motor coordination, balance, timing, fine motor skills, procedural learning</td><td>Ataxia (uncoordinated, jerky movement), balance problems, difficulty with timing tasks</td></tr>
+<tr><td><b>Brainstem</b></td><td>Vital functions: breathing, heart rate, blood pressure, sleep/wake cycle, swallowing, eye movements</td><td>Can be fatal — brainstem stroke is a medical emergency</td></tr>
+<tr><td><b>Hippocampus</b></td><td>Forming new long-term memories, spatial navigation (mental map of environment)</td><td>Anterograde amnesia (can't form new memories — the "50 First Dates" condition). Severely damaged in Alzheimer's.</td></tr>
+<tr><td><b>Amygdala</b></td><td>Fear responses, emotional memory, detecting threats, social behavior</td><td>Inability to feel fear; poor threat detection; emotional dysregulation</td></tr>
+<tr><td><b>Prefrontal Cortex</b></td><td>Executive function, abstract thinking, working memory, moral reasoning, social behavior</td><td>Personality changes; last brain region to fully develop (~age 25)</td></tr>
+</table>
+<h3>Key Neurotransmitters</h3>
+<table class="data-table">
+<tr><th>Neurotransmitter</th><th>Function</th><th>Clinical Relevance</th></tr>
+<tr><td><b>Dopamine</b></td><td>Reward, motivation, movement, attention, learning</td><td>Deficit → Parkinson's disease, depression; Excess → schizophrenia; Targeted by cocaine, methamphetamine</td></tr>
+<tr><td><b>Serotonin</b></td><td>Mood regulation, sleep, appetite, social behavior, pain modulation</td><td>Deficit → depression, anxiety; SSRI antidepressants (Prozac, Zoloft) increase serotonin availability</td></tr>
+<tr><td><b>Acetylcholine</b></td><td>Muscle contraction, memory formation, attention, REM sleep</td><td>Deficit → Alzheimer's disease, myasthenia gravis; Nerve agents/organophosphates block acetylcholinesterase</td></tr>
+<tr><td><b>Norepinephrine</b></td><td>Alertness, attention, fight-or-flight response, focus</td><td>Beta-blockers block NE receptors → lower blood pressure, reduce anxiety; Deficit → ADHD, depression</td></tr>
+<tr><td><b>GABA</b></td><td>Main inhibitory neurotransmitter — calms neural activity, prevents overexcitation</td><td>Deficit → anxiety, seizures, insomnia; Benzodiazepines (Valium, Xanax) enhance GABA → calm/sedation</td></tr>
+<tr><td><b>Glutamate</b></td><td>Main excitatory neurotransmitter — activates neurons, essential for learning and memory (LTP)</td><td>Excess → excitotoxicity (neurons die from over-activation — occurs in stroke, traumatic brain injury)</td></tr>
+<tr><td><b>Endorphins</b></td><td>Natural pain relief, euphoria ("runner's high"), stress response</td><td>Opioid drugs (morphine, heroin) mimic endorphins at μ-opioid receptors; basis of opioid addiction</td></tr>
+</table>`
+},
+
+{ id:'vedic', cat:'medical', icon:'📜', title:"Ancient Indian Science & Vedic Technology", sub:"India's contributions to mathematics, astronomy, medicine and more",
+  body:`
+<h3>India's Scientific Heritage</h3>
+<p>India has one of the world's oldest and most sophisticated scientific traditions — spanning mathematics, astronomy, medicine, metallurgy, and linguistics. Many concepts considered "modern" were discovered or conceptualized in India centuries or millennia earlier.</p>
+<h3>Mathematics</h3>
+<table class="data-table">
+<tr><th>Concept</th><th>Mathematician/Scholar</th><th>Source</th><th>Significance</th></tr>
+<tr><td>Zero as a Number</td><td>Brahmagupta (7th century CE)</td><td>Brahmasphutasiddhanta (628 CE)</td><td>First to define zero with arithmetic rules: a + 0 = a, a × 0 = 0</td></tr>
+<tr><td>Decimal Number System</td><td>Aryabhata, Brahmagupta (5th–7th century)</td><td>Aryabhatiya</td><td>Positional decimal notation — adopted by the world via Arab mathematicians (hence "Arabic numerals")</td></tr>
+<tr><td>Pythagorean Theorem</td><td>Baudhayana (~800 BCE)</td><td>Baudhayana Sulba Sutra</td><td>"The diagonal of a rectangle produces both areas" — stated 300 years before Pythagoras (570 BCE)</td></tr>
+<tr><td>Value of π</td><td>Aryabhata (499 CE)</td><td>Aryabhatiya</td><td>π ≈ 3.1416 (accurate to 4 decimal places) — among world's most accurate for that era</td></tr>
+<tr><td>Trigonometry (Sine)</td><td>Aryabhata (499 CE)</td><td>Aryabhatiya</td><td>Defined jya (sine), kojya (cosine) — the world's first trigonometric functions</td></tr>
+<tr><td>Negative Numbers</td><td>Brahmagupta (7th century)</td><td>Brahmasphutasiddhanta</td><td>Arithmetic rules for negative numbers; debt = negative assets</td></tr>
+<tr><td>Binary Numbers</td><td>Pingala (~200 BCE)</td><td>Chandahshastra (prosody)</td><td>Binary representation in Sanskrit poetry meter analysis — 2300 years before Leibniz (1703)</td></tr>
+<tr><td>Fibonacci Sequence</td><td>Virahanka (~600 CE), Hemachandra (~1150 CE)</td><td>Sanskrit prosody texts</td><td>Described in poetry meter analysis 400+ years before Fibonacci (1202)</td></tr>
+<tr><td>Calculus concepts</td><td>Kerala School (14th–16th century)</td><td>Nilakantha, Madhava</td><td>Infinite series for π, sine, cosine — 200 years before Newton and Leibniz</td></tr>
+</table>
+<h3>Astronomy</h3>
+<table class="data-table">
+<tr><th>Discovery</th><th>Scholar</th><th>Content</th><th>Comparison</th></tr>
+<tr><td>Earth rotates on its axis</td><td>Aryabhata (499 CE)</td><td>"The Earth rotates — not the stars"</td><td>~1000 years before Copernicus's heliocentric model (1543)</td></tr>
+<tr><td>Age of Earth/Universe</td><td>Puranic texts</td><td>Kalpa = 4.32 billion years</td><td>Remarkably close to modern estimates (Earth: 4.54B years)</td></tr>
+<tr><td>Solar year duration</td><td>Aryabhata</td><td>365.358 days</td><td>Accurate to within ~3 minutes of modern value (365.2564 days)</td></tr>
+<tr><td>Eclipse explanation</td><td>Aryabhata</td><td>Shadow of Earth/Moon — not demons</td><td>Scientific explanation in 499 CE, centuries before European science</td></tr>
+<tr><td>Gravitational concept</td><td>Brahmagupta (7th century)</td><td>"Objects fall to Earth due to attraction to Earth"</td><td>~1000 years before Newton's Principia (1687)</td></tr>
+</table>
+<h3>Medicine — Ayurveda, Sushruta & Charaka</h3>
+<ul>
+<li><b>Sushruta Samhita (~600 BCE):</b> Describes 300+ surgical procedures, 120+ surgical instruments, 1120 diseases. Sushruta performed rhinoplasty (nose reconstruction), cataract surgery, ear reconstruction, abdominal surgeries — forming the basis of modern plastic surgery.</li>
+<li><b>Charaka Samhita (~400–200 BCE):</b> 8 branches of medicine, ~2,000 medicinal plants, immune system concept ("vyaadhikshamatva" — resistance to disease).</li>
+<li><b>Sushruta's instruments:</b> Forceps (sandamshas), scalpels (mandalagra), scissors, bone saws — many equivalent to modern surgical tools</li>
+</ul>
+<h3>Vedic Mathematics — 16 Sutras</h3>
+<p>Systematized by Bharati Krishna Tirthaji (1884–1960) from Vedic texts, these mental arithmetic techniques are taught in schools for speed calculations:</p>
+<ul>
+<li><b>Nikhilam:</b> Multiplication using complements of base numbers. Example: 97 × 98 = (97-2)(97×(-2)+(-3)×(-2)+100) → easier: 100-3, 100-2 → 97×98 = (97-2)(98)+(2×2)=9506. Fast!</li>
+<li><b>Ekadhikena:</b> "By one more than the previous." Squaring numbers ending in 5: 65² = (6×7) | 25 = 4225. Always works!</li>
+<li><b>Vertically and Crosswise:</b> General multiplication algorithm — works for any two numbers</li>
+<li><b>Transpose and Apply:</b> For solving linear and quadratic equations mentally</li>
+</ul>
+<div class="note"><strong>India's Iron Pillar:</strong> The 7-meter-tall iron pillar in Delhi's Qutb Minar complex (cast ~400 CE) has barely rusted in 1,600 years. Modern analysis shows it contains high phosphorus (0.1–0.25%) and unusual microstructure creating a protective passivation layer — an ancient metallurgical achievement that scientists only recently understood.</div>`
+},
+];
+
+// ════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════
+let currentCat = null;
+let allExpanded = false;
+
+function buildNav() {
+  const nav = document.getElementById('sideNav');
+  let html = '<div class="section-label">Sections</div>';
+  CATS.forEach(cat => {
+    const count = TOPICS.filter(t => t.cat === cat.id).length;
+    html += `<a class="nav-item" href="#" onclick="showCat('${cat.id}');return false;" id="nav-${cat.id}">
+      <span class="ni-icon">${cat.emoji}</span>
+      <span>${cat.label}</span>
+      <span class="ni-count">${count}</span>
+    </a>`;
+  });
+  nav.innerHTML = html;
+}
+
+function showCat(catId) {
+  currentCat = catId;
+  const cat = CATS.find(c => c.id === catId);
+  const topics = TOPICS.filter(t => t.cat === catId);
+
+  // Update active nav
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById(`nav-${catId}`);
+  if (navEl) navEl.classList.add('active');
+
+  // Update topbar
+  document.getElementById('topbarTitle').textContent = cat.emoji + '  ' + cat.label;
+  document.getElementById('topbarSub').textContent = `${topics.length} topics in this section`;
+  document.getElementById('topicCount').textContent = topics.length + ' topics';
+
+  // Render
+  const area = document.getElementById('contentArea');
+  let html = `<div class="cat-banner" style="background:linear-gradient(135deg, ${cat.color}22, ${cat.bg});">
+    <h2>${cat.emoji}  ${cat.label}</h2>
+    <p>${topics.length} in-depth topics — click any card to expand</p>
+  </div>`;
+  topics.forEach((t, i) => {
+    html += renderCard(t, cat.color, i);
+  });
+  area.innerHTML = html;
+
+  document.getElementById('mainScroll').scrollTo({ top: 0, behavior: 'smooth' });
+  allExpanded = false;
+}
+
+function renderCard(t, color, i) {
+  return `<div class="topic-card" id="card-${t.id}">
+    <div class="card-header" onclick="toggleCard('${t.id}')">
+      <div class="card-icon" style="background:${color}22;font-size:1.3rem">${t.icon}</div>
+      <div class="card-meta">
+        <div class="card-title">${t.title}</div>
+        <div class="card-sub" style="color:${color}">${t.sub}</div>
+      </div>
+      <button class="toggle-btn" id="btn-${t.id}">▼</button>
+    </div>
+    <div class="card-body" id="body-${t.id}">${t.body}</div>
+  </div>`;
+}
+
+function toggleCard(id) {
+  const body = document.getElementById(`body-${id}`);
+  const btn = document.getElementById(`btn-${id}`);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.textContent = isOpen ? '▼' : '▲';
+  btn.style.color = isOpen ? '' : 'var(--accent)';
+}
+
+function toggleAll() {
+  allExpanded = !allExpanded;
+  const btn = document.querySelector('.expand-btn');
+  document.querySelectorAll('.card-body').forEach(b => b.classList.toggle('open', allExpanded));
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    b.textContent = allExpanded ? '▲' : '▼';
+    b.style.color = allExpanded ? 'var(--accent)' : '';
+  });
+  btn.textContent = allExpanded ? 'Collapse All' : 'Expand All';
+}
+
+function filterSide(q) {
+  const query = q.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(el => {
+    const text = el.textContent.toLowerCase();
+    el.style.display = text.includes(query) ? '' : 'none';
+  });
+}
+
+// Progress bar
+document.getElementById('mainScroll').addEventListener('scroll', () => {
+  const el = document.getElementById('mainScroll');
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// Init
+buildNav();
+
+// Show welcome screen with all categories
+const area = document.getElementById('contentArea');
+area.innerHTML = `
+  <div style="margin-bottom:2rem;">
+    <h2 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.5rem;">Master Science Learning Guide</h2>
+    <p style="color:var(--muted2);font-size:0.9rem;">Comprehensive in-depth explanations across 8 disciplines · 30+ topics · Formulas · Tables · Applications</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+    ${CATS.map(cat => {
+      const count = TOPICS.filter(t => t.cat === cat.id).length;
+      return `<div onclick="showCat('${cat.id}')" style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;cursor:pointer;transition:all 0.2s;border-left:3px solid ${cat.color};" onmouseover="this.style.borderColor='${cat.color}';this.style.background='var(--surface)';" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--border');this.style.borderLeftColor='${cat.color}';this.style.background='var(--surface2)';">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">${cat.emoji}</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.3rem;">${cat.label}</div>
+        <div style="font-size:0.78rem;color:var(--muted2);">${count} topics covered in depth</div>
+        <div style="margin-top:0.8rem;font-size:0.73rem;color:${cat.color};">Explore →</div>
+      </div>`;
+    }).join('')}
+  </div>
+`;
+document.getElementById('topicCount').textContent = TOPICS.length + ' total topics';
+</script>
+</body>
+</html>
