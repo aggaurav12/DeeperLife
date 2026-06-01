@@ -50,7 +50,7 @@ async function uploadImageToStorage(file, folder) {
   if (!file) return "";
   const filename = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
   const storageRef = ref(storage, folder + "/" + filename);
-  showNotification("⏳ Uploading image...");
+  //showNotification("⏳ Uploading image...");
   try {
     const snapshot = await uploadBytes(storageRef, file);
     const url = await getDownloadURL(snapshot.ref);
