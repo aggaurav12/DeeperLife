@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store - Peak Living</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html">Blog</a></li><li><a href="podcast.html">Podcast</a></li>
+    <li><a href="music.html">Music</a></li><li><a href="store.html" class="active">Store</a></li>
+    <li><a href="gauri.html">About</a></li><li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
+  </ul></nav>
+  <div class="hamburger" onclick="document.getElementById('main-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</header>
+
+<section class="music-hero">
+  <span class="section-label">Books, Courses & Resources</span>
+  <h1>Peak Living Store</h1>
+  <p>Curated books, online courses, and wellness resources by Dr. Gauri Mittal to support your transformation.</p>
+</section>
+
+<section class="store-section">
+  <div class="store-inner">
+    <span class="section-label">Published Books</span>
+    <h2 class="section-title" style="margin-bottom:0.5rem;">Books by Dr. Gauri</h2>
+    <p class="section-subtitle" style="margin-bottom:3rem;">Fiction and non-fiction exploring themes of healing, purpose, and transformation.</p>
+
+    <div class="store-grid">
+      <div class="store-card">
+        <div class="store-card-img-box">📖</div>
+        <div class="store-card-body">
+          <div class="store-category">Fiction Novel</div>
+          <h4>Finding Peace Through Purpose</h4>
+          <p>A novel about rebuilding a life and finding peace and happiness through purposeful action. Recognized in the Amazon Pen to Publish Contest.</p>
+          <div><span class="store-price">Available on Amazon</span></div>
+        </div>
+        <div class="store-card-footer">
+          <a href="https://www.amazon.in/dp/B07NDCT5BH/" target="_blank" class="btn btn-primary" style="flex:1; justify-content:center; font-size:14px; padding:10px;">Buy on Amazon →</a>
+        </div>
+      </div>
+      <div class="store-card">
+        <div class="store-card-img-box">✍️</div>
+        <div class="store-card-body">
+          <div class="store-category">Upcoming Book</div>
+          <h4>The Peak Living Handbook</h4>
+          <p>A practical guide to integrating modern lifestyle medicine with ancient wisdom practices for lasting wellness.</p>
+          <div><span class="store-price">Coming Soon</span></div>
+        </div>
+        <div class="store-card-footer">
+          <button onclick="notifyMe(this)" class="btn btn-outline" style="flex:1; justify-content:center; font-size:14px; padding:10px;">Notify Me When Available</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 4rem;">
+      <span class="section-label">Online Courses</span>
+      <h2 class="section-title" style="margin-bottom:0.5rem;">Digital Programs</h2>
+      <p class="section-subtitle" style="margin-bottom:3rem;">Structured online courses to guide your wellness journey from anywhere in the world.</p>
+      <div class="store-grid">
+        <div class="store-card">
+          <div class="store-card-img-box">🎓</div>
+          <div class="store-card-body">
+            <div class="store-category">4-Week Course</div>
+            <h4>Peak Living Foundation Program</h4>
+            <p>Build lasting wellness habits rooted in science. Covers stress, sleep, nutrition, movement and mindset.</p>
+            <div><span class="store-price">Coming Soon</span></div>
+          </div>
+          <div class="store-card-footer">
+            <button onclick="notifyMe(this)" class="btn btn-outline" style="flex:1; justify-content:center; font-size:14px; padding:10px;">Notify Me</button>
+          </div>
+        </div>
+        <div class="store-card">
+          <div class="store-card-img-box">🧘</div>
+          <div class="store-card-body">
+            <div class="store-category">Mini Course</div>
+            <h4>Mind-Body Medicine Starter</h4>
+            <p>A 7-day introduction to the science of mind-body connection and practical techniques you can use immediately.</p>
+            <div><span class="store-price">Coming Soon</span></div>
+          </div>
+          <div class="store-card-footer">
+            <button onclick="notifyMe(this)" class="btn btn-outline" style="flex:1; justify-content:center; font-size:14px; padding:10px;">Notify Me</button>
+          </div>
+        </div>
+        <div class="store-card">
+          <div class="store-card-img-box">🌿</div>
+          <div class="store-card-body">
+            <div class="store-category">Wellness Kit</div>
+            <h4>Peak Living Starter Kit</h4>
+            <p>Curated tools, guides, journals, and practice resources to begin your Peak Living journey with clarity.</p>
+            <div><span class="store-price">Coming Soon</span></div>
+          </div>
+          <div class="store-card-footer">
+            <button onclick="notifyMe(this)" class="btn btn-outline" style="flex:1; justify-content:center; font-size:14px; padding:10px;">Notify Me</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="store-section" style="background: var(--white); padding-top: 0;">
+  <div class="store-inner">
+    <span class="section-label">Featured Items</span>
+    <h2 class="section-title" style="margin-bottom:0.5rem;">All Products & Courses</h2>
+    <p class="section-subtitle" style="margin-bottom:2rem;">Added by Dr. Gauri — updated regularly.</p>
+    <!-- Dynamically loaded from Firestore by script.js loadStoreItems() -->
+    <div class="store-grid" id="store-list">
+      <p style="color:var(--muted); grid-column:1/-1;">Loading store items...</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-banner">
+  <div class="newsletter-inner">
+    <span class="section-label">Early Access</span>
+    <h2>Be First to Know</h2>
+    <p>Sign up to get early access and special pricing when new courses and resources launch.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Your email address">
+      <button class="btn btn-primary">Get Early Access</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo"><img src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom.</p>
+      <div class="footer-social"><div class="social-icons">
+        <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="FB"></a>
+        <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="IG"></a>
+        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LI"></a>
+      </div></div>
+    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="gauri.html">About</a></li><li><a href="consulting.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-links"><h3>Explore</h3><ul>
+      <li><a href="podcast.html">Podcast</a></li><li><a href="music.html">Music</a></li>
+      <li><a href="quiz.html">Wellness Quiz</a></li>
+    </ul></div>
+  </div>
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+</footer>
+<script>
+function notifyMe(btn) {
+  const n = document.createElement('div');
+  n.className = 'notification';
+  n.textContent = "✓ You'll be notified when this is available!";
+  document.body.appendChild(n);
+  setTimeout(() => n.remove(), 3500);
+}
+</script>
+
+<script type="module" src="script.js"></script>
+<script>
+function notifyStoreItem(btn) {
+  var n = document.createElement("div");
+  n.className = "notification";
+  n.textContent = "We'll notify you when this is available!";
+  document.body.appendChild(n);
+  setTimeout(function(){ n.remove(); }, 3500);
+}
+</script>
+</body>
+</html>

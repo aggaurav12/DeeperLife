@@ -3,282 +3,386 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Peak Life</title>
+  <title>Peak Living — Dr. Gauri Mittal</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Hero Section */
-    .hero {
-      position: relative;
-      display: flex;
-      flex-direction: column; /* Adjust layout to column for mobile */
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      background: url("images/CoverImages/yogaImage8.png") no-repeat center center/cover; /* Galaxy as background  3,7,8, 9, 10 */ 
-      height: 500px; /* Adjust height as needed */
-      padding: 20px;
-      gap: 20px; /* Add spacing between content and image */
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.2); /* Semi-transparent overlay */
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 600px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-      border-radius: 10px; /* Rounded corners for the text box */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .hero h1 {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-      color: #333; /* Dark text for better contrast */
-    }
-
-    .hero p {
-      font-size: 1.5rem;
-      margin-bottom: 25px;
-      margin-top: 10px;
-      color: #003366
-    }
-
-    .hero .btn {
-      padding: 10px 20px;
-      background-color: #1D2F50;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-
-    .hero .btn:hover {
-      background-color: #1BA9FF;
-    }
-  
-    .hero-image {
-      position: relative;
-      z-index: 2;
-      margin-top: 20px;
-      display: flex;
-      justify-content: center; /* Center align the logo */
-    }
-  
-    .hero-image img {
-      width: 150px; /* Adjust size for better visibility */
-      height: auto;
-      border-radius: 50%; /* Add rounded corners for style */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow for better contrast */
-    }
-  
-    /* Responsive adjustments */
-    @media (min-width: 768px) {
-      .hero {
-        flex-direction: row; /* Switch to row layout for larger screens */
-        justify-content: space-between;
-      }
-  
-      .hero-image {
-        margin-top: 0;
-      }
-  
-      .hero-content {
-        text-align: left;
-      }
-    }
-  </style>
 </head>
 <body>
 
-<!-- Header Section -->
+<!-- Header -->
 <header>
-  <nav>
+  <div class="header-logo">
+    <a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a>
+  </div>
+  <nav id="main-nav">
     <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="workshop.html" class="active">Workshops</a></li>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="workshop.html">Workshops</a></li>
       <li><a href="blog.html">Blog</a></li>
+      <li><a href="podcast.html">Podcast</a></li>
       <li><a href="music.html">Music</a></li>
-      <li><a href="consulting.html">Contact Us</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="gauri.html">About</a></li>
+      <li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
     </ul>
   </nav>
-  <div class="header-logo">
-    <img src="images/logo5.png" alt="Peak Life Logo">
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
   </div>
 </header>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <section class="hero">
-  <div class="hero-content">
-    <h1>Welcome to Peak Living</h1>
-    <p>An Integration of Modern Medical Science with Ancient Wisdom</p>
-    <a href="#upcoming-events" class="btn">Explore Upcoming Events</a>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="eyebrow">Modern Medicine · Ancient Wisdom</div>
+      <h1>Live at Your<br><em>Peak Potential</em></h1>
+      <p>Integrating medical science with ancient wisdom to help you overcome chronic stress and build a healthier, more fulfilled life.</p>
+      <div class="hero-actions">
+        <a href="workshop.html" class="btn btn-gold">Explore Workshops</a>
+        <a href="consulting.html" class="btn btn-white">Book Consultation</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><h3>500+</h3><p>Lives transformed</p></div>
+        <div class="hero-stat"><h3>50+</h3><p>Workshops conducted</p></div>
+        <div class="hero-stat"><h3>AIIMS</h3><p>Trained physician</p></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h3>What We Offer</h3>
+      <div class="hero-card-list">
+        <div class="hero-card-item"><div class="hero-card-dot"></div>Lifestyle Disease Management</div>
+        <div class="hero-card-item"><div class="hero-card-dot"></div>Mind-Body Yogic Techniques</div>
+        <div class="hero-card-item"><div class="hero-card-dot"></div>Wellness Workshops & Retreats</div>
+        <div class="hero-card-item"><div class="hero-card-dot"></div>1-on-1 Personal Consultation</div>
+        <div class="hero-card-item"><div class="hero-card-dot"></div>Authentic Self Discovery</div>
+        <div class="hero-card-item"><div class="hero-card-dot"></div>Scientific Peak Living Practices</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- Mission Section -->
-<!-- <div class="parallax-divider"></div> -->
+<!-- Mission -->
 <section id="our-mission" class="mission">
-  <div class="mission-container">
-    <div class="mission-content">
-      <h2>🌟 Working Towards</h2>
-      <p class="mission-subtitle"></p>
-      <p class="mission-description">
-        Empowering individuals to overcome chronic stress and become happier, healthier and more fulfilled people.
-        
-      </p>
-    </div>
+  <div class="mission-inner">
     <div class="mission-image">
-      <img src="images/CoverImages/yogaImage14.png" alt="Mindfulness and Meditation">  
+      <img loading="lazy" src="images/CoverImages/yogaImage14.png" alt="Mindfulness and Meditation">
+      <!-- <div class="mission-badge">
+        <strong>10+</strong>
+        <span>Years of practice</span>
+      </div> -->
+    </div>
+    <div class="mission-content">
+      <span class="section-label">Our Purpose</span>
+      <h2 class="section-title">Working Towards a Healthier World</h2>
+      <blockquote>Complete personal success is holistic evolution of the individual.</blockquote>
+      <p class="section-subtitle">Empowering individuals to overcome chronic stress and become happier, healthier, and more fulfilled people — through the integration of modern medical science with ancient wisdom.</p>
+      <div class="mission-pillars">
+        <div class="pillar"><h4>Mind</h4><p>Mental clarity and emotional resilience</p></div>
+        <div class="pillar"><h4>Body</h4><p>Physical health and vitality</p></div>
+        <div class="pillar"><h4>Lifestyle</h4><p>Sustainable daily practices</p></div>
+        <div class="pillar"><h4>Identity</h4><p>Authentic self discovery</p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Upcoming Events Section -->
+<!-- Upcoming Events -->
 <div class="parallax-divider"></div>
 <section id="upcoming-events" class="events">
-  <h2>Upcoming Events</h2>
-  <div class="events-grid" id="workshopSchedule">
-    <!-- Workshops will be dynamically loaded here through loadWorkshops() -->
+  <div class="events-inner">
+    <div class="events-header">
+      <div>
+        <span class="section-label">Upcoming Events</span>
+        <h2 class="section-title">Workshops & Programs</h2>
+      </div>
+      <a href="workshop.html" class="btn btn-outline">View All Events</a>
+    </div>
+    <div class="events-grid" id="workshopSchedule">
+      <!-- Dynamically loaded -->
+    </div>
   </div>
 </section>
 
-<!-- Blog Section -->
+<!-- Blog Preview -->
 <div class="parallax-divider"></div>
 <section class="blog-section">
-  <h1 class="blog-heading">Our Blog</h1>
-  <div class="blog-grid" id="blog-section">
-    <!-- Blog cards will be dynamically loaded here -->
+  <div class="blog-section-inner">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <span class="section-label">Knowledge & Insights</span>
+        <h1 class="blog-heading">Latest from the Blog</h1>
+      </div>
+      <a href="blog.html" class="btn btn-outline">Read All Articles</a>
+    </div>
+    <div class="blog-grid" id="blog-section">
+      <!-- Dynamically loaded -->
+    </div>
   </div>
 </section>
 
-<!-- About Dr. Gauri Section -->
+<!-- Wellness Quiz Teaser -->
+<div class="parallax-divider"></div>
+<section class="quiz-section">
+  <div class="quiz-inner">
+    <span class="section-label">Self Assessment</span>
+    <h2 class="section-title">What's Your Wellness Score?</h2>
+    <p class="section-subtitle" style="margin: 0 auto 2rem;">Take our 5-minute assessment to discover your current wellness level and get personalized recommendations.</p>
+    <a href="quiz.html" class="btn btn-primary" style="margin: 0 auto;">Start Free Assessment →</a>
+  </div>
+</section>
+
+<!-- About Dr. Gauri -->
 <div class="parallax-divider"></div>
 <section class="about-gauri">
   <div class="gauri-container">
     <div class="gauri-image">
-      <img src="images/Gaurvvv.jpg" alt="Dr. Gauri Mittal">
+      <img loading="lazy" src="images/Gaurvvv.jpg" alt="Dr. Gauri Mittal">
     </div>
     <div class="gauri-content">
+      <span class="section-label" style="color: var(--gold-light);">Meet Your Guide</span>
       <h2>About Dr. Gauri Mittal</h2>
       <p class="gauri-quote">Complete personal success is holistic evolution of individual</p>
-      <p class="gauri-description"> Dr Gauri has completed her MBBS, MD, PDCC Lifestyle Disease Management from All India Institue of Medical Sciences, Rishikesh.
-        She has been trained and mentored in the teachings of "Soma: Path of the Body" by Dr Jivasu MD.
-        The approach of "Peak Living" is based on these teachings.</p>
-      <a href="gauri.html" class="btn">Learn More About Dr Gauri Mittal</a>
+      <p class="gauri-description">Dr. Gauri has completed her MBBS, MD, PDCC in Lifestyle Disease Management from All India Institute of Medical Sciences, Rishikesh. She has been trained and mentored in the teachings of "Soma: Path of the Body" by Dr. Jivasu MD. The approach of "Peak Living" is based on these powerful teachings.</p>
+      <div class="gauri-credentials">
+        <span class="credential-tag">MBBS · AIIMS Rishikesh</span>
+        <span class="credential-tag">MD · AIIMS Rishikesh</span>
+        <span class="credential-tag">PDCC Lifestyle Disease</span>
+        <span class="credential-tag">Author · Amazon</span>
+      </div>
+      <a href="gauri.html" class="btn btn-gold">Learn More About Dr. Gauri</a>
     </div>
   </div>
 </section>
 
-<!-- Contact Section -->
-<div class="parallax-divider"></div>
-<section class="contact">
-  <div class="contact-container">
-    <div class="contact-info">
-      <h2>📞 Contact Us</h2>
-      <p>We'd love to hear from you! Feel free to reach out for any inquiries or collaboration.</p>
-      <p><strong>Email:</strong> <a href="mailto:gauri.peakliving@gmail.com">gauri.peakliving@gmail.com</a></p>
-      <!-- <p><strong>Phone:</strong> <a href="tel:+1234567890">+1-234-567-890</a></p> -->
-      <p><strong>Address:</strong> Rishikesh, India</p>
+<!-- Podcast Teaser -->
+<section class="podcast-section">
+  <div class="podcast-inner">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 2rem;">
+      <div>
+        <span class="section-label">Listen & Learn</span>
+        <h2 class="section-title">The Peak Living Podcast</h2>
+      </div>
+      <a href="podcast.html" class="btn btn-outline">All Episodes</a>
     </div>
+    <!-- Dynamically loaded — id="podcast-list-home" shows latest 3 from Firestore -->
+    <div class="podcast-grid" id="podcast-list-home">
+      <p style="color:var(--muted); grid-column:1/-1; text-align:center; padding:1rem;">
+        Podcast episodes coming soon!
+      </p>
+    </div>
+  </div>
+</section>
 
-    <div class="contact-form">
-      <form id="home-inquiry-form">
+<!-- Book Consultation -->
+<div class="parallax-divider"></div>
+<section class="booking-section">
+  <div class="booking-inner">
+    <div class="booking-content">
+      <span class="section-label" style="color: var(--gold-light);">Personal Guidance</span>
+      <h2>Book a 1-on-1 Consultation</h2>
+      <p>Get personalized guidance from Dr. Gauri on your wellness journey. Each session is tailored to your unique needs.</p>
+      <div class="booking-features">
+        <div class="booking-feature"><div class="booking-feature-icon">🩺</div>Medical-grade lifestyle assessment</div>
+        <div class="booking-feature"><div class="booking-feature-icon">🧘</div>Personalized mind-body program</div>
+        <div class="booking-feature"><div class="booking-feature-icon">📋</div>Actionable wellness roadmap</div>
+        <div class="booking-feature"><div class="booking-feature-icon">🔄</div>Online & in-person options</div>
+      </div>
+      <a href="consulting.html" class="btn btn-gold">Schedule Your Session →</a>
+    </div>
+    <div class="booking-form">
+      <h3>Quick Enquiry</h3>
+      <form id="booking-form">
         <div class="form-group">
-          <label for="visitor-name">Full Name</label>
-          <input type="text" id="visitor-name" placeholder="Enter your full name" required>
+          <label for="booking-name">Your Name *</label>
+          <input type="text" id="booking-name" placeholder="Full name" required>
         </div>
-
         <div class="form-group">
-          <label for="visitor-email">Email</label>
-          <input type="email" id="visitor-email" placeholder="Enter your email" required>
+          <label for="booking-email">Email Address *</label>
+          <input type="email" id="booking-email" placeholder="your@email.com" required>
         </div>
-
         <div class="form-group">
-          <label for="visitor-contact">Contact Number</label>
-          <input type="tel" id="visitor-contact" placeholder="Enter your contact number" required>
+          <label for="booking-phone">Phone Number</label>
+          <input type="tel" id="booking-phone" placeholder="+91 00000 00000">
         </div>
-
         <div class="form-group">
-          <label for="visitor-message">Your Message</label>
-          <textarea id="visitor-message" placeholder="Write your message here..." required></textarea>
+          <label for="booking-session">Preferred Session Type</label>
+          <select id="booking-session">
+            <option>Online Video Consultation</option>
+            <option>In-Person (Rishikesh)</option>
+            <option>Workshop Enquiry</option>
+          </select>
         </div>
-
-        <button type="submit" class="btn">Send Message</button>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Enquiry</button>
       </form>
     </div>
   </div>
 </section>
 
-<!-- Footer Section -->
+<!-- Store Teaser -->
+<section class="store-section">
+  <div class="store-inner">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 1rem;">
+      <div>
+        <span class="section-label">Books & Resources</span>
+        <h2 class="section-title">Shop & Learn</h2>
+      </div>
+      <a href="store.html" class="btn btn-outline">Visit Store</a>
+    </div>
+    <p class="section-subtitle" style="margin-bottom: 3rem;">Books, courses, and wellness resources curated by Dr. Gauri.</p>
+    <!-- Dynamically loaded — id="store-list-home" shows latest 3 from Firestore -->
+    <div class="store-grid" id="store-list-home">
+      <p style="color:var(--muted); grid-column:1/-1; text-align:center; padding:1rem;">
+        Loading store items...
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
 <div class="parallax-divider"></div>
-  <body class="index-page"></body>
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <span class="section-label">Community Stories</span>
+    <h2 class="section-title">What People Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">Dr. Gauri's workshop completely changed how I understand stress. I finally have practical tools to manage my life better.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RA</div>
+          <div><div class="testimonial-author-name">Riya A.</div><div class="testimonial-author-title">Workshop Participant</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">The integration of ancient wisdom with modern medicine is what makes this unique. My chronic fatigue has improved tremendously.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SK</div>
+          <div><div class="testimonial-author-name">Sanjay K.</div><div class="testimonial-author-title">Consultation Client</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">I was skeptical at first, but the scientific approach to lifestyle medicine convinced me. Six months later, my life is transformed.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PM</div>
+          <div><div class="testimonial-author-name">Priya M.</div><div class="testimonial-author-title">Online Participant</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-banner">
+  <div class="newsletter-inner">
+    <span class="section-label">Stay Connected</span>
+    <h2>Get Weekly Wellness Insights</h2>
+    <p>Join 1,000+ readers who receive Dr. Gauri's evidence-based wellness tips every week.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Enter your email address">
+      <button class="btn btn-primary">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<div class="parallax-divider"></div>
+<section class="contact">
+  <div class="contact-container">
+    <div class="contact-info">
+      <span class="section-label">Get In Touch</span>
+      <h2>Contact Us</h2>
+      <p>We'd love to hear from you! Reach out for any inquiries, collaborations, or wellness questions.</p>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉</div>
+        <div><a href="mailto:gauri.peakliving@gmail.com" style="color: var(--forest-light);">gauri.peakliving@gmail.com</a></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📍</div>
+        <div>Rishikesh, Uttarakhand, India</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">🌐</div>
+        <div>Follow us on social media</div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <form id="home-inquiry-form">
+        <div class="form-group">
+          <label for="visitor-name">Full Name</label>
+          <input type="text" id="visitor-name" placeholder="Your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="visitor-email">Email</label>
+          <input type="email" id="visitor-email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="visitor-contact">Contact Number</label>
+          <input type="tel" id="visitor-contact" placeholder="+91 00000 00000" required>
+        </div>
+        <div class="form-group">
+          <label for="visitor-message">Your Message</label>
+          <textarea id="visitor-message" placeholder="Write your message here..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
 <footer>
   <div class="footer-container">
-    <div class="footer-logo">
-      <img src="images/logo5.png" alt="Peak Life Logo">
+    <div>
+      <div class="footer-logo">
+        <img src="images/logo5.png" alt="Peak Living Logo">
+      </div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom to help you live at your peak potential.</p>
+      <div class="footer-social">
+        <div class="social-icons">
+          <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="Facebook"></a>
+          <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="Instagram"></a>
+          <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LinkedIn"></a>
+        </div>
+      </div>
     </div>
-
     <div class="footer-links">
       <h3>Quick Links</h3>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="workshop.html">Workshops</a></li>
         <li><a href="blog.html">Blog</a></li>
+        <li><a href="podcast.html">Podcast</a></li>
         <li><a href="music.html">Music</a></li>
-        <li><a href="consulting.html">Contact Us</a></li>
+        <li><a href="store.html">Store</a></li>
+        <li><a href="quiz.html">Wellness Quiz</a></li>
+        <li><a href="gauri.html">About Dr. Gauri</a></li>
+        <li><a href="consulting.html">Contact / Book</a></li>
       </ul>
     </div>
-
-    <!-- <div class="footer-contact">
-      <h3>Contact Info</h3>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
-      <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
-    </div> -->
-
-    <div class="footer-social">
-      <h3>Follow Us</h3>
-      <div class="social-icons">
-        <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
-          <img src="images/facebook.png" alt="Facebook">
-        </a>
-        <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-          <img src="images/instagram.png" alt="Instagram">
-        </a>
-        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-          <img src="images/linkedin.png" alt="LinkedIn">
-        </a>
-      </div>
+    <div class="footer-links">
+      <h3>Services</h3>
+      <ul>
+        <li><a href="workshop.html">Live Workshops</a></li>
+        <li><a href="consulting.html">1-on-1 Consultation</a></li>
+        <li><a href="quiz.html">Wellness Assessment</a></li>
+        <li><a href="podcast.html">Podcast</a></li>
+        <li><a href="store.html">Books & Courses</a></li>
+        <li><a href="music.html">Music & Healing</a></li>
+      </ul>
     </div>
   </div>
-
-  <p class="footer-text">&copy;2025 Peak Living. All rights reserved.</p>
-   Website design by Gaurav Aggarwal https://www.linkedin.com/in/gaurav-aggarwal-98759a117/ </p>
+  <p class="footer-text">&copy; 2025 Peak Living · Dr. Gauri Mittal. All rights reserved. | Website design by <a href="https://www.linkedin.com/in/gaurav-aggarwal-98759a117/" target="_blank" style="color: var(--gold-light);">Gaurav Aggarwal</a></p>
 </footer>
 
 <script type="module" src="script.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    loadWorkshops();
-    const queryForm = document.getElementById("home-inquiry-form");
-    if (queryForm) {
-      queryForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        addQuery(event);
-      });
-    }
-  });
+  function toggleNav() {
+    document.getElementById('main-nav').classList.toggle('open');
+  }
+  // booking-form is handled by script.js directly
 </script>
 </body>
 </html>

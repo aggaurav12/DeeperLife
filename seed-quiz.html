@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seed Quiz Questions - Admin Only</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { padding: 3rem; background: var(--ivory); }
+    .seed-card { max-width: 600px; margin: 0 auto; background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow); }
+    h1 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--forest); }
+    p  { color: var(--muted); margin-bottom: 1.5rem; }
+    #log { margin-top: 1.5rem; font-size: 13px; line-height: 2; color: var(--charcoal); }
+  </style>
+</head>
+<body>
+<div class="seed-card">
+  <h1>🌍 Seed Quiz Questions</h1>
+  <p>This page loads the 10 default Earth/Wind/Fire quiz questions into your Firestore database. <strong>Run this only once.</strong> After seeding, delete or move this file from your project.</p>
+  <button class="btn btn-primary" onclick="seedQuestions()">Load 10 Questions into Firebase →</button>
+  <div id="log"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs }
+  from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import ENV from "./config.js";
+
+const app = initializeApp({
+  apiKey: ENV.FIREBASE_API_KEY,
+  authDomain: ENV.FIREBASE_AUTH_DOMAIN,
+  projectId: ENV.FIREBASE_PROJECT_ID,
+  storageBucket: ENV.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: ENV.FIREBASE_MESSAGING_SENDER_ID,
+  appId: ENV.FIREBASE_APP_ID,
+});
+const db = getFirestore(app);
+
+const DEFAULT_QUESTIONS = [
+  {
+    order: 1, active: true,
+    text: "When you wake up in the morning, you prefer to:",
+    options: [
+      { text: "Start with a fixed routine — same time, same breakfast, same walk", earth: 3, wind: 0, fire: 0 },
+      { text: "Check what the day brings and adapt as you go",                    earth: 0, wind: 3, fire: 0 },
+      { text: "Jump straight into your most important task with full energy",     earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 2, active: true,
+    text: "When you face a problem, your first instinct is:",
+    options: [
+      { text: "Think it through slowly and methodically",        earth: 3, wind: 0, fire: 0 },
+      { text: "Talk to people, gather ideas, brainstorm",        earth: 0, wind: 3, fire: 0 },
+      { text: "Take immediate action to solve it",              earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 3, active: true,
+    text: "How do you feel about change in your life?",
+    options: [
+      { text: "Prefer stability — change takes time to adjust to",        earth: 3, wind: 0, fire: 0 },
+      { text: "Love change — it brings fresh energy and new experiences", earth: 0, wind: 3, fire: 0 },
+      { text: "Embrace change if it leads to growth or better results",   earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 4, active: true,
+    text: "Your ideal way to relax and recharge is:",
+    options: [
+      { text: "A walk in nature, gardening, cooking, or quiet time at home", earth: 3, wind: 0, fire: 0 },
+      { text: "Reading, socialising, exploring new ideas or places",         earth: 0, wind: 3, fire: 0 },
+      { text: "Exercise, dance, competitive sports, or physical adventure",  earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 5, active: true,
+    text: "In a group or team, you usually:",
+    options: [
+      { text: "Support others quietly and keep things stable and grounded", earth: 3, wind: 0, fire: 0 },
+      { text: "Bring ideas, keep conversation flowing, and connect people", earth: 0, wind: 3, fire: 0 },
+      { text: "Take charge and drive the group toward a clear goal",        earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 6, active: true,
+    text: "Your relationship with food is best described as:",
+    options: [
+      { text: "Regular meals, traditional foods, and comfort eating",     earth: 3, wind: 0, fire: 0 },
+      { text: "Always trying new cuisines, often irregular meal times",   earth: 0, wind: 3, fire: 0 },
+      { text: "Eating to fuel performance, watching nutrition carefully", earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 7, active: true,
+    text: "When you feel stressed, you tend to:",
+    options: [
+      { text: "Withdraw, slow down, and need time alone to recover",       earth: 3, wind: 0, fire: 0 },
+      { text: "Overthink, talk excessively, and feel mentally scattered",  earth: 0, wind: 3, fire: 0 },
+      { text: "Get irritable, push harder, and risk burning out",          earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 8, active: true,
+    text: "Your sleep pattern is usually:",
+    options: [
+      { text: "Deep, heavy sleeper — hard to wake up, love long sleep",     earth: 3, wind: 0, fire: 0 },
+      { text: "Light sleeper, active dreams, and often irregular hours",    earth: 0, wind: 3, fire: 0 },
+      { text: "Short but intense — you wake up energised and ready to go", earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 9, active: true,
+    text: "What motivates you most deeply in life?",
+    options: [
+      { text: "Security, comfort, and taking care of loved ones",            earth: 3, wind: 0, fire: 0 },
+      { text: "Learning, curiosity, and the freedom to explore and create",  earth: 0, wind: 3, fire: 0 },
+      { text: "Achievement, recognition, and making a real impact",          earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+  {
+    order: 10, active: true,
+    text: "Your biggest recurring challenge in life tends to be:",
+    options: [
+      { text: "Resistance to change and getting stuck in your comfort zone",   earth: 3, wind: 0, fire: 0 },
+      { text: "Lack of focus, too many ideas, and not finishing things",       earth: 0, wind: 3, fire: 0 },
+      { text: "Burnout, anger, and a tendency to be too controlling",          earth: 0, wind: 0, fire: 3 },
+    ]
+  },
+];
+
+window.seedQuestions = async function() {
+  const log = document.getElementById("log");
+  const btn = document.querySelector("button");
+  btn.disabled = true;
+  btn.textContent = "Seeding...";
+  log.innerHTML = "";
+
+  try {
+    // Check if questions already exist
+    const existing = await getDocs(collection(db, "quiz_questions"));
+    if (!existing.empty) {
+      log.innerHTML = "⚠️ Questions already exist in Firestore (" + existing.size + " found). Delete them first if you want to re-seed.";
+      btn.disabled = false;
+      btn.textContent = "Load 10 Questions into Firebase →";
+      return;
+    }
+
+    for (const q of DEFAULT_QUESTIONS) {
+      await addDoc(collection(db, "quiz_questions"), { ...q, timestamp: new Date() });
+      log.innerHTML += "✅ Added: Q" + q.order + " — " + q.text.substring(0, 50) + "...<br>";
+      await new Promise(r => setTimeout(r, 200)); // small delay
+    }
+
+    log.innerHTML += "<br><strong style='color:var(--forest)'>🎉 All 10 questions loaded successfully! You can now delete this file.</strong>";
+    btn.textContent = "✅ Done!";
+  } catch(err) {
+    console.error(err);
+    log.innerHTML += "<span style='color:red'>❌ Error: " + err.message + "</span>";
+    btn.disabled = false;
+    btn.textContent = "Retry";
+  }
+};
+</script>
+</body>
+</html>

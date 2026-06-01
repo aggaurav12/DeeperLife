@@ -1,41 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workshop Registration</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop Registration - Peak Living</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="registration-container">
-        <h2>Register for Workshop</h2>
-        <form id="registration-form">
-            <input type="hidden" id="workshop-id">
-            <label for="user-name">Full Name:</label>
-            <input type="text" id="user-name" required>
+<body style="background: var(--ivory);">
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshop.html" class="active">Workshops</a></li>
+    <li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
+  </ul></nav>
+</header>
 
-            <label for="city">City:</label>
-            <input type="city" id="city" required>
+<main style="padding: 3rem 1.5rem; min-height: 70vh;">
+  <!-- ALL IDs here are required by workshop-register.js — do not change them -->
+  <div class="registration-container">
+    <span class="section-label">Secure Your Spot</span>
+    <h2>Workshop Registration</h2>
+    <p style="color: var(--muted); margin-bottom: 1.5rem;">Fill in your details to register. You'll receive a confirmation shortly.</p>
 
-            <label for="state">State:</label>
-            <input type="state" id="state" required>
+    <form id="registration-form">
+      <input type="hidden" id="workshop-id">
 
-            <label for="country">Country:</label>
-            <input type="country" id="country" required>
+      <div class="form-group">
+        <label for="user-name">Full Name *</label>
+        <input type="text" id="user-name" placeholder="Your full name" required>
+      </div>
 
-            <label for="email-id">Email ID:</label>
-            <input type="email" id="email-id" required>
+      <div class="form-group">
+        <label for="city">City *</label>
+        <input type="text" id="city" placeholder="Your city" required>
+      </div>
 
-            <label for="contact-number">Contact Number:</label>
-            <input type="text" id="contact-number" required>
+      <div class="form-group">
+        <label for="state">State *</label>
+        <input type="text" id="state" placeholder="Your state" required>
+      </div>
 
-            <label for="special-request">Special Request (Optional):</label>
-            <textarea id="special-request"></textarea>
+      <div class="form-group">
+        <label for="country">Country *</label>
+        <input type="text" id="country" placeholder="Your country" required>
+      </div>
 
-            <button type="submit">Submit Registration</button>
-        </form>
+      <div class="form-group">
+        <label for="email-id">Email Address *</label>
+        <input type="email" id="email-id" placeholder="your@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="contact-number">Contact Number *</label>
+        <input type="tel" id="contact-number" placeholder="+91 00000 00000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="special-request">Special Request (Optional)</label>
+        <textarea id="special-request" placeholder="Any special requirements or questions..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;">
+        Complete Registration
+      </button>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-container" style="grid-template-columns: 1fr;">
+    <div style="text-align:center;">
+      <div class="footer-logo" style="justify-content:center; display:flex;"><img src="images/logo5.png" alt="Peak Living"></div>
     </div>
+  </div>
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+</footer>
 
-    <script type="module" src="workshop-register.js"></script>
+<script type="module" src="workshop-register.js"></script>
 </body>
 </html>

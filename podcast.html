@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Podcast - Peak Living</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html">Blog</a></li><li><a href="podcast.html" class="active">Podcast</a></li>
+    <li><a href="music.html">Music</a></li><li><a href="store.html">Store</a></li>
+    <li><a href="gauri.html">About</a></li><li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
+  </ul></nav>
+  <div class="hamburger" onclick="document.getElementById('main-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</header>
+
+<section class="music-hero">
+  <span class="section-label">Listen & Learn</span>
+  <h1>The Peak Living Podcast</h1>
+  <p>Deep conversations on lifestyle medicine, wellness, and peak human potential with Dr. Gauri Mittal.</p>
+</section>
+
+<section class="podcast-section" style="background: var(--ivory);">
+  <div class="podcast-inner">
+    <div style="background: var(--forest); border-radius: var(--radius-lg); padding: 2.5rem; margin-bottom: 3rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+      <div style="width: 120px; height: 120px; background: rgba(196,151,58,0.2); border-radius: var(--radius-lg); display:flex; align-items:center; justify-content:center; font-size:4rem; flex-shrink:0;">🎙</div>
+      <div>
+        <p style="color: var(--gold-light); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.5rem;">Coming Soon</p>
+        <h2 style="color:white; font-size:1.8rem; margin-bottom:0.75rem;">The Peak Living Podcast</h2>
+        <p style="color:rgba(255,255,255,0.75); max-width:500px;">Dr. Gauri will be hosting conversations on mind-body medicine, lifestyle transformation, and the science of peak living. Sign up to be notified when we launch.</p>
+      </div>
+      <div style="margin-left:auto;">
+        <a href="consulting.html" class="btn btn-gold">Get Notified →</a>
+      </div>
+    </div>
+
+    <span class="section-label">Preview Episodes</span>
+    <h2 style="margin-bottom: 2rem; font-size: 2rem;">Episode Topics Coming</h2>
+    <!-- Dynamically loaded from Firestore by script.js loadPodcasts() -->
+    <div class="podcast-grid" id="podcast-list">
+      <p style="color:var(--muted); grid-column:1/-1; text-align:center; padding:2rem;">
+        Podcast episodes coming soon. Subscribe below to be notified at launch!
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-banner">
+  <div class="newsletter-inner">
+    <span class="section-label">Be First to Listen</span>
+    <h2>Get Notified at Launch</h2>
+    <p>Subscribe and be the first to hear when the Peak Living Podcast goes live.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Your email address">
+      <button class="btn btn-primary">Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo"><img src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom.</p>
+      <div class="footer-social"><div class="social-icons">
+        <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="FB"></a>
+        <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="IG"></a>
+        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LI"></a>
+      </div></div>
+    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="gauri.html">About</a></li><li><a href="consulting.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-links"><h3>Explore</h3><ul>
+      <li><a href="music.html">Music</a></li><li><a href="store.html">Books and Courses</a></li><li><a href="quiz.html">Wellness Quiz</a></li>
+    </ul></div>
+  </div>
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+</footer>
+<script type="module" src="script.js"></script>
+</body>
+</html>

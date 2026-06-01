@@ -3,331 +3,366 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Peak Life</title>
+  <title>Admin Dashboard - Peak Living</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f8f9fa;
-    }
-
-    header {
-      background-color: #857853;
-      color: #fff;
-      padding: 10px 20px;
-    }
-
-    header nav ul {
-      display: flex;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      justify-content: center;
-    }
-
-    header nav ul li {
-      margin: 0 10px;
-    }
-
-    header nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .admin {
-      padding: 20px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .tabs button {
-      padding: 10px 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #f0f0f0;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .tabs button.active {
-      background-color: #857853;
-      color: #fff;
-      border-color: #857853;
-    }
-
-    .tab-content {
-      display: none;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    button {
-      padding: 10px 15px;
-      background-color: #857853;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #3700b3;
-    }
-
-    .footer-container {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px;
-      background: #857853;
-      color: #fff;
-    }
-
-    .footer-container a {
-      color: #fff;
-      text-decoration: none;
-    }
+    .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .admin-login-box { max-width: 400px; margin: 4rem auto; background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow); text-align: center; }
+    .admin-login-box h2 { margin-bottom: 1.5rem; }
+    .admin-login-box input { width: 100%; padding: 12px 16px; border: 1.5px solid var(--ivory-deep); border-radius: var(--radius); font-size: 15px; margin-bottom: 1rem; background: var(--ivory); }
+    .tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; padding: 1rem; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .tab-button { padding: 8px 18px; border: 1.5px solid var(--ivory-deep); border-radius: 6px; background: var(--ivory); color: var(--muted); cursor: pointer; font-size: 14px; font-weight: 500; transition: var(--transition); }
+    .tab-button.active, .tab-button:hover { background: var(--forest); color: white; border-color: var(--forest); }
+    .tab-content { display: none; background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
+    .tab-content.active { display: block; }
+    .tab-content h2 { font-size: 1.6rem; margin-bottom: 1.5rem; }
+    .admin-form-group { margin-bottom: 1.2rem; }
+    .admin-form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 0.4rem; }
+    .admin-form-group input, .admin-form-group textarea { width: 100%; padding: 11px 14px; border: 1.5px solid var(--ivory-deep); border-radius: var(--radius); font-size: 15px; background: var(--ivory); }
+    .admin-form-group textarea { height: 120px; resize: vertical; }
+    .admin-card { background: var(--ivory); border-radius: var(--radius); padding: 1.2rem; margin-bottom: 1rem; border-left: 3px solid var(--gold); }
+    .admin-card p { font-size: 14px; color: var(--muted); margin-bottom: 0.3rem; }
+    .admin-card strong { color: var(--charcoal); }
+    hr.admin-hr { border: none; border-top: 1px solid var(--ivory-deep); margin: 1rem 0; }
+    .registration-card { background: var(--ivory); border-radius: var(--radius); padding: 1.2rem; margin-bottom: 1rem; border-left: 3px solid var(--forest-light); }
+    .registration-card p { font-size: 14px; color: var(--muted); margin-bottom: 0.3rem; }
+    .admin-workshop-card { background: var(--ivory); border-radius: var(--radius); padding: 1.2rem; margin-bottom: 1rem; border-left: 3px solid var(--forest); }
+    .admin-workshop-card p { font-size: 14px; margin-bottom: 0.3rem; }
   </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="workshop.html">Workshops</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="consulting.html">Contact Us</a></li>
-        <li><a href="admin.html" class="active">Admin</a></li>
-      </ul>
-    </nav>
-    <div class="header-logo">
-      <img src="images/logo5.png" alt="Peak Life Logo">
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="music.html">Music</a></li>
+    <li><a href="admin.html" class="active">Admin</a></li>
+  </ul></nav>
+</header>
+
+<div class="admin-wrap">
+  <h1 style="margin-bottom:0.5rem;">Admin Dashboard</h1>
+  <p style="color:var(--muted); margin-bottom:2rem;">Manage blogs, workshops, queries, and music in one place.</p>
+
+  <!-- Admin Login -->
+  <div id="admin-login">
+    <div class="admin-login-box">
+      <h2>Admin Login</h2>
+      <p style="color:var(--muted); margin-bottom:1.5rem; font-size:14px;">Enter your password to access the dashboard.</p>
+      <input type="password" id="admin-password" placeholder="Enter admin password">
+      <button id="admin-login-btn" class="btn btn-primary" style="width:100%; justify-content:center;">Login →</button>
     </div>
-  </header>
-
-  <section class="admin">
-    <h1>Admin Dashboard</h1>
-    <p>Manage blogs, workshops, queries, and music videos in one place.</p>
-
-    <!-- Admin Login -->
-    <div id="admin-login">
-      <p>Please enter the admin password to continue:</p>
-      <input type="password" id="admin-password" placeholder="Enter Password">
-      <button id="admin-login-btn">Login</button>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="admin-panel" style="display:none;">
-      <!-- Tab Navigation -->
-      <div class="tabs">
-        <button class="tab-button active" data-tab="workshops">Workshops</button>
-        <button class="tab-button" data-tab="blogs">Blogs</button>
-        <button class="tab-button" data-tab="queries">Queries</button>
-        <button class="tab-button" data-tab="music">Music</button>
-        <button class="tab-button" data-tab="registrations">Registrations</button>
-        <button class="tab-button" data-tab="admin-user-password">Admin Password</button>
-      </div>
-
-      <!-- Workshops Tab -->
-      <div id="workshops" class="tab-content active">
-        <h2>Manage Workshops</h2>
-        <form id="workshop-form">
-          <div class="form-group">
-            <label for="workshop-title">Title:</label>
-            <input type="text" id="workshop-title" placeholder="Workshop Title" required>
-          </div>
-          <div class="form-group">
-            <label for="workshop-details">Details:</label>
-            <textarea id="workshop-details" placeholder="Workshop Details" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="workshop-date">Date:</label>
-            <input type="date" id="workshop-date" required>
-          </div>
-          <div class="form-group">
-            <label for="workshop-image">Image:</label>
-            <input type="file" id="workshop-image" accept="image/*">
-          </div>
-          <button type="button" onclick="addWorkshop()">Add Workshop</button>
-        </form>
-        <div id="workshop-list"></div>
-      </div>
-
-      <!-- Blogs Tab -->
-      <div id="blogs" class="tab-content">
-        <h2>Manage Blogs</h2>
-        <form id="blog-form">
-          <div class="form-group">
-            <label for="blog-title">Title:</label>
-            <input type="text" id="blog-title" placeholder="Blog Title" required>
-          </div>
-          <div class="form-group">
-            <label for="blog-content">Content:</label>
-            <textarea id="blog-content" placeholder="Blog Content" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="blog-image">Image:</label>
-            <input type="file" id="blog-image" accept="image/*">
-          </div>
-          <button type="button" onclick="addBlog()">Add Blog</button>
-        </form>
-        <div id="blog-list"></div>
-      </div>
-
-      <!-- Queries Tab -->
-      <div id="queries" class="tab-content">
-        <h2>Manage Queries</h2>
-        <div id="query-list"></div>
-      </div>
-
-      <!-- Music Tab -->
-      <div id="music" class="tab-content">
-        <h2>Manage Music</h2>
-        <form id="music-form">
-          <div class="form-group">
-            <label for="music-title">Title:</label>
-            <input type="text" id="music-title" placeholder="Music Title" required>
-          </div>
-          <div class="form-group">
-            <label for="music-url">URL:</label>
-            <input type="url" id="music-url" placeholder="Music URL" required>
-          </div>
-          <div class="form-group">
-            <label for="music-thumbnail">Thumbnail:</label>
-            <input type="file" id="music-thumbnail" accept="image/*" required>
-          </div>
-          <button type="button" onclick="addMusic()">Add Music</button>
-        </form>
-        <div id="music-section"></div>
-      </div>
-
-      <!-- Registrations Tab -->
-      <div id="registrations" class="tab-content">
-        <h2>Workshop Registrations</h2>
-        <div id="registration-list"></div>
-      </div>
-
-  <!-- Admin Password Update Tab -->
-  <div id="admin-user-password" class="tab-content">
-    <h2>Update Admin Password</h2>
-    <label for="current-admin-password">Current Password:</label>
-    <input type="password" id="current-admin-password" placeholder="Enter current password">
-    <label for="new-admin-password">New Admin Password:</label>
-    <input type="password" id="new-admin-password" placeholder="Enter new password">
-    <button id="update-password-btn">Update Password</button>
   </div>
-    </div>
-  </section>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-logo">
-        <img src="images/logo5.png" alt="Peak Life Logo">
+  <!-- Admin Panel -->
+  <div id="admin-panel" style="display:none;">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="workshops">🗓 Workshops</button>
+      <button class="tab-button" data-tab="blogs">📝 Blogs</button>
+      <button class="tab-button" data-tab="queries">📬 Queries</button>
+      <button class="tab-button" data-tab="music">🎵 Music</button>
+      <button class="tab-button" data-tab="podcasts">🎙 Podcast</button>
+      <button class="tab-button" data-tab="store-mgmt">🛒 Store</button>
+      <button class="tab-button" data-tab="registrations">👥 Registrations</button>
+      <button class="tab-button" data-tab="quiz-mgmt">🌍 Quiz</button>
+      <button class="tab-button" data-tab="admin-user-password">🔒 Password</button>
+    </div>
+
+    <!-- Workshops Tab -->
+    <div id="workshops" class="tab-content active">
+      <h2>Add New Workshop</h2>
+      <div class="admin-form-group">
+        <label for="workshop-title">Workshop Title *</label>
+        <input type="text" id="workshop-title" placeholder="Enter workshop title">
       </div>
-  
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="workshop.html">Workshops</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="music.html">Music</a></li>
-          <li><a href="consulting.html">Contact Us</a></li>
-        </ul>
+      <div class="admin-form-group">
+        <label for="workshop-details">Workshop Details *</label>
+        <textarea id="workshop-details" placeholder="Describe the workshop..."></textarea>
       </div>
-  
-      <!-- <div class="footer-contact">
-        <h3>Contact Info</h3>
-        <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
-        <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
-      </div> -->
-  
-      <div class="footer-social">
-        <h3>Follow Us</h3>
-        <div class="social-icons">
-          <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
-            <img src="images/facebook.png" alt="Facebook">
-          </a>
-          <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-            <img src="images/instagram.png" alt="Instagram">
-          </a>
-          <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-            <img src="images/linkedin.png" alt="LinkedIn">
-          </a>
+      <div class="admin-form-group">
+        <label for="workshop-date">Date *</label>
+        <input type="date" id="workshop-date">
+      </div>
+      <div class="admin-form-group">
+        <label for="workshop-image">Workshop Image (optional)</label>
+        <input type="file" id="workshop-image" accept="image/*">
+      </div>
+      <button type="button" onclick="addWorkshop()" class="btn btn-primary">Add Workshop</button>
+      <hr class="admin-hr" style="margin-top:2rem;">
+      <h2 style="margin-top:1.5rem;">All Workshops</h2>
+      <div id="workshop-list"></div>
+    </div>
+
+    <!-- Blogs Tab -->
+    <div id="blogs" class="tab-content">
+      <h2>Add New Blog</h2>
+      <div class="admin-form-group">
+        <label for="blog-title">Blog Title *</label>
+        <input type="text" id="blog-title" placeholder="Enter blog title">
+      </div>
+      <div class="admin-form-group">
+        <label for="blog-content">Blog Content *</label>
+        <textarea id="blog-content" placeholder="Write your blog content..." style="height:200px;"></textarea>
+      </div>
+      <div class="admin-form-group">
+        <label for="blog-image">Cover Image (optional)</label>
+        <input type="file" id="blog-image" accept="image/*">
+      </div>
+      <button type="button" onclick="addBlog()" class="btn btn-primary">Publish Blog</button>
+      <hr class="admin-hr" style="margin-top:2rem;">
+      <h2 style="margin-top:1.5rem;">All Blogs</h2>
+      <div id="blog-list"></div>
+    </div>
+
+    <!-- Queries Tab -->
+    <div id="queries" class="tab-content">
+      <h2>Contact Queries</h2>
+      <p style="color:var(--muted); margin-bottom:1.5rem; font-size:14px;">Messages submitted via contact and consultation forms.</p>
+      <div id="query-list"></div>
+    </div>
+
+    <!-- Music Tab -->
+    <div id="music" class="tab-content">
+      <h2>Add Music Video</h2>
+      <div class="admin-form-group">
+        <label for="music-title">Video Title *</label>
+        <input type="text" id="music-title" placeholder="Enter video title">
+      </div>
+      <div class="admin-form-group">
+        <label for="music-url">Video URL *</label>
+        <input type="url" id="music-url" placeholder="https://youtube.com/watch?v=...">
+      </div>
+      <div class="admin-form-group">
+        <label for="music-thumbnail">Thumbnail Image *</label>
+        <input type="file" id="music-thumbnail" accept="image/*">
+      </div>
+      <button type="button" onclick="addMusic()" class="btn btn-primary">Add Video</button>
+      <hr class="admin-hr" style="margin-top:2rem;">
+      <h2 style="margin-top:1.5rem;">All Music Videos</h2>
+      <!-- id="music-section" is required by loadMusic() in script.js -->
+      <div id="music-section" class="music-grid"></div>
+    </div>
+
+
+    <!-- Podcast Tab -->
+    <div id="podcasts" class="tab-content">
+      <h2>Add Podcast Episode</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Add episodes that will appear on the Podcast page.</p>
+      <div class="admin-form-group">
+        <label for="podcast-episode">Episode Number</label>
+        <input type="text" id="podcast-episode" placeholder="e.g. 1, 2, 3 ...">
+      </div>
+      <div class="admin-form-group">
+        <label for="podcast-title">Episode Title *</label>
+        <input type="text" id="podcast-title" placeholder="e.g. The Stress-Disease Connection">
+      </div>
+      <div class="admin-form-group">
+        <label for="podcast-desc">Description</label>
+        <textarea id="podcast-desc" placeholder="What is this episode about?"></textarea>
+      </div>
+      <div class="admin-form-group">
+        <label for="podcast-duration">Duration</label>
+        <input type="text" id="podcast-duration" placeholder="e.g. 42 min">
+      </div>
+      <div class="admin-form-group">
+        <label for="podcast-url">Audio / Video URL (YouTube, Spotify, etc.)</label>
+        <input type="url" id="podcast-url" placeholder="https://...">
+      </div>
+      <div class="admin-form-group">
+        <label for="podcast-image">Episode Cover Image (optional)</label>
+        <input type="file" id="podcast-image" accept="image/*">
+        <p style="font-size:12px;color:var(--muted);margin-top:4px;">Shown as thumbnail on the Podcast page. Recommended: square image.</p>
+      </div>
+      <button type="button" onclick="addPodcast()" class="btn btn-primary">Add Episode</button>
+      <hr class="admin-hr" style="margin-top:2rem;">
+      <h2 style="margin-top:1.5rem;">All Podcast Episodes</h2>
+      <div id="podcast-list"></div>
+    </div>
+
+    <!-- Store / Books Tab -->
+    <div id="store-mgmt" class="tab-content">
+      <h2>Add Book / Course / Product</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Add items that will appear on the Store page.</p>
+      <div class="admin-form-group">
+        <label for="store-category">Category</label>
+        <select id="store-category">
+          <option value="Book">Book</option>
+          <option value="Online Course">Online Course</option>
+          <option value="Wellness Kit">Wellness Kit</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label for="store-title">Title *</label>
+        <input type="text" id="store-title" placeholder="e.g. Peak Living Handbook">
+      </div>
+      <div class="admin-form-group">
+        <label for="store-desc">Description</label>
+        <textarea id="store-desc" placeholder="Brief description of the item..."></textarea>
+      </div>
+      <div class="admin-form-group">
+        <label for="store-price">Price / Status</label>
+        <input type="text" id="store-price" placeholder="e.g. ₹499, Free, Coming Soon">
+      </div>
+      <div class="admin-form-group">
+        <label for="store-link">Buy / External Link</label>
+        <input type="url" id="store-link" placeholder="https://amazon.in/...">
+      </div>
+      <div class="admin-form-group">
+        <label for="store-image">Cover Image (optional)</label>
+        <input type="file" id="store-image" accept="image/*">
+      </div>
+      <button type="button" onclick="addStoreItem()" class="btn btn-primary">Add to Store</button>
+      <hr class="admin-hr" style="margin-top:2rem;">
+      <h2 style="margin-top:1.5rem;">All Store Items</h2>
+      <div id="store-list"></div>
+    </div>
+
+    <!-- Registrations Tab -->
+    <div id="registrations" class="tab-content">
+      <h2>Workshop Registrations</h2>
+      <p style="color:var(--muted); margin-bottom:1.5rem; font-size:14px;">All workshop registration submissions.</p>
+      <div id="registration-list"></div>
+    </div>
+
+    <!-- Quiz Questions Tab -->
+    <div id="quiz-mgmt" class="tab-content">
+      <h2>Add Quiz Question</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Questions load on the quiz page in order number sequence. Each option maps to Earth 🌍, Wind 💨, Fire 🔥 respectively.</p>
+
+      <div class="admin-form-group">
+        <label for="quiz-order">Question Order Number *</label>
+        <input type="number" id="quiz-order" placeholder="e.g. 1, 2, 3..." min="1">
+      </div>
+      <div class="admin-form-group">
+        <label for="quiz-text">Question Text *</label>
+        <textarea id="quiz-text" placeholder="e.g. When you wake up in the morning, you prefer to..."></textarea>
+      </div>
+
+      <div style="background:var(--ivory-deep);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;">
+        <p style="font-size:13px;font-weight:600;margin-bottom:1rem;color:var(--forest);">Option 1 — 🌍 Earth</p>
+        <div class="admin-form-group">
+          <label for="quiz-opt1-text">Option Text *</label>
+          <input type="text" id="quiz-opt1-text" placeholder="e.g. Start with a fixed routine">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;">
+          <div class="admin-form-group">
+            <label for="quiz-opt1-earth">Earth Weight</label>
+            <input type="number" id="quiz-opt1-earth" value="3" min="0" max="10">
+          </div>
+          <div class="admin-form-group">
+            <label for="quiz-opt1-wind">Wind Weight</label>
+            <input type="number" id="quiz-opt1-wind" value="0" min="0" max="10">
+          </div>
+          <div class="admin-form-group">
+            <label for="quiz-opt1-fire">Fire Weight</label>
+            <input type="number" id="quiz-opt1-fire" value="0" min="0" max="10">
+          </div>
         </div>
       </div>
+
+      <div style="background:var(--ivory-deep);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;">
+        <p style="font-size:13px;font-weight:600;margin-bottom:1rem;color:var(--forest);">Option 2 — 💨 Wind</p>
+        <div class="admin-form-group">
+          <label for="quiz-opt2-text">Option Text *</label>
+          <input type="text" id="quiz-opt2-text" placeholder="e.g. Check what the day brings and adapt">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;">
+          <div class="admin-form-group">
+            <label for="quiz-opt2-earth">Earth Weight</label>
+            <input type="number" id="quiz-opt2-earth" value="0" min="0" max="10">
+          </div>
+          <div class="admin-form-group">
+            <label for="quiz-opt2-wind">Wind Weight</label>
+            <input type="number" id="quiz-opt2-wind" value="3" min="0" max="10">
+          </div>
+          <div class="admin-form-group">
+            <label for="quiz-opt2-fire">Fire Weight</label>
+            <input type="number" id="quiz-opt2-fire" value="0" min="0" max="10">
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--ivory-deep);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem;">
+        <p style="font-size:13px;font-weight:600;margin-bottom:1rem;color:var(--forest);">Option 3 — 🔥 Fire</p>
+        <div class="admin-form-group">
+          <label for="quiz-opt3-text">Option Text *</label>
+          <input type="text" id="quiz-opt3-text" placeholder="e.g. Jump straight into your most important task">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;">
+          <div class="admin-form-group">
+            <label for="quiz-opt3-earth">Earth Weight</label>
+            <input type="number" id="quiz-opt3-earth" value="0" min="0" max="10">
+          </div>
+          <div class="admin-form-group">
+            <label for="quiz-opt3-wind">Wind Weight</label>
+            <input type="number" id="quiz-opt3-wind" value="0" min="0" max="10">
+          </div>
+          <div class="admin-form-group">
+            <label for="quiz-opt3-fire">Fire Weight</label>
+            <input type="number" id="quiz-opt3-fire" value="3" min="0" max="10">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-form-group" style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" id="quiz-active" checked style="width:18px;height:18px;cursor:pointer;">
+        <label for="quiz-active" style="margin:0;cursor:pointer;">Active (visible on quiz page)</label>
+      </div>
+
+      <button type="button" onclick="addQuizQuestion()" class="btn btn-primary" style="margin-top:0.5rem;">Add Question</button>
+
+      <hr class="admin-hr" style="margin-top:2rem;">
+      <h2 style="margin-top:1.5rem;">All Quiz Questions</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Toggle active/inactive to show or hide questions without deleting them.</p>
+      <div id="quiz-list"></div>
     </div>
 
+    <!-- Password Tab -->
+    <div id="admin-user-password" class="tab-content">
+      <h2>Update Admin Password</h2>
+      <div class="admin-form-group">
+        <label for="current-admin-password">Current Password</label>
+        <input type="password" id="current-admin-password" placeholder="Enter current password">
+      </div>
+      <div class="admin-form-group">
+        <label for="new-admin-password">New Password</label>
+        <input type="password" id="new-admin-password" placeholder="Enter new password">
+      </div>
+      <button id="update-password-btn" class="btn btn-primary">Update Password</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo"><img src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Peak Living Admin Dashboard.</p>
+    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="music.html">Music</a></li>
+    </ul></div>
+  </div>
   <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
-  </footer>
+</footer>
 
-  <script type="module" src="script.js"></script>
-  <script>
-    const tabs = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
-
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
-      });
+<script type="module" src="script.js"></script>
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab-button').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
     });
-
-    document.getElementById("admin-login-btn").addEventListener("click", () => {
-      const password = document.getElementById("admin-password").value;
-      const adminPassword =  getAdminPassword();
-
-      if (!adminPassword) {
-      alert("❌ Could not retrieve admin password. Please try again later.");
-      return;
-      }
-      if (password === adminPassword) {
-        document.getElementById("admin-login").style.display = "none";
-        document.getElementById("admin-panel").style.display = "block";
-
-      } else {
-        alert("Incorrect password!");
-      }
-    });
-  </script>
+  });
+  // Hamburger
+  function toggleNav() { document.getElementById('main-nav').classList.toggle('open'); }
+</script>
 </body>
 </html>

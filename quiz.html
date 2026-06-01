@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personality Quiz — Earth, Wind & Fire | Peak Living</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="podcast.html">Podcast</a></li>
+    <li><a href="music.html">Music</a></li>
+    <li><a href="store.html">Store</a></li>
+    <li><a href="gauri.html">About</a></li>
+    <li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
+  </ul></nav>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</header>
+
+<section class="workshops-hero">
+  <span class="section-label">Self-Discovery</span>
+  <h1>What's Your Element?</h1>
+  <p>Discover your dominant personality type — Earth, Wind, or Fire — and unlock personalised wellness insights from Dr. Gauri.</p>
+</section>
+
+<section class="quiz-section">
+  <div class="quiz-inner">
+
+    <!-- Loading State -->
+    <div id="quiz-loading" class="quiz-card quiz-loading">
+      <p>🌿 Loading your quiz...</p>
+    </div>
+
+    <!-- Quiz Container -->
+    <div id="quiz-container" class="quiz-card" style="display:none;">
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <p class="quiz-progress-text" id="progress-text">Question 1 of 10</p>
+      <p class="quiz-question" id="quiz-question"></p>
+      <div class="quiz-options" id="quiz-options"></div>
+      <button class="btn btn-primary" id="next-btn" style="margin:0 auto;display:none;" onclick="nextQuestion()">
+        Next →
+      </button>
+    </div>
+
+    <!-- Result Container -->
+    <div id="quiz-result" class="quiz-card" style="display:none;">
+      <span class="section-label">Your Result</span>
+      <h2 style="font-size:2rem;margin-bottom:0.5rem;" id="result-headline"></h2>
+      <p style="color:var(--muted);margin-bottom:1.5rem;" id="result-subline"></p>
+
+      <!-- Three type scores -->
+      <div class="quiz-result-types" id="result-types"></div>
+
+      <!-- Description & recommendations -->
+      <div class="quiz-result-desc" id="result-desc"></div>
+
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+        <a href="consulting.html" class="btn btn-gold">Book a Consultation →</a>
+        <a href="workshop.html" class="btn btn-outline">Explore Workshops →</a>
+        <button onclick="restartQuiz()" class="btn btn-outline">Retake Quiz</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo"><img loading="lazy" src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom.</p>
+      <div class="footer-social"><div class="social-icons">
+        <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="FB"></a>
+        <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="IG"></a>
+        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LI"></a>
+      </div></div>
+    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gauri.html">About</a></li>
+      <li><a href="consulting.html">Contact</a></li>
+    </ul></div>
+  </div>
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getFirestore, collection, getDocs }
+  from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import ENV from "./config.js";
+
+const app = initializeApp({
+  apiKey: ENV.FIREBASE_API_KEY,
+  authDomain: ENV.FIREBASE_AUTH_DOMAIN,
+  projectId: ENV.FIREBASE_PROJECT_ID,
+  storageBucket: ENV.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: ENV.FIREBASE_MESSAGING_SENDER_ID,
+  appId: ENV.FIREBASE_APP_ID,
+});
+const db = getFirestore(app);
+
+// ─── State ───────────────────────────────────────────────
+let questions = [];
+let current   = 0;
+let scores    = { earth: 0, wind: 0, fire: 0 };
+let selected  = null; // currently selected option index
+
+// ─── Result content per dominant type ────────────────────
+const typeData = {
+  earth: {
+    emoji: "🌍",
+    name:  "Earth",
+    color: "earth",
+    headline: "You are an Earth Personality",
+    subline: "Grounded · Nurturing · Stable · Patient",
+    description: `You are deeply rooted in the physical world. You find comfort in routine, reliability, and the tangible aspects of life. Your strength lies in your steadiness — you are the person others lean on in difficult times. You nurture with care and build with patience.`,
+    strengths: "Reliability, patience, deep loyalty, strong physical connection, nurturing nature.",
+    challenges: "Resistance to change, tendency to get stuck in comfort zones, difficulty letting go.",
+    wellness: "Your body responds best to consistent routines, grounding practices like yoga and walking in nature, nourishing whole foods, and stable sleep schedules. Avoid prolonged sedentary periods — your body needs gentle, consistent movement.",
+    recommendation: "Focus on introducing mindful movement into your daily routine. Practices like Tai Chi, slow yoga, or daily nature walks will help you maintain your natural groundedness while building resilience to change."
+  },
+  wind: {
+    emoji: "💨",
+    name:  "Wind",
+    color: "wind",
+    headline: "You are a Wind Personality",
+    subline: "Curious · Creative · Communicative · Free",
+    description: `Your mind is always moving — full of ideas, connections, and possibilities. You bring freshness and inspiration to every situation. You are the bridge between people and ideas, always curious about what lies beyond the horizon.`,
+    strengths: "Creativity, adaptability, social intelligence, quick thinking, bringing people together.",
+    challenges: "Scattered focus, difficulty finishing what you start, anxiety from overthinking, irregular habits.",
+    wellness: "Your mind needs grounding as much as stimulation. Meditation, breathwork, and journaling help channel your mental energy productively. Create gentle structure in your day — your body and mind thrive with light anchors of routine.",
+    recommendation: "Pranayama (breathwork) is your most powerful tool. Start with 10 minutes of structured breathing each morning. Combine this with a simple written intention for the day to channel your creative energy with focus."
+  },
+  fire: {
+    emoji: "🔥",
+    name:  "Fire",
+    color: "fire",
+    headline: "You are a Fire Personality",
+    subline: "Passionate · Driven · Transformative · Bold",
+    description: `You carry within you a powerful transformative energy. You lead with vision and act with conviction. Your passion is contagious — you inspire others simply by being fully alive in what you do. You are the catalyst for change wherever you go.`,
+    strengths: "Leadership, determination, courage, ability to inspire, high energy, transformative power.",
+    challenges: "Burnout, impatience, tendency toward anger or control, difficulty slowing down.",
+    wellness: "Your fire needs both fuel and regulation. High-intensity exercise channels your energy well, but must be balanced with cooling practices — swimming, moon salutations, and spending time near water. Prioritise deep rest and avoid over-scheduling.",
+    recommendation: "Build a deliberate 'cooling' practice into your day — even 5 minutes of Shavasana or slow walking after high-intensity work prevents burnout. Your greatest growth comes not from doing more, but from learning when to pause."
+  }
+};
+
+// ─── Load questions from Firestore ───────────────────────
+async function loadQuestions() {
+  try {
+    // Simple fetch without composite index - filter active in JS
+    const snap = await getDocs(collection(db, "quiz_questions"));
+    questions = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(q => q.active === true)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    if (questions.length === 0) {
+      document.getElementById("quiz-loading").innerHTML =
+        "<p style='color:var(--muted)'>No quiz questions found. Please check back soon.</p>";
+      return;
+    }
+
+    document.getElementById("quiz-loading").style.display = "none";
+    document.getElementById("quiz-container").style.display = "block";
+    renderQuestion();
+  } catch (err) {
+    console.error("Error loading questions:", err);
+    document.getElementById("quiz-loading").innerHTML =
+      "<p style='color:red'>Could not load quiz. Please refresh the page.</p>";
+  }
+}
+
+// ─── Render current question ──────────────────────────────
+function renderQuestion() {
+  const q    = questions[current];
+  const total = questions.length;
+  const pct  = Math.round((current / total) * 100);
+
+  document.getElementById("progress-fill").style.width = pct + "%";
+  document.getElementById("progress-text").textContent =
+    "Question " + (current + 1) + " of " + total;
+  document.getElementById("quiz-question").textContent = q.text;
+
+  const opts = document.getElementById("quiz-options");
+  const icons = ["🌍", "💨", "🔥"];
+  const types = ["earth", "wind", "fire"];
+
+  opts.innerHTML = q.options.map((opt, i) => `
+    <button class="quiz-option" data-index="${i}" onclick="selectOption(this, ${i})">
+      <span class="opt-icon">${icons[i] || "●"}</span>
+      <span>${opt.text}</span>
+    </button>`).join("");
+
+  const nextBtn = document.getElementById("next-btn");
+  nextBtn.style.display = "none";
+  nextBtn.textContent = current === total - 1 ? "See My Result →" : "Next →";
+  selected = null;
+}
+window.renderQuestion = renderQuestion;
+
+// ─── Select option ────────────────────────────────────────
+window.selectOption = function(el, idx) {
+  document.querySelectorAll(".quiz-option").forEach(o => {
+    o.classList.remove("selected-earth", "selected-wind", "selected-fire");
+  });
+  const types = ["selected-earth", "selected-wind", "selected-fire"];
+  el.classList.add(types[idx] || "selected-earth");
+  selected = idx;
+  document.getElementById("next-btn").style.display = "flex";
+};
+
+// ─── Next question ────────────────────────────────────────
+window.nextQuestion = function() {
+  if (selected === null) return;
+  const q   = questions[current];
+  const opt = q.options[selected];
+
+  // Add weighted scores
+  scores.earth += (opt.earth || 0);
+  scores.wind  += (opt.wind  || 0);
+  scores.fire  += (opt.fire  || 0);
+
+  current++;
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    showResult();
+  }
+};
+
+// ─── Show result ──────────────────────────────────────────
+function showResult() {
+  document.getElementById("quiz-container").style.display = "none";
+  document.getElementById("progress-fill").style.width = "100%";
+
+  const total = scores.earth + scores.wind + scores.fire || 1;
+  const pcts  = {
+    earth: Math.round((scores.earth / total) * 100),
+    wind:  Math.round((scores.wind  / total) * 100),
+    fire:  Math.round((scores.fire  / total) * 100),
+  };
+
+  // Find dominant type
+  const dominant = Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+  const data = typeData[dominant];
+
+  document.getElementById("result-headline").textContent = data.headline;
+  document.getElementById("result-subline").textContent  = data.subline;
+
+  // Three score cards
+  const order = ["earth","wind","fire"];
+  document.getElementById("result-types").innerHTML = order.map(type => {
+    const t   = typeData[type];
+    const isDom = type === dominant;
+    return `
+      <div class="quiz-result-type ${t.color} ${isDom ? "dominant" : ""}">
+        <div class="type-emoji">${t.emoji}</div>
+        <div class="type-name">${t.name}</div>
+        <div class="type-pct">${pcts[type]}%</div>
+        <div class="type-label">${isDom ? "Your dominant type" : "Secondary element"}</div>
+      </div>`;
+  }).join("");
+
+  // Description
+  document.getElementById("result-desc").innerHTML = `
+    <h3>${data.emoji} About Your ${data.name} Nature</h3>
+    <p>${data.description}</p>
+    <p><strong>Your Strengths:</strong> ${data.strengths}</p>
+    <p><strong>Your Challenges:</strong> ${data.challenges}</p>
+    <p><strong>Wellness Approach:</strong> ${data.wellness}</p>
+    <div style="background:var(--gold-pale);border-radius:var(--radius);padding:1rem 1.25rem;margin-top:1rem;">
+      <p style="margin:0;"><strong>Dr. Gauri's Recommendation:</strong> ${data.recommendation}</p>
+    </div>`;
+
+  document.getElementById("quiz-result").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ─── Restart ──────────────────────────────────────────────
+window.restartQuiz = function() {
+  current  = 0;
+  scores   = { earth: 0, wind: 0, fire: 0 };
+  selected = null;
+  document.getElementById("quiz-result").style.display    = "none";
+  document.getElementById("quiz-container").style.display = "block";
+  document.getElementById("progress-fill").style.width    = "0%";
+  renderQuestion();
+};
+
+// ─── Boot ─────────────────────────────────────────────────
+loadQuestions();
+</script>
+
+<script>
+function toggleNav() { document.getElementById("main-nav").classList.toggle("open"); }
+</script>
+</body>
+</html>

@@ -1,81 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connecting Through Music</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music - Peak Living</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="workshop.html" class="active">Workshops</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="music.html">Music</a></li>
-            <li><a href="consulting.html">Contact Us</a></li>
-          </ul>
-        </nav>
-        <div class="header-logo">
-          <img src="images/logo5.png" alt="Peak Life Logo">
-        </div>
-      </header>
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html">Blog</a></li><li><a href="podcast.html">Podcast</a></li>
+    <li><a href="music.html" class="active">Music</a></li><li><a href="store.html">Store</a></li>
+    <li><a href="gauri.html">About</a></li><li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
+  </ul></nav>
+  <div class="hamburger" onclick="document.getElementById('main-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</header>
 
-    <section class="music">
-        <h2>🎵 Connecting Through Music</h2>
-        <div id="music-section">
-            <!-- Music videos will be dynamically loaded here -->
-        </div>
-    </section>
+<section class="music-hero">
+  <span class="section-label">Music & Healing</span>
+  <h1>The Healing Power of Music</h1>
+  <p>Dr. Gauri's musical expressions — where medicine meets melody. Music as a pathway to inner healing.</p>
+</section>
 
-    <footer>
-      <div class="footer-container">
-        <div class="footer-logo">
-          <img src="images/logo5.png" alt="Peak Life Logo">
-        </div>
-    
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="workshop.html">Workshops</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="music.html">Music</a></li>
-            <li><a href="consulting.html">Contact Us</a></li>
-          </ul>
-        </div>
-    
-        <!-- <div class="footer-contact">
-          <h3>Contact Info</h3>
-          <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
-          <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
-        </div> -->
-    
-        <div class="footer-social">
-          <h3>Follow Us</h3>
-          <div class="social-icons">
-            <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
-              <img src="images/facebook.png" alt="Facebook">
-            </a>
-            <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-              <img src="images/instagram.png" alt="Instagram">
-            </a>
-            <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-              <img src="images/linkedin.png" alt="LinkedIn">
-            </a>
-          </div>
-        </div>
-      </div>
-    
-      <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
-    </footer>
+<section class="music-section">
+  <div class="music-section-inner">
+    <div style="max-width: 700px; margin: 0 auto 3rem; text-align:center;">
+      <span class="section-label">Dr. Gauri's Philosophy</span>
+      <h2 style="margin-bottom: 1rem;">Why Music Matters in Healing</h2>
+      <p style="color: var(--muted); line-height: 1.8;">Sound and music have been used as healing tools for millennia. Modern neuroscience confirms what ancient healers knew — music reduces cortisol, activates the parasympathetic nervous system, and creates states of deep inner peace. Dr. Gauri's songs are a personal expression of this healing journey.</p>
+    </div>
+    <div class="music-grid" id="music-section"></div>
+  </div>
+</section>
 
-    <script type="module" src="script.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            loadMusic();
-        });
-    </script>
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo"><img src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom.</p>
+      <div class="footer-social"><div class="social-icons">
+        <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="FB"></a>
+        <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="IG"></a>
+        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LI"></a>
+      </div></div>
+    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="gauri.html">About</a></li>
+      <li><a href="consulting.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-links"><h3>Explore</h3><ul>
+      <li><a href="podcast.html">Podcast</a></li>
+      <li><a href="store.html">Books and Courses</a></li>
+      <li><a href="quiz.html">Wellness Quiz</a></li>
+    </ul></div>
+  </div>
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+</footer>
+<script type="module" src="script.js"></script>
 </body>
 </html>

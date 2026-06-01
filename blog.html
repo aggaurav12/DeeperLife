@@ -3,85 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog - Peak Life</title>
+  <title>Blog - Peak Living</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="workshop.html">Workshops</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="consulting.html">Contact Us</a></li>
-      </ul>
-    </nav>
-    <div class="header-logo">
-      <img src="images/logo5.png" alt="Peak Life Logo">
-    </div>
-  </header>
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li><li><a href="podcast.html">Podcast</a></li>
+    <li><a href="music.html">Music</a></li><li><a href="store.html">Store</a></li>
+    <li><a href="gauri.html">About</a></li><li><a href="consulting.html" class="nav-cta">Book Consultation</a></li>
+  </ul></nav>
+  <div class="hamburger" onclick="document.getElementById('main-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</header>
 
-  <section class="blog-section">
-    <h1 class="blog-heading">Blog</h1>
-    <div class="blog-grid" id="blog-section">
-      <!-- Blog cards will be dynamically loaded here -->
+<section class="blog-hero">
+  <span class="section-label">Knowledge & Insights</span>
+  <h1>The Peak Living Blog</h1>
+  <p>Evidence-based articles on lifestyle, wellness, and mind-body medicine by Dr. Gauri Mittal.</p>
+</section>
+
+<section class="blog-page-section">
+  <div class="blog-page-inner">
+    <div class="blog-filters">
+      <button class="filter-btn active">All Articles</button>
+      <button class="filter-btn">Lifestyle</button>
+      <button class="filter-btn">Mind-Body</button>
+      <button class="filter-btn">Nutrition</button>
+      <button class="filter-btn">Stress Management</button>
+      <button class="filter-btn">Yoga & Movement</button>
     </div>
-  </section>
-  
-  <div id="blog-list"></div>
-  <div style="text-align:center; margin-top: 20px;">
-    <button id="load-more-btn" class="load-more-button" style="display: none;">Load More</button>
+    <div class="blog-grid" id="blog-section"></div>
+    <div style="text-align:center; margin-top: 3rem;">
+      <button class="btn btn-outline" id="load-more-btn">Load More Articles</button>
+    </div>
   </div>
+</section>
+
+<section class="newsletter-banner">
+  <div class="newsletter-inner">
+    <span class="section-label">Weekly Wisdom</span>
+    <h2>Get Articles in Your Inbox</h2>
+    <p>Join our community of wellness seekers. Get the latest articles every week.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Your email address">
+      <button class="btn btn-primary">Subscribe</button>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-container">
-    <div class="footer-logo">
-      <img src="images/logo5.png" alt="Peak Life Logo">
+    <div>
+      <div class="footer-logo"><img src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom.</p>
+      <div class="footer-social"><div class="social-icons">
+        <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="FB"></a>
+        <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="IG"></a>
+        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LI"></a>
+      </div></div>
     </div>
-
-    <div class="footer-links">
-      <h3>Quick Links</h3>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="workshop.html">Workshops</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="consulting.html">Contact Us</a></li>
-      </ul>
-    </div>
-
-    <!-- <div class="footer-contact">
-      <h3>Contact Info</h3>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
-      <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
-    </div> -->
- 
-
-    <div class="footer-social">
-      <h3>Follow Us</h3>
-      <div class="social-icons">
-        <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
-          <img src="images/facebook.png" alt="Facebook">
-        </a>
-        <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-          <img src="images/instagram.png" alt="Instagram">
-        </a>
-        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-          <img src="images/linkedin.png" alt="LinkedIn">
-        </a>
-      </div>
-    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="gauri.html">About</a></li>
+      <li><a href="consulting.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-links"><h3>Explore</h3><ul>
+      <li><a href="podcast.html">Podcast</a></li><li><a href="music.html">Music</a></li>
+      <li><a href="store.html">Books and Courses</a></li><li><a href="quiz.html">Wellness Quiz</a></li>
+    </ul></div>
   </div>
-
   <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
 </footer>
-  <script type="module" src="script.js"></script>
-  <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          console.log("✅ Calling loadBlogs() from workshop.html...");
-          loadBlogs();  // Ensure it runs after DOM loads
-      });
-  </script>
-  
+<script type="module" src="script.js"></script>
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
 </body>
 </html>

@@ -3,124 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulting - Peak Life</title>
+  <title>Contact & Consultation - Peak Living</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="workshop.html">Workshops</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="consulting.html">Contact Us</a></li>
+<header>
+  <div class="header-logo"><a href="index.html"><img src="images/logo5.png" alt="Peak Living Logo"></a></div>
+  <nav id="main-nav"><ul>
+    <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+    <li><a href="blog.html">Blog</a></li><li><a href="podcast.html">Podcast</a></li>
+    <li><a href="music.html">Music</a></li><li><a href="store.html">Store</a></li>
+    <li><a href="gauri.html">About</a></li><li><a href="consulting.html" class="nav-cta active">Book Consultation</a></li>
+  </ul></nav>
+  <div class="hamburger" onclick="document.getElementById('main-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</header>
+
+<section class="consulting-hero">
+  <span class="section-label">Personal Guidance</span>
+  <h1>Get In Touch</h1>
+  <p>Ready to begin your Peak Living journey? We're here to guide, support, and inspire you.</p>
+</section>
+
+<section class="consulting">
+  <div class="consulting-container">
+    <div class="consulting-info">
+      <span class="section-label">What We Offer</span>
+      <h1>1-on-1 Personalized Guidance</h1>
+      <p>For information about workshops and one-to-one personalized consultations on:</p>
+      <ul class="consulting-benefits">
+        <li><div class="benefit-check">✓</div>Authentic Lifestyle Modification</li>
+        <li><div class="benefit-check">✓</div>Building a Healthy Identity</li>
+        <li><div class="benefit-check">✓</div>Finding Your "Authentic Self"</li>
+        <li><div class="benefit-check">✓</div>Mind-Body Yogic Techniques</li>
+        <li><div class="benefit-check">✓</div>Scientific basis of Peak Living</li>
+        <li><div class="benefit-check">✓</div>Chronic Stress Management</li>
+        <li><div class="benefit-check">✓</div>Lifestyle Disease Prevention</li>
       </ul>
-    </nav>
-    <div class="header-logo">
-      <img src="images/logo5.png" alt="Peak Life Logo">
-    </div>
-  </header>
 
-  <section class="consulting">
-    <div class="consulting-container">
-      <div class="consulting-info">
-        <h1>📋 Get In Touch</h1>
-        <p>For information about workshops and one-to-one personalized guidance on:</p>
-        <ul class="consulting-benefits">
-          <li>✔️ Authentic Lifestyle Modification</li>
-          <li>✔️ Building a Healthy Identity</li>
-          <li>✔️ Finding "Authentic Self"</li>
-          <li>✔️ Mind-Body Yogic Techniques</li>
-          <li>✔️ Scientific basis of the practices of "Peak Living"</li>
-        </ul>
-      </div>
-  
-      <div class="consulting-form">
-        <h2>📩 Send Us A Message</h2>
-        <form id="home-inquiry-form">
-          <div class="form-group">
-            <label for="visitor-name">Full Name</label>
-            <input type="text" id="visitor-name" placeholder="Enter your full name" required>
-          </div>
-  
-          <div class="form-group">
-            <label for="visitor-email">Email</label>
-            <input type="email" id="visitor-email" placeholder="Enter your email" required>
-          </div>
-  
-          <div class="form-group">
-            <label for="visitor-contact">Contact Number</label>
-            <input type="tel" id="visitor-contact" placeholder="Enter your contact number" required>
-          </div>
-  
-          <div class="form-group">
-            <label for="visitor-message">Your Message</label>
-            <textarea id="visitor-message" placeholder="Describe your concern..." required></textarea>
-          </div>
-  
-          <button type="submit" class="btn">Submit Message</button>
-        </form>
-      </div>
-    </div>
-  </section>
-  
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-logo">
-        <img src="images/logo5.png" alt="Peak Life Logo">
-      </div>
-  
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="workshop.html">Workshops</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="music.html">Music</a></li>
-          <li><a href="consulting.html">Contact Us</a></li>
-        </ul>
-      </div>
-  
-      <!-- <div class="footer-contact">
-        <h3>Contact Info</h3>
-        <p><i class="fas fa-envelope"></i> <a href="mailto:info@peaklife.com">info@peaklife.com</a></p>
-        <p><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1-234-567-890</a></p>
-      </div> -->
-  
-      <div class="footer-social">
-        <h3>Follow Us</h3>
-        <div class="social-icons">
-          <a href="https://www.facebook.com/DrGauriDeeperLife?rdid=XN6fjCOw5XEIOVbD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ETQ45KSX8%2F#" target="_blank">
-            <img src="images/facebook.png" alt="Facebook">
-          </a>
-          <a href="https://www.instagram.com/drgauri.peakliving?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-            <img src="images/instagram.png" alt="Instagram">
-          </a>
-          <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-            <img src="images/linkedin.png" alt="LinkedIn">
-          </a>
+      <div style="background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); margin-top: 2rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.3rem;">Contact Details</h3>
+        <div class="contact-detail" style="margin-bottom:0.75rem;">
+          <div class="contact-detail-icon">✉</div>
+          <a href="mailto:gauri.peakliving@gmail.com" style="color: var(--forest-light);">gauri.peakliving@gmail.com</a>
+        </div>
+        <div class="contact-detail" style="margin-bottom:0.75rem;">
+          <div class="contact-detail-icon">📍</div>
+          <span>Rishikesh, Uttarakhand, India</span>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🕐</div>
+          <span>Response within 24-48 hours</span>
         </div>
       </div>
     </div>
-  
-    <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
-  </footer>
 
-  <script type="module" src="script.js"></script>
-<script>
-     // ✅ Attach `addQuery()` to the contact form dynamically
-  document.addEventListener("DOMContentLoaded", function () {
-      const queryForm = document.getElementById("home-inquiry-form");
-      if (queryForm) {
-          queryForm.addEventListener("submit", function (event) {
-              event.preventDefault(); // Prevent default form submission
-              addQuery(event);
-          });
-      }
-  });
+    <div class="consulting-form-card">
+      <h2>Send Us A Message</h2>
+      <form id="home-inquiry-form">
+        <div class="form-group">
+          <label for="visitor-name">Full Name</label>
+          <input type="text" id="visitor-name" placeholder="Your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="visitor-email">Email Address</label>
+          <input type="email" id="visitor-email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="visitor-contact">Contact Number</label>
+          <input type="tel" id="visitor-contact" placeholder="+91 00000 00000" required>
+        </div>
+        <div class="form-group">
+          <label>Session Type</label>
+          <select>
+            <option>Online Video Consultation</option>
+            <option>In-Person (Rishikesh)</option>
+            <option>Workshop Enquiry</option>
+            <option>General Enquiry</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="visitor-message">Your Message</label>
+          <textarea id="visitor-message" placeholder="Describe your concern or what you'd like guidance on..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
 
-</script>
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo"><img src="images/logo5.png" alt="Peak Living"></div>
+      <p class="footer-desc">Integrating modern medical science with ancient wisdom.</p>
+      <div class="footer-social"><div class="social-icons">
+        <a href="https://www.facebook.com/DrGauriDeeperLife" target="_blank"><img loading="lazy" src="images/facebook.png" alt="FB"></a>
+        <a href="https://www.instagram.com/drgauri.peakliving" target="_blank"><img loading="lazy" src="images/instagram.png" alt="IG"></a>
+        <a href="https://www.linkedin.com/in/dr-gauri-mittal-a-00266615a" target="_blank"><img loading="lazy" src="images/linkedin.png" alt="LI"></a>
+      </div></div>
+    </div>
+    <div class="footer-links"><h3>Quick Links</h3><ul>
+      <li><a href="index.html">Home</a></li><li><a href="workshop.html">Workshops</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="gauri.html">About</a></li>
+    </ul></div>
+    <div class="footer-links"><h3>Explore</h3><ul>
+      <li><a href="podcast.html">Podcast</a></li><li><a href="music.html">Music</a></li>
+      <li><a href="store.html">Books and Courses</a></li><li><a href="quiz.html">Wellness Quiz</a></li>
+    </ul></div>
+  </div>
+  <p class="footer-text">&copy; 2025 Peak Living. All rights reserved.</p>
+</footer>
+<script type="module" src="script.js"></script>
+
 </body>
 </html>
